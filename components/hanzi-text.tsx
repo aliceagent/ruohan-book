@@ -27,7 +27,19 @@ export function HanziText({
     sm: "text-base",
     md: "text-lg",
     lg: "text-2xl",
-    xl: "text-3xl md:text-4xl",
+    xl: "text-4xl",
+  }[size]
+  const pinyinClass = {
+    sm: "text-xs",
+    md: "text-sm",
+    lg: "text-base",
+    xl: "text-lg",
+  }[size]
+  const englishClass = {
+    sm: "text-sm",
+    md: "text-sm",
+    lg: "text-base",
+    xl: "text-lg",
   }[size]
 
   const tokens = showPinyin && ruby ? rubyTokens(hanzi) : null
@@ -51,14 +63,14 @@ export function HanziText({
         <p className={cn("font-medium leading-relaxed tracking-wide", sizeClass)}>{hanzi}</p>
       )}
       {showPinyin && !ruby ? (
-        <p className="text-sm text-rose-800/80 dark:text-rose-200/80">
+        <p className={cn("text-rose-800/80 dark:text-rose-200/80", pinyinClass)}>
           {rubyTokens(hanzi)
             .map((token) => token.pinyin ?? token.hanzi)
             .join(" ")}
         </p>
       ) : null}
       {showEnglish && english ? (
-        <p className="text-sm leading-relaxed text-muted-foreground">{english}</p>
+        <p className={cn("leading-relaxed text-muted-foreground", englishClass)}>{english}</p>
       ) : null}
     </div>
   )
