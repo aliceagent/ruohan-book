@@ -42,7 +42,7 @@ export function VocabGrid({
           const key = vocabKey(lessonId, item.hanzi)
           const known = progress.knownVocab.includes(key)
           return (
-            <Card key={item.hanzi} className={cn(known && "border-rose-400")}>
+            <Card key={item.hanzi} className={cn("overflow-visible", known && "border-rose-400")}>
               <CardContent className="flex items-start justify-between gap-2 pt-5">
                 <HanziText
                   hanzi={item.hanzi}

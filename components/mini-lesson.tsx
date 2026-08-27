@@ -21,7 +21,7 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
           ) : null}
         </div>
         {lesson.pattern ? (
-          <Badge variant="outline" className="font-normal">
+          <Badge variant="outline" className="max-w-full font-normal">
             <MixedHanzi text={lesson.pattern} />
           </Badge>
         ) : null}
@@ -56,7 +56,11 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
           {lesson.examples.map((example, index) => (
             <li
               key={`${example.hanzi}-${index}`}
-              className="flex items-start justify-between gap-2 rounded-lg border border-dashed px-3 py-2"
+              className={
+                prefs.pinyin && prefs.ruby
+                  ? "flex items-start justify-between gap-2 rounded-lg border border-dashed px-3 py-2 pt-3"
+                  : "flex items-start justify-between gap-2 rounded-lg border border-dashed px-3 py-2"
+              }
             >
               <HanziText
                 hanzi={example.hanzi}

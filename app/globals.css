@@ -137,4 +137,19 @@
     color: color-mix(in oklch, var(--primary) 75%, var(--muted-foreground));
     letter-spacing: 0;
   }
+  /* Compact chips (h-5 + overflow-hidden) clip ruby painted above the em-box. */
+  [data-slot="badge"]:has([data-pinyin]) {
+    height: auto;
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+  }
+  [data-slot="badge"]:has([data-pinyin="ruby"]) {
+    padding-top: 0.7rem;
+    padding-bottom: 0.2rem;
+    line-height: 2.15;
+  }
+  [data-slot="badge"]:has([data-pinyin="stack"]) {
+    padding-block: 0.35rem;
+  }
 }

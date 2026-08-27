@@ -24,7 +24,10 @@ export function MixedHanzi({
   }
 
   return (
-    <span className={cn(prefs.ruby && "leading-[2.15]", className)}>
+    <span
+      data-pinyin={prefs.ruby ? "ruby" : "stack"}
+      className={cn(prefs.ruby && "leading-[2.15]", className)}
+    >
       {runs.map((run, index) => {
         if (run.kind !== "zh") {
           return <span key={`text-${index}`}>{run.text}</span>

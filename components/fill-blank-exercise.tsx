@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { Check, Eye, RotateCcw, X } from "lucide-react"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
+import { useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import type { FillBlankItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -30,6 +31,7 @@ function shuffle<T>(items: T[], seed: string) {
 }
 
 export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
+  const { prefs } = useStudyPrefs()
   const [values, setValues] = useState<Record<string, string>>({})
   const [revealed, setRevealed] = useState(false)
 
@@ -73,6 +75,8 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                 <span
                   className={cn(
                     "inline-flex min-h-10 min-w-[4.5rem] items-center justify-center rounded-lg border px-2.5 text-center text-lg font-medium",
+                    prefs.pinyin && prefs.ruby && "min-h-12 overflow-visible pt-3 leading-[2.15]",
+                    prefs.pinyin && !prefs.ruby && "min-h-12 overflow-visible py-2",
                     !shown && "border-dashed text-muted-foreground",
                     shown && !locked && "border-rose-300 bg-rose-50/70 dark:bg-rose-950/20",
                     locked && (correct || (revealed && !picked)) && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
@@ -106,6 +110,8 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                       onClick={() => pick(item, choice)}
                       className={cn(
                         "rounded-xl border bg-background px-3 py-1.5 text-base font-medium transition-colors",
+                        prefs.pinyin && prefs.ruby && "overflow-visible pt-3 pb-1.5 leading-[2.15]",
+                        prefs.pinyin && !prefs.ruby && "overflow-visible py-2",
                         !locked && "hover:border-rose-400 hover:bg-rose-50/60 dark:hover:bg-rose-950/20",
                         locked && isAnswer && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
                         locked && isPicked && !isAnswer && "border-destructive bg-destructive/10",
