@@ -43,7 +43,7 @@ export default async function QuizPage({
           </Button>
         ) : null}
       </div>
-      <QuizPlayer quiz={quiz} />
+      <QuizPlayer key={quiz.id} quiz={quiz} />
     </div>
   )
 }

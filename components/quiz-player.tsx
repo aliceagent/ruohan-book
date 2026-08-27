@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useSyncExternalStore } from "react"
 import { Check, RotateCcw, X } from "lucide-react"
 
 import { DisplayToggles } from "@/components/display-toggles"
@@ -11,10 +11,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useProgress } from "@/hooks/use-progress"
-import type { QuizSet } from "@/lib/quiz"
+import { dealQuizRound, type QuizItem, type QuizSet } from "@/lib/quiz"
 import { cn } from "@/lib/utils"
 
 const LETTERS = ["A", "B", "C", "D"]
+const emptySubscribe = () => () => {}
+const dealCache = new Map<string, QuizItem[]>()
+
+function clientDeal(quiz: QuizSet, session: string, round: number) {
+  const key = `${quiz.id}:${session}:${round}`
+  const cached = dealCache.get(key)
+  if (cached) return cached
+  const dealt = dealQuizRound(quiz.bank, quiz.drawCount)
+  dealCache.set(key, dealt)
+  return dealt
+}
 
 export function QuizPlayer({
   quiz,
@@ -25,17 +36,31 @@ export function QuizPlayer({
 }) {
   const { prefs } = useStudyPrefs()
   const { recordQuiz } = useProgress()
+  const [session] = useState(() => Math.random().toString(36).slice(2))
+  const [round, setRound] = useState(0)
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState<string | null>(null)
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  const items = useSyncExternalStore(
+    emptySubscribe,
+    () => clientDeal(quiz, session, round),
+    () => null,
+  )
 
-  const item = quiz.items[index]
-  const finished = quiz.items.length > 0 && index >= quiz.items.length
+  const item = items?.[index]
+  const finished = Boolean(items && items.length > 0 && index >= items.length)
   const revealed = Boolean(selected)
   const correctCount = useMemo(
-    () => quiz.items.filter((entry) => answers[entry.id] === entry.correctId).length,
-    [answers, quiz.items],
+    () => (items ?? []).filter((entry) => answers[entry.id] === entry.correctId).length,
+    [answers, items],
   )
+
+  function startRound() {
+    setRound((current) => current + 1)
+    setIndex(0)
+    setSelected(null)
+    setAnswers({})
+  }
 
   function choose(choiceId: string) {
     if (!item || selected) return
@@ -44,38 +69,60 @@ export function QuizPlayer({
   }
 
   function next() {
-    if (!item || !selected) return
+    if (!item || !items || !selected) return
     const upcoming = index + 1
-    if (upcoming >= quiz.items.length) {
-      const totalCorrect = quiz.items.filter((entry) => answers[entry.id] === entry.correctId).length
-      recordQuiz(quiz.id, totalCorrect, quiz.items.length)
+    if (upcoming >= items.length) {
+      const totalCorrect = items.filter((entry) => answers[entry.id] === entry.correctId).length
+      recordQuiz(quiz.id, totalCorrect, items.length)
     }
     setIndex(upcoming)
     setSelected(null)
   }
 
-  function restart() {
-    setIndex(0)
-    setSelected(null)
-    setAnswers({})
-  }
-
-  if (quiz.items.length === 0) {
+  if (quiz.bank.length === 0) {
     return <p className="text-sm text-muted-foreground">No quiz items for this lesson yet.</p>
   }
 
+  if (!items) {
+    return (
+      <div className="space-y-4">
+        {!compact ? (
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Multiple choice</p>
+              <h2 className="font-serif text-2xl">{quiz.title}</h2>
+              <p className="text-sm text-muted-foreground">{quiz.titleEn}</p>
+            </div>
+            <DisplayToggles compact />
+          </div>
+        ) : null}
+        <p className="text-sm text-muted-foreground">
+          {quiz.drawCount} questions, drawn at random from {quiz.bank.length}. Each try is a new
+          set, so you can take it more than once.
+        </p>
+      </div>
+    )
+  }
+
   if (finished) {
-    const missed = quiz.items.filter((entry) => answers[entry.id] !== entry.correctId)
-    const percent = Math.round((correctCount / quiz.items.length) * 100)
+    const missed = items.filter((entry) => answers[entry.id] !== entry.correctId)
+    const percent = Math.round((correctCount / items.length) * 100)
     return (
       <div className="space-y-5">
         <div className="rounded-2xl border border-rose-300/80 bg-rose-50/70 p-5 dark:border-rose-900 dark:bg-rose-950/30">
           <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Result</p>
           <p className="mt-1 font-serif text-3xl">
-            {correctCount} / {quiz.items.length}
+            {correctCount} / {items.length}
           </p>
           <p className="text-muted-foreground">
-            {percent >= 80 ? "Nice — this dialogue is sticking." : percent >= 50 ? "Good start. Retry the ones you missed." : "Read the dialogue once more, then try again."}
+            {percent >= 80
+              ? "Nice — this dialogue is sticking."
+              : percent >= 50
+                ? "Good start. Retry the ones you missed."
+                : "Read the dialogue once more, then try again."}
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            This round was {items.length} of {quiz.bank.length} questions. Try again for a new draw.
           </p>
         </div>
         {missed.length > 0 ? (
@@ -114,7 +161,7 @@ export function QuizPlayer({
             })}
           </div>
         ) : null}
-        <Button onClick={restart}>
+        <Button onClick={startRound}>
           <RotateCcw className="size-4" />
           Try again
         </Button>
@@ -122,7 +169,7 @@ export function QuizPlayer({
     )
   }
 
-  const progressValue = ((index + (revealed ? 1 : 0)) / quiz.items.length) * 100
+  const progressValue = ((index + (revealed ? 1 : 0)) / items.length) * 100
 
   if (!item) return null
 
@@ -139,10 +186,14 @@ export function QuizPlayer({
         </div>
       ) : null}
 
+      <p className="text-sm text-muted-foreground">
+        {items.length} of {quiz.bank.length} this round · a new random set each try
+      </p>
+
       <div className="flex items-center gap-3">
         <Progress value={progressValue} className="h-2" />
         <span className="shrink-0 font-mono text-xs text-muted-foreground">
-          {index + 1}/{quiz.items.length}
+          {index + 1}/{items.length}
         </span>
       </div>
 
@@ -230,7 +281,7 @@ export function QuizPlayer({
           <p className="text-sm text-muted-foreground">
             {selected === item.correctId ? "Correct." : "Not quite — the green option is the answer."}
           </p>
-          <Button onClick={next}>{index + 1 === quiz.items.length ? "See score" : "Next"}</Button>
+          <Button onClick={next}>{index + 1 === items.length ? "See score" : "Next"}</Button>
         </div>
       ) : null}
     </div>

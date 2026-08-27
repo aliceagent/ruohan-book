@@ -156,14 +156,21 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
       {quiz ? (
         <section id="quiz" className="space-y-4">
           <div className="flex flex-wrap items-end justify-between gap-3">
-            <SectionTitle title="测验" en="Multiple-choice check on this lesson's words, lines, and scene" />
+            <SectionTitle
+              title="测验"
+              en={
+                quiz
+                  ? `Each try draws ${quiz.drawCount} from ${quiz.bank.length} questions on this lesson's words, lines, and scene`
+                  : "Multiple-choice check on this lesson's words, lines, and scene"
+              }
+            />
             {quizBest ? (
               <Badge variant="secondary">
                 Best {quizBest.correct}/{quizBest.total}
               </Badge>
             ) : null}
           </div>
-          <QuizPlayer quiz={quiz} compact />
+          <QuizPlayer key={quiz.id} quiz={quiz} compact />
         </section>
       ) : null}
 

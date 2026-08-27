@@ -78,7 +78,7 @@ export default function HomePage() {
         <Feature
           icon={<CircleHelp className="size-5" />}
           title="Multiple-choice quizzes"
-          body="Each lesson has a 10-question check: vocabulary, dialogue lines, and the scene. Missed items show up at the end so you can retry."
+          body="Each try draws 10 questions at random from a larger bank of vocabulary, dialogue lines, and the scene. Retake for a new set; missed items show up at the end."
         />
         <Feature
           icon={<Headphones className="size-5" />}
