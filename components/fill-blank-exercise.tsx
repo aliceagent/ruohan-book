@@ -43,7 +43,14 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
   }
 
   return (
-    <div className="space-y-4">
+    <form
+      className="space-y-4"
+      onSubmit={(event) => {
+        event.preventDefault()
+        setChecked(true)
+        setRevealed(false)
+      }}
+    >
       <ol className="space-y-3">
         {items.map((item, index) => {
           const result = results[index]
@@ -96,19 +103,21 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
         })}
       </ol>
       <div className="flex flex-wrap items-center gap-2">
-        <Button
-          onClick={() => {
-            setChecked(true)
-            setRevealed(false)
-          }}
-        >
+        <Button type="submit">
           Check answers
         </Button>
-        <Button variant="outline" onClick={() => setRevealed(true)}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            setRevealed(true)
+            setChecked(false)
+          }}
+        >
           <Eye className="size-4" />
           Show answers
         </Button>
-        <Button variant="ghost" onClick={reset}>
+        <Button type="button" variant="ghost" onClick={reset}>
           <RotateCcw className="size-4" />
           Reset
         </Button>
@@ -118,6 +127,6 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
           </p>
         ) : null}
       </div>
-    </div>
+    </form>
   )
 }

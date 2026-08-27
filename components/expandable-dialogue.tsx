@@ -1,17 +1,12 @@
 "use client"
 
-import { BookOpen } from "lucide-react"
+import { useState } from "react"
+import { BookOpen, ChevronDown, ChevronUp } from "lucide-react"
 
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { MiniLessonCard } from "@/components/mini-lesson"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import type { DialogueLine } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -38,6 +33,12 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
   const { prefs } = useStudyPrefs()
   const miniLessons = line.miniLessons ?? []
   const expandable = miniLessons.length > 0
+  const [open, setOpen] = useState(false)
+
+  function toggle() {
+    if (!expandable) return
+    setOpen((value) => !value)
+  }
 
   return (
     <div
@@ -46,7 +47,20 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
         line.speaker === "A" && "bg-rose-50/80 dark:bg-rose-950/20",
         line.speaker === "B" && "bg-card",
         line.speaker === "stage" && "border-dashed bg-muted/40 italic",
+        expandable && "cursor-pointer",
+        open && "ring-1 ring-rose-300 dark:ring-rose-800",
       )}
+      onClick={toggle}
+      onKeyDown={(event) => {
+        if (!expandable) return
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          toggle()
+        }
+      }}
+      role={expandable ? "button" : undefined}
+      tabIndex={expandable ? 0 : undefined}
+      aria-expanded={expandable ? open : undefined}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
         <Badge variant={line.speaker === "stage" ? "outline" : "secondary"}>
@@ -64,45 +78,40 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
             <div
               onClick={(event) => event.stopPropagation()}
               onPointerDown={(event) => event.stopPropagation()}
+              onKeyDown={(event) => event.stopPropagation()}
             >
               <SpeakButton text={line.hanzi} />
             </div>
           ) : null}
+          {expandable ? (
+            open ? (
+              <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="size-4 shrink-0 text-muted-foreground" />
+            )
+          ) : null}
         </div>
       </div>
-      {expandable ? (
-        <Accordion type="single" collapsible>
-          <AccordionItem value="lesson" className="border-0">
-            <AccordionTrigger className="items-start py-1 hover:no-underline">
-              <HanziText
-                hanzi={line.hanzi}
-                english={line.en}
-                showPinyin={prefs.pinyin}
-                showEnglish={prefs.english}
-                ruby={prefs.ruby}
-                size="lg"
-                className="flex-1 pr-2 text-left not-italic"
-              />
-            </AccordionTrigger>
-            <AccordionContent className="pb-0">
-              <div className="space-y-3 pt-3">
-                {miniLessons.map((lesson) => (
-                  <MiniLessonCard key={lesson.title} lesson={lesson} />
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ) : (
-        <HanziText
-          hanzi={line.hanzi}
-          english={line.en}
-          showPinyin={prefs.pinyin}
-          showEnglish={prefs.english}
-          ruby={prefs.ruby}
-          size="lg"
-        />
-      )}
+      <HanziText
+        hanzi={line.hanzi}
+        english={line.en}
+        showPinyin={prefs.pinyin}
+        showEnglish={prefs.english}
+        ruby={prefs.ruby}
+        size="lg"
+        className="not-italic"
+      />
+      {open ? (
+        <div
+          className="space-y-3 pt-4 not-italic"
+          onClick={(event) => event.stopPropagation()}
+          onKeyDown={(event) => event.stopPropagation()}
+        >
+          {miniLessons.map((lesson) => (
+            <MiniLessonCard key={lesson.title} lesson={lesson} />
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 }
