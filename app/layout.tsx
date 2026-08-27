@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Noto_Sans_SC, Noto_Serif_SC } from "next/font/google"
+import { Noto_Sans, Noto_Sans_SC, Noto_Serif, Noto_Serif_SC } from "next/font/google"
 
 import { SiteFooter, SiteHeader } from "@/components/site-shell"
 import { StudyPrefsProvider } from "@/components/study-prefs"
@@ -10,17 +10,31 @@ import { cn } from "@/lib/utils"
 
 import "./globals.css"
 
-const sans = Noto_Sans_SC({
+const sansLatin = Noto_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-sans",
+  variable: "--font-noto-sans",
   display: "swap",
 })
 
-const serif = Noto_Serif_SC({
+const sansSC = Noto_Sans_SC({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-noto-sans-sc",
+  display: "swap",
+})
+
+const serifLatin = Noto_Serif({
   subsets: ["latin"],
   weight: ["600", "700"],
-  variable: "--font-serif",
+  variable: "--font-noto-serif",
+  display: "swap",
+})
+
+const serifSC = Noto_Serif_SC({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-noto-serif-sc",
   display: "swap",
 })
 
@@ -41,7 +55,13 @@ export default function RootLayout({
     <html
       lang="zh-Hans"
       suppressHydrationWarning
-      className={cn(sans.variable, serif.variable, "antialiased")}
+      className={cn(
+        sansLatin.variable,
+        sansSC.variable,
+        serifLatin.variable,
+        serifSC.variable,
+        "antialiased",
+      )}
     >
       <body className="min-h-svh bg-background font-sans text-foreground">
         <ThemeProvider>

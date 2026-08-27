@@ -1,46 +1,10 @@
 "use client"
 
-import { Volume2 } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
+import { SpeakButton } from "@/components/speak-button"
 import { rubyTokens } from "@/lib/pinyin"
 import { cn } from "@/lib/utils"
 
-export function speakChinese(text: string) {
-  if (typeof window === "undefined" || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  utterance.lang = "zh-CN"
-  utterance.rate = 0.92
-  const voices = window.speechSynthesis.getVoices()
-  const chinese =
-    voices.find((voice) => voice.lang.startsWith("zh") && /CN|TW|HK/i.test(voice.lang)) ||
-    voices.find((voice) => voice.lang.startsWith("zh"))
-  if (chinese) utterance.voice = chinese
-  window.speechSynthesis.speak(utterance)
-}
-
-export function SpeakButton({
-  text,
-  label = "Listen",
-}: {
-  text: string
-  label?: string
-}) {
-  return (
-    <Button
-      type="button"
-      size="sm"
-      variant="ghost"
-      className="h-8 gap-1.5 px-2 text-muted-foreground"
-      onClick={() => speakChinese(text.replace(/[〔〕【】\[\]（）()]/g, ""))}
-      aria-label={label}
-    >
-      <Volume2 className="size-3.5" />
-      <span className="sr-only sm:not-sr-only sm:text-xs">{label}</span>
-    </Button>
-  )
-}
+export { SpeakButton }
 
 export function HanziText({
   hanzi,
@@ -63,7 +27,19 @@ export function HanziText({
     sm: "text-base",
     md: "text-lg",
     lg: "text-2xl",
-    xl: "text-3xl md:text-4xl",
+    xl: "text-4xl",
+  }[size]
+  const pinyinClass = {
+    sm: "text-xs",
+    md: "text-sm",
+    lg: "text-base",
+    xl: "text-lg",
+  }[size]
+  const englishClass = {
+    sm: "text-sm",
+    md: "text-sm",
+    lg: "text-base",
+    xl: "text-lg",
   }[size]
 
   const tokens = showPinyin && ruby ? rubyTokens(hanzi) : null
@@ -87,14 +63,14 @@ export function HanziText({
         <p className={cn("font-medium leading-relaxed tracking-wide", sizeClass)}>{hanzi}</p>
       )}
       {showPinyin && !ruby ? (
-        <p className="text-sm text-rose-800/80 dark:text-rose-200/80">
+        <p className={cn("text-rose-800/80 dark:text-rose-200/80", pinyinClass)}>
           {rubyTokens(hanzi)
             .map((token) => token.pinyin ?? token.hanzi)
             .join(" ")}
         </p>
       ) : null}
       {showEnglish && english ? (
-        <p className="text-sm leading-relaxed text-muted-foreground">{english}</p>
+        <p className={cn("leading-relaxed text-muted-foreground", englishClass)}>{english}</p>
       ) : null}
     </div>
   )

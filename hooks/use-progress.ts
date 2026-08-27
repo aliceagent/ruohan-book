@@ -5,16 +5,23 @@ import { useCallback, useMemo, useSyncExternalStore } from "react"
 const STORAGE_KEY = "ruohan-progress"
 const EVENT = "ruohan-progress"
 
+type QuizScore = {
+  correct: number
+  total: number
+}
+
 type Progress = {
   completedLessons: string[]
   practicedQuestions: string[]
   knownVocab: string[]
+  quizBest: Record<string, QuizScore>
 }
 
 const EMPTY: Progress = {
   completedLessons: [],
   practicedQuestions: [],
   knownVocab: [],
+  quizBest: {},
 }
 
 function readRaw() {
@@ -36,7 +43,12 @@ function subscribe(onChange: () => void) {
 
 function parse(raw: string): Progress {
   try {
-    return { ...EMPTY, ...JSON.parse(raw) }
+    const parsed = JSON.parse(raw) as Partial<Progress>
+    return {
+      ...EMPTY,
+      ...parsed,
+      quizBest: parsed.quizBest ?? {},
+    }
   } catch {
     return EMPTY
   }
@@ -73,6 +85,21 @@ export function useProgress() {
         ...current,
         knownVocab: toggle(current.knownVocab, id),
       })),
+    recordQuiz: (id: string, correct: number, total: number) =>
+      update((current) => {
+        const previous = current.quizBest[id]
+        const better =
+          !previous ||
+          correct > previous.correct ||
+          (correct === previous.correct && total >= previous.total)
+        return {
+          ...current,
+          quizBest: {
+            ...current.quizBest,
+            [id]: better || !previous ? { correct, total } : previous,
+          },
+        }
+      }),
   }
 }
 

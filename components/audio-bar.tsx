@@ -29,7 +29,7 @@ export function AudioBar({
           <Headphones className="size-4 text-rose-700" />
           Lesson audio {audioId}
         </div>
-        <SpeakButton text={speakText} label="Browser voice" />
+        <SpeakButton text={speakText} label="Read aloud" />
       </div>
       <audio controls className="w-full" src={src} preload="metadata">
         Your browser does not support audio.

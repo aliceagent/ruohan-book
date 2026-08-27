@@ -2,20 +2,30 @@
 
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react"
 
+export type TextSize = "sm" | "md" | "lg"
+
 export type StudyPrefs = {
   pinyin: boolean
   english: boolean
   ruby: boolean
+  textSize: TextSize
+  questionSize: TextSize
 }
 
 const DEFAULTS: StudyPrefs = {
   pinyin: true,
   english: true,
   ruby: true,
+  textSize: "sm",
+  questionSize: "sm",
 }
 
 const STORAGE_KEY = "ruohan-study-prefs"
 const EVENT = "ruohan-prefs"
+
+function parseTextSize(value: unknown): TextSize {
+  return value === "md" || value === "lg" ? value : "sm"
+}
 
 function readRaw() {
   try {
@@ -43,7 +53,10 @@ export function StudyPrefsProvider({ children }: { children: React.ReactNode }) 
   const raw = useSyncExternalStore(subscribe, readRaw, () => JSON.stringify(DEFAULTS))
   const prefs = useMemo<StudyPrefs>(() => {
     try {
-      return { ...DEFAULTS, ...JSON.parse(raw) }
+      const parsed = JSON.parse(raw) as Partial<StudyPrefs>
+      const textSize = parseTextSize(parsed.textSize)
+      const questionSize = parseTextSize(parsed.questionSize)
+      return { ...DEFAULTS, ...parsed, textSize, questionSize }
     } catch {
       return DEFAULTS
     }

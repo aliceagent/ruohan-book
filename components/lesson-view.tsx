@@ -13,19 +13,24 @@ import {
 import { AudioBar } from "@/components/audio-bar"
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { QuizPlayer } from "@/components/quiz-player"
+import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { questionKey, useProgress, vocabKey } from "@/hooks/use-progress"
 import { adjacentLessons } from "@/content/unit-1"
+import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
-  const { prefs } = useStudyPrefs()
+  const { prefs, setPrefs } = useStudyPrefs()
   const { progress, toggleLesson, toggleQuestion, toggleVocab } = useProgress()
   const { prev, next } = adjacentLessons(lesson.id)
+  const quiz = getLessonQuiz(lesson.id)
+  const quizBest = progress.quizBest[lesson.id]
   const dialogueText = lesson.dialogue
     .filter((line) => line.speaker !== "stage")
     .map((line) => line.hanzi)
@@ -107,8 +112,20 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
       </section>
 
       <section className="space-y-4">
-        <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
+          <TextSizeToggle
+            value={prefs.textSize}
+            onChange={(textSize) => setPrefs({ textSize })}
+            label="Vocabulary text size"
+          />
+        </div>
+        <div
+          className={cn(
+            "grid gap-3",
+            prefs.textSize === "lg" ? "sm:grid-cols-1 lg:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3",
+          )}
+        >
           {lesson.vocabulary.map((item) => {
             const key = vocabKey(lesson.id, item.hanzi)
             const known = progress.knownVocab.includes(key)
@@ -121,7 +138,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                     showPinyin={prefs.pinyin}
                     showEnglish={prefs.english}
                     ruby={prefs.ruby}
-                    size="md"
+                    size={CONTENT_HANZI_SIZE[prefs.textSize]}
                   />
                   <div className="flex flex-col items-end gap-1">
                     <SpeakButton text={item.hanzi} />
@@ -136,8 +153,29 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         </div>
       </section>
 
+      {quiz ? (
+        <section id="quiz" className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <SectionTitle title="测验" en="Multiple-choice check on this lesson's words, lines, and scene" />
+            {quizBest ? (
+              <Badge variant="secondary">
+                Best {quizBest.correct}/{quizBest.total}
+              </Badge>
+            ) : null}
+          </div>
+          <QuizPlayer quiz={quiz} compact />
+        </section>
+      ) : null}
+
       <section className="space-y-4">
-        <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
+          <TextSizeToggle
+            value={prefs.questionSize}
+            onChange={(questionSize) => setPrefs({ questionSize })}
+            label="Question text size"
+          />
+        </div>
         <ol className="space-y-3">
           {lesson.questions.map((item) => {
             const key = questionKey(lesson.id, item.n)
@@ -166,7 +204,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showPinyin={prefs.pinyin}
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
-                  size="md"
+                  size={CONTENT_HANZI_SIZE[prefs.questionSize]}
                 />
               </li>
             )
