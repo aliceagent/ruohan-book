@@ -18,8 +18,8 @@ export function ExpandableDialogue({ lines }: { lines: DialogueLine[] }) {
       {expandableCount > 0 ? (
         <p className="flex items-start gap-2 text-sm text-muted-foreground">
           <BookOpen className="mt-0.5 size-4 shrink-0" />
-          Open a line with a mini-lesson badge to see the important words and patterns on that
-          sentence.
+          Open a sentence, or the Mini lesson control, to see the important words and patterns on
+          that line.
         </p>
       ) : null}
       {lines.map((line, index) => (
@@ -51,16 +51,7 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
         open && "ring-1 ring-rose-300 dark:ring-rose-800",
       )}
       onClick={toggle}
-      onKeyDown={(event) => {
-        if (!expandable) return
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault()
-          toggle()
-        }
-      }}
-      role={expandable ? "button" : undefined}
-      tabIndex={expandable ? 0 : undefined}
-      aria-expanded={expandable ? open : undefined}
+      role={expandable ? "group" : undefined}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
         <Badge variant={line.speaker === "stage" ? "outline" : "secondary"}>
@@ -68,11 +59,24 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
         </Badge>
         <div className="flex items-center gap-2">
           {expandable ? (
-            <Badge variant="outline" className="gap-1 font-normal">
+            <button
+              type="button"
+              aria-expanded={open}
+              className="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs hover:bg-muted"
+              onClick={(event) => {
+                event.stopPropagation()
+                toggle()
+              }}
+            >
               <BookOpen className="size-3" />
-              Mini lesson
-              {miniLessons.length > 1 ? ` · ${miniLessons.length}` : ""}
-            </Badge>
+              {open ? "Hide lesson" : "Mini lesson"}
+              {!open && miniLessons.length > 1 ? ` · ${miniLessons.length}` : ""}
+              {open ? (
+                <ChevronUp className="size-3.5 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="size-3.5 text-muted-foreground" />
+              )}
+            </button>
           ) : null}
           {line.speaker !== "stage" ? (
             <div
@@ -82,13 +86,6 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
             >
               <SpeakButton text={line.hanzi} />
             </div>
-          ) : null}
-          {expandable ? (
-            open ? (
-              <ChevronUp className="size-4 shrink-0 text-muted-foreground" />
-            ) : (
-              <ChevronDown className="size-4 shrink-0 text-muted-foreground" />
-            )
           ) : null}
         </div>
       </div>
