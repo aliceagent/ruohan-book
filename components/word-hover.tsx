@@ -94,6 +94,7 @@ export function WordHover({
             sideOffset={8}
             collisionPadding={12}
             className={contentClass}
+            data-word-gloss
             onClick={(event) => event.stopPropagation()}
             onPointerDown={(event) => event.stopPropagation()}
           >
@@ -114,6 +115,7 @@ export function WordHover({
           sideOffset={8}
           collisionPadding={12}
           className={contentClass}
+          data-word-gloss
           onOpenAutoFocus={(event) => event.preventDefault()}
           onCloseAutoFocus={(event) => event.preventDefault()}
           onClick={(event) => event.stopPropagation()}
