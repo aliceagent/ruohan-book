@@ -37,7 +37,7 @@ export default function PlanPage() {
           </li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
           <li>Official Unit 1 MP3s (01-01 … 01-10) on every lesson and the audio playlist.</li>
-          <li>Study desk: search, flashcards, glossary, local progress.</li>
+          <li>Study desk: search, spaced-repetition flashcards, glossary, local progress.</li>
           <li>
             Multiple-choice quizzes on each Unit 1 lesson, plus a mixed unit quiz. Each attempt
             draws 10 questions at random from the bank so you can retake.
@@ -60,7 +60,6 @@ export default function PlanPage() {
           <li>Question packs by difficulty / HSK-ish banding, not just book order.</li>
           <li>Suggested answers and model replies — optional, hidden by default so you speak first.</li>
           <li>Traditional-character toggle (the book already notes some variants in brackets).</li>
-          <li>SRS spaced repetition that uses the same vocabulary graph.</li>
           <li>Pair-practice view: A/B roles on two phones.</li>
         </ul>
       </section>
