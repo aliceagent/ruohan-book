@@ -1,18 +1,55 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { Popover as PopoverPrimitive } from "radix-ui"
+import { useEffect, useState } from "react"
+import { HoverCard as HoverCardPrimitive, Popover as PopoverPrimitive } from "radix-ui"
 
 import { SpeakButton } from "@/components/speak-button"
 import type { GlossToken } from "@/lib/gloss"
 import { cn } from "@/lib/utils"
 
-const HOVER_CLOSE_DELAY = 200
+const triggerClass = cn(
+  "cursor-help rounded-[0.35em] px-[0.06em] decoration-rose-400/80 decoration-dotted underline-offset-4",
+  "touch-manipulation select-none [-webkit-touch-callout:none]",
+  "[@media(hover:none)]:underline",
+  "hover:bg-rose-200/80 hover:underline dark:hover:bg-rose-900/60",
+  "data-[state=open]:bg-rose-200/80 data-[state=open]:underline dark:data-[state=open]:bg-rose-900/60",
+)
 
-function prefersFineHover() {
+const contentClass =
+  "z-50 w-64 rounded-xl border bg-card p-3 text-left shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"
+
+function useFineHover() {
+  const [fineHover, setFineHover] = useState(true)
+
+  useEffect(() => {
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)")
+    const update = () => setFineHover(media.matches)
+    update()
+    media.addEventListener("change", update)
+    return () => media.removeEventListener("change", update)
+  }, [])
+
+  return fineHover
+}
+
+function WordCard({ token, pinyin }: { token: GlossToken; pinyin: string }) {
   return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    <>
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="font-serif text-2xl leading-tight">{token.hanzi}</p>
+          {pinyin ? <p className="text-sm text-rose-800/80 dark:text-rose-200/80">{pinyin}</p> : null}
+        </div>
+        <SpeakButton text={token.hanzi} label="Listen" />
+      </div>
+      {token.en ? (
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{token.en}</p>
+      ) : (
+        <p className="mt-2 text-xs text-muted-foreground">
+          {Array.from(token.hanzi).length > 1 ? "Word" : "Character"} in this sentence
+        </p>
+      )}
+    </>
   )
 }
 
@@ -25,104 +62,63 @@ export function WordHover({
   pinyin: string
   children: React.ReactNode
 }) {
-  const [open, setOpen] = useState(false)
-  const closeTimer = useRef<number | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (closeTimer.current !== null) window.clearTimeout(closeTimer.current)
-    }
-  }, [])
+  const fineHover = useFineHover()
 
   if (token.kind !== "word") {
     return <>{children}</>
   }
 
-  function cancelClose() {
-    if (closeTimer.current !== null) {
-      window.clearTimeout(closeTimer.current)
-      closeTimer.current = null
-    }
-  }
+  const trigger = (
+    <span
+      className={triggerClass}
+      aria-label={`About ${token.hanzi}`}
+      onClick={(event) => event.stopPropagation()}
+      onPointerDown={(event) => event.stopPropagation()}
+      onContextMenu={(event) => event.preventDefault()}
+    >
+      {children}
+    </span>
+  )
 
-  function scheduleClose() {
-    cancelClose()
-    closeTimer.current = window.setTimeout(() => setOpen(false), HOVER_CLOSE_DELAY)
-  }
+  const card = <WordCard token={token} pinyin={pinyin} />
 
-  function handleOpenChange(next: boolean) {
-    cancelClose()
-    setOpen(next)
+  if (fineHover) {
+    return (
+      <HoverCardPrimitive.Root openDelay={80} closeDelay={200}>
+        <HoverCardPrimitive.Trigger asChild>{trigger}</HoverCardPrimitive.Trigger>
+        <HoverCardPrimitive.Portal>
+          <HoverCardPrimitive.Content
+            side="bottom"
+            align="center"
+            sideOffset={8}
+            collisionPadding={12}
+            className={contentClass}
+            onClick={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            {card}
+          </HoverCardPrimitive.Content>
+        </HoverCardPrimitive.Portal>
+      </HoverCardPrimitive.Root>
+    )
   }
 
   return (
-    <PopoverPrimitive.Root open={open} onOpenChange={handleOpenChange}>
-      <PopoverPrimitive.Trigger asChild>
-        <span
-          className={cn(
-            "cursor-help rounded-[0.35em] px-[0.06em] decoration-rose-400/80 decoration-dotted underline-offset-4",
-            "touch-manipulation select-none [-webkit-touch-callout:none]",
-            "[@media(hover:none)]:underline",
-            "hover:bg-rose-200/80 hover:underline dark:hover:bg-rose-900/60",
-            "data-[state=open]:bg-rose-200/80 data-[state=open]:underline dark:data-[state=open]:bg-rose-900/60",
-          )}
-          aria-label={`About ${token.hanzi}`}
-          onClick={(event) => {
-            event.stopPropagation()
-            // Desktop already opened on hover; don't let the click toggle it shut.
-            if (prefersFineHover()) event.preventDefault()
-          }}
-          onPointerDown={(event) => event.stopPropagation()}
-          onContextMenu={(event) => event.preventDefault()}
-          onMouseEnter={() => {
-            if (!prefersFineHover()) return
-            cancelClose()
-            setOpen(true)
-          }}
-          onMouseLeave={() => {
-            if (!prefersFineHover()) return
-            scheduleClose()
-          }}
-        >
-          {children}
-        </span>
-      </PopoverPrimitive.Trigger>
+    <PopoverPrimitive.Root>
+      <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
           side="bottom"
           align="center"
           sideOffset={8}
           collisionPadding={12}
-          className="z-50 w-64 rounded-xl border bg-card p-3 text-left shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"
+          className={contentClass}
           onOpenAutoFocus={(event) => event.preventDefault()}
           onCloseAutoFocus={(event) => event.preventDefault()}
           onClick={(event) => event.stopPropagation()}
           onPointerDown={(event) => event.stopPropagation()}
-          onMouseEnter={() => {
-            if (!prefersFineHover()) return
-            cancelClose()
-          }}
-          onMouseLeave={() => {
-            if (!prefersFineHover()) return
-            scheduleClose()
-          }}
         >
-          <div className="flex items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className="font-serif text-2xl leading-tight">{token.hanzi}</p>
-              {pinyin ? (
-                <p className="text-sm text-rose-800/80 dark:text-rose-200/80">{pinyin}</p>
-              ) : null}
-            </div>
-            <SpeakButton text={token.hanzi} label="Listen" />
-          </div>
-          {token.en ? (
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{token.en}</p>
-          ) : (
-            <p className="mt-2 text-xs text-muted-foreground">
-              {Array.from(token.hanzi).length > 1 ? "Word" : "Character"} in this sentence
-            </p>
-          )}
+          {card}
         </PopoverPrimitive.Content>
       </PopoverPrimitive.Portal>
     </PopoverPrimitive.Root>
