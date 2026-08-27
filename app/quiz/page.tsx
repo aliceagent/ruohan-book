@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
 import { UNIT_1 } from "@/content/unit-1"
-import { allLessonQuizzes } from "@/lib/quiz"
+import { allLessonQuizzes, getUnitQuiz } from "@/lib/quiz"
 
 export const metadata: Metadata = {
   title: "Quiz",
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 export default function QuizIndexPage() {
   const quizzes = allLessonQuizzes()
+  const unitQuiz = getUnitQuiz()
 
   return (
     <div className="space-y-8">
@@ -21,11 +22,15 @@ export default function QuizIndexPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Check yourself</p>
         <h1 className="font-serif text-4xl">Unit 1 quizzes</h1>
         <p className="max-w-2xl text-muted-foreground">
-          Multiple choice on vocabulary, model-dialogue lines, and the scene. The book’s 互动问答
-          stay open speaking prompts — this is the closed-answer check after you read.
+          Each try draws {unitQuiz.drawCount} questions at random from a larger bank — vocabulary,
+          model-dialogue lines, and the scene — so you can retake without seeing the same set. The
+          book’s 互动问答 stay open speaking prompts — this is the closed-answer check after you
+          read.
         </p>
         <Button asChild>
-          <Link href="/quiz/unit-1">Start mixed Unit 1 quiz</Link>
+          <Link href="/quiz/unit-1">
+            Start mixed Unit 1 quiz · {unitQuiz.drawCount} of {unitQuiz.bank.length}
+          </Link>
         </Button>
       </div>
 
@@ -46,7 +51,9 @@ export default function QuizIndexPage() {
                   ) : null}
                   <div className="min-w-0 flex-1 space-y-2">
                     <div className="flex items-center justify-between gap-2">
-                      <Badge variant="outline">{quiz.items.length} questions</Badge>
+                      <Badge variant="outline">
+                        {quiz.drawCount} of {quiz.bank.length}
+                      </Badge>
                       <span className="text-xs text-muted-foreground">{lesson?.audioId}</span>
                     </div>
                     <Link href={`/quiz/${quiz.id}`} className="block">

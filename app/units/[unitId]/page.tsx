@@ -46,8 +46,9 @@ export default async function UnitPage({
         <p className="text-lg text-muted-foreground">{unit.titleEn}</p>
         <p className="max-w-2xl text-muted-foreground">
           Each lesson has a real-world scene, a model dialogue with audio, related words, a
-          multiple-choice quiz, and 20+ questions meant to be asked and answered — not just
-          translated. On 休息睡觉, tap a dialogue line to open a mini lesson on that sentence.
+          10-question quiz drawn from a larger bank, and 20+ questions meant to be asked and
+          answered — not just translated. On 休息睡觉, tap a dialogue line to open a mini lesson on
+          that sentence.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">

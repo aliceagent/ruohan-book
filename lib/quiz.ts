@@ -1,7 +1,7 @@
 import { UNIT_1 } from "@/content/unit-1"
 import type { DialogueLine, Lesson, VocabItem } from "@/lib/types"
 
-export type QuizKind = "vocab-en" | "vocab-zh" | "line-en" | "scene"
+export type QuizKind = "vocab-en" | "vocab-zh" | "line-en" | "line-zh" | "scene"
 
 export type QuizChoice = {
   id: string
@@ -21,12 +21,15 @@ export type QuizItem = {
   correctId: string
 }
 
+export const QUIZ_DRAW = 10
+
 export type QuizSet = {
   id: string
   title: string
   titleEn: string
   lessonId?: string
-  items: QuizItem[]
+  bank: QuizItem[]
+  drawCount: number
 }
 
 function hashString(value: string) {
@@ -89,9 +92,7 @@ function vocabPool(lessons: Lesson[]) {
 
 function linePool(lessons: Lesson[]) {
   return uniqueBy(
-    lessons.flatMap((lesson) =>
-      spokenLines(lesson).map((line) => ({ ...line, lessonId: lesson.id })),
-    ),
+    lessons.flatMap((lesson) => spokenLines(lesson).map((line) => ({ ...line, lessonId: lesson.id }))),
     (line) => line.hanzi,
   )
 }
@@ -146,7 +147,7 @@ function vocabZhItem(lesson: Lesson, item: VocabItem, pool: VocabItem[]): QuizIt
 function lineEnItem(lesson: Lesson, line: DialogueLine, pool: DialogueLine[]): QuizItem | null {
   return withChoices(
     {
-      id: `${lesson.id}-line-${line.hanzi.slice(0, 12)}`,
+      id: `${lesson.id}-line-en-${line.hanzi.slice(0, 12)}`,
       lessonId: lesson.id,
       kind: "line-en",
       instruction: "这句话是什么意思？",
@@ -158,13 +159,37 @@ function lineEnItem(lesson: Lesson, line: DialogueLine, pool: DialogueLine[]): Q
   )
 }
 
-function sceneItem(lesson: Lesson, field: "location" | "topic", others: Lesson[]): QuizItem | null {
-  const prompt =
-    field === "location"
-      ? { zh: "这段对话发生在哪里？", en: "Where does this conversation take place?" }
-      : { zh: "他们在聊什么？", en: "What are they talking about?" }
+function lineZhItem(lesson: Lesson, line: DialogueLine, pool: DialogueLine[]): QuizItem | null {
+  return withChoices(
+    {
+      id: `${lesson.id}-line-zh-${line.hanzi.slice(0, 12)}`,
+      lessonId: lesson.id,
+      kind: "line-zh",
+      instruction: "选择正确的中文原句",
+      instructionEn: "Choose the matching Chinese line",
+      stemEn: line.en,
+    },
+    { id: line.hanzi, hanzi: line.hanzi, en: line.en },
+    pool
+      .filter((other) => other.hanzi !== line.hanzi)
+      .map((other) => ({ id: other.hanzi, hanzi: other.hanzi, en: other.en })),
+  )
+}
+
+function sceneItem(
+  lesson: Lesson,
+  field: "location" | "topic" | "time" | "participants",
+  others: Lesson[],
+): QuizItem | null {
+  const prompt = {
+    location: { zh: "这段对话发生在哪里？", en: "Where does this conversation take place?" },
+    topic: { zh: "他们在聊什么？", en: "What are they talking about?" },
+    time: { zh: "这段对话是什么时候？", en: "When does this conversation take place?" },
+    participants: { zh: "他们在跟谁说话？", en: "Who is in this conversation?" },
+  }[field]
+  const enKey = `${field}En` as const
   const correctHanzi = lesson.scenario[field]
-  const correctEn = field === "location" ? lesson.scenario.locationEn : lesson.scenario.topicEn
+  const correctEn = lesson.scenario[enKey]
   return withChoices(
     {
       id: `${lesson.id}-scene-${field}`,
@@ -181,63 +206,90 @@ function sceneItem(lesson: Lesson, field: "location" | "topic", others: Lesson[]
       .map((other) => ({
         id: other.scenario[field],
         hanzi: other.scenario[field],
-        en: field === "location" ? other.scenario.locationEn : other.scenario.topicEn,
+        en: other.scenario[enKey],
       })),
   )
 }
 
-export function buildLessonQuiz(lesson: Lesson, allLessons: Lesson[] = UNIT_1): QuizItem[] {
+export function buildLessonBank(lesson: Lesson, allLessons: Lesson[] = UNIT_1): QuizItem[] {
   const localVocab = lessonQuizVocab(lesson)
   const unitVocab = vocabPool(allLessons)
   const localLines = spokenLines(lesson)
   const unitLines = linePool(allLessons)
+  const scenes: Array<"location" | "topic" | "time" | "participants"> = [
+    "location",
+    "topic",
+    "time",
+    "participants",
+  ]
 
-  const vocabEn = shuffle(localVocab, `${lesson.id}-ve`)
+  const vocabEn = localVocab
     .map((item) => vocabEnItem(lesson, item, unitVocab))
     .filter((item): item is QuizItem => Boolean(item))
-    .slice(0, 4)
-
-  const usedHanzi = new Set(vocabEn.map((item) => item.stemHanzi))
-  const vocabZh = shuffle(localVocab, `${lesson.id}-vz`)
-    .filter((item) => !usedHanzi.has(item.hanzi))
+  const vocabZh = localVocab
     .map((item) => vocabZhItem(lesson, item, unitVocab))
     .filter((item): item is QuizItem => Boolean(item))
-    .slice(0, 2)
-
-  const lines = shuffle(localLines, `${lesson.id}-ln`)
+  const lineEn = localLines
     .map((line) => lineEnItem(lesson, line, unitLines))
     .filter((item): item is QuizItem => Boolean(item))
-    .slice(0, 3)
+  const lineZh = localLines
+    .map((line) => lineZhItem(lesson, line, unitLines))
+    .filter((item): item is QuizItem => Boolean(item))
+  const sceneItems = scenes
+    .map((field) => sceneItem(lesson, field, allLessons))
+    .filter((item): item is QuizItem => Boolean(item))
 
-  const sceneField: "location" | "topic" = hashString(lesson.id) % 2 === 0 ? "location" : "topic"
-  const scene = sceneItem(lesson, sceneField, allLessons)
-
-  return [...vocabEn, ...vocabZh, ...lines, ...(scene ? [scene] : [])]
+  return uniqueBy([...vocabEn, ...vocabZh, ...lineEn, ...lineZh, ...sceneItems], (item) => item.id)
 }
 
+export function buildUnitBank(allLessons: Lesson[] = UNIT_1): QuizItem[] {
+  return uniqueBy(
+    allLessons.flatMap((lesson) => buildLessonBank(lesson, allLessons)),
+    (item) => item.id,
+  )
+}
+
+function toQuizSet(
+  id: string,
+  title: string,
+  titleEn: string,
+  bank: QuizItem[],
+  lessonId?: string,
+): QuizSet {
+  return {
+    id,
+    title,
+    titleEn,
+    lessonId,
+    bank,
+    drawCount: Math.min(QUIZ_DRAW, bank.length),
+  }
+}
+
+const quizCache = new Map<string, QuizSet>()
+
 export function getLessonQuiz(lessonId: string): QuizSet | undefined {
+  const cached = quizCache.get(lessonId)
+  if (cached) return cached
   const lesson = UNIT_1.find((item) => item.id === lessonId)
   if (!lesson) return undefined
-  return {
-    id: lesson.id,
-    title: `${lesson.id} ${lesson.title}`,
-    titleEn: lesson.titleEn,
-    lessonId: lesson.id,
-    items: buildLessonQuiz(lesson),
-  }
+  const quiz = toQuizSet(
+    lesson.id,
+    `${lesson.id} ${lesson.title}`,
+    lesson.titleEn,
+    buildLessonBank(lesson),
+    lesson.id,
+  )
+  quizCache.set(lessonId, quiz)
+  return quiz
 }
 
 export function getUnitQuiz(): QuizSet {
-  const items = UNIT_1.flatMap((lesson) => {
-    const quiz = buildLessonQuiz(lesson)
-    return shuffle(quiz, `unit-mix-${lesson.id}`).slice(0, 2)
-  })
-  return {
-    id: "unit-1",
-    title: "第一单元 综合测验",
-    titleEn: "Unit 1 mixed quiz",
-    items: shuffle(items, "unit-1-mix").slice(0, 16),
-  }
+  const cached = quizCache.get("unit-1")
+  if (cached) return cached
+  const quiz = toQuizSet("unit-1", "第一单元 综合测验", "Unit 1 mixed quiz", buildUnitBank())
+  quizCache.set("unit-1", quiz)
+  return quiz
 }
 
 export function getQuiz(quizId: string): QuizSet | undefined {
@@ -247,4 +299,20 @@ export function getQuiz(quizId: string): QuizSet | undefined {
 
 export function allLessonQuizzes() {
   return UNIT_1.map((lesson) => getLessonQuiz(lesson.id)!).filter(Boolean)
+}
+
+export function shuffleInPlace<T>(items: T[]) {
+  const next = [...items]
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[next[i], next[j]] = [next[j], next[i]]
+  }
+  return next
+}
+
+export function dealQuizRound(bank: QuizItem[], count: number = QUIZ_DRAW): QuizItem[] {
+  const draw = Math.min(count, bank.length)
+  return shuffleInPlace(bank)
+    .slice(0, draw)
+    .map((item) => ({ ...item, choices: shuffleInPlace(item.choices) }))
 }
