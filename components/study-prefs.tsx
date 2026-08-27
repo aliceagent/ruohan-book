@@ -9,6 +9,7 @@ export type StudyPrefs = {
   english: boolean
   ruby: boolean
   textSize: TextSize
+  questionSize: TextSize
 }
 
 const DEFAULTS: StudyPrefs = {
@@ -16,10 +17,15 @@ const DEFAULTS: StudyPrefs = {
   english: true,
   ruby: true,
   textSize: "sm",
+  questionSize: "sm",
 }
 
 const STORAGE_KEY = "ruohan-study-prefs"
 const EVENT = "ruohan-prefs"
+
+function parseTextSize(value: unknown): TextSize {
+  return value === "md" || value === "lg" ? value : "sm"
+}
 
 function readRaw() {
   try {
@@ -48,9 +54,9 @@ export function StudyPrefsProvider({ children }: { children: React.ReactNode }) 
   const prefs = useMemo<StudyPrefs>(() => {
     try {
       const parsed = JSON.parse(raw) as Partial<StudyPrefs>
-      const textSize: TextSize =
-        parsed.textSize === "md" || parsed.textSize === "lg" ? parsed.textSize : "sm"
-      return { ...DEFAULTS, ...parsed, textSize }
+      const textSize = parseTextSize(parsed.textSize)
+      const questionSize = parseTextSize(parsed.questionSize)
+      return { ...DEFAULTS, ...parsed, textSize, questionSize }
     } catch {
       return DEFAULTS
     }

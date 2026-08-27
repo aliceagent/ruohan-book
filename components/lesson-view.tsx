@@ -14,7 +14,7 @@ import { AudioBar } from "@/components/audio-bar"
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { QuizPlayer } from "@/components/quiz-player"
-import { TextSizeToggle, VOCAB_HANZI_SIZE } from "@/components/text-size-toggle"
+import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -26,7 +26,7 @@ import type { Lesson } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
-  const { prefs } = useStudyPrefs()
+  const { prefs, setPrefs } = useStudyPrefs()
   const { progress, toggleLesson, toggleQuestion, toggleVocab } = useProgress()
   const { prev, next } = adjacentLessons(lesson.id)
   const quiz = getLessonQuiz(lesson.id)
@@ -114,7 +114,11 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
       <section className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
-          <TextSizeToggle />
+          <TextSizeToggle
+            value={prefs.textSize}
+            onChange={(textSize) => setPrefs({ textSize })}
+            label="Vocabulary text size"
+          />
         </div>
         <div
           className={cn(
@@ -134,7 +138,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                     showPinyin={prefs.pinyin}
                     showEnglish={prefs.english}
                     ruby={prefs.ruby}
-                    size={VOCAB_HANZI_SIZE[prefs.textSize]}
+                    size={CONTENT_HANZI_SIZE[prefs.textSize]}
                   />
                   <div className="flex flex-col items-end gap-1">
                     <SpeakButton text={item.hanzi} />
@@ -164,7 +168,14 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
       ) : null}
 
       <section className="space-y-4">
-        <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
+          <TextSizeToggle
+            value={prefs.questionSize}
+            onChange={(questionSize) => setPrefs({ questionSize })}
+            label="Question text size"
+          />
+        </div>
         <ol className="space-y-3">
           {lesson.questions.map((item) => {
             const key = questionKey(lesson.id, item.n)
@@ -193,7 +204,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showPinyin={prefs.pinyin}
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
-                  size="md"
+                  size={CONTENT_HANZI_SIZE[prefs.questionSize]}
                 />
               </li>
             )

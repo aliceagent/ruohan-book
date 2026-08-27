@@ -1,6 +1,6 @@
 "use client"
 
-import { type TextSize, useStudyPrefs } from "@/components/study-prefs"
+import { type TextSize } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -10,23 +10,31 @@ const OPTIONS: { id: TextSize; label: string }[] = [
   { id: "lg", label: "Large" },
 ]
 
-export const VOCAB_HANZI_SIZE = {
+export const CONTENT_HANZI_SIZE = {
   sm: "md",
   md: "lg",
   lg: "xl",
 } as const
 
-export function TextSizeToggle({ className }: { className?: string }) {
-  const { prefs, setPrefs } = useStudyPrefs()
-
+export function TextSizeToggle({
+  value,
+  onChange,
+  label = "Text size",
+  className,
+}: {
+  value: TextSize
+  onChange: (size: TextSize) => void
+  label?: string
+  className?: string
+}) {
   return (
     <div
       role="radiogroup"
-      aria-label="Text size"
+      aria-label={label}
       className={cn("flex rounded-lg border bg-card p-0.5", className)}
     >
       {OPTIONS.map((option) => {
-        const selected = prefs.textSize === option.id
+        const selected = value === option.id
         return (
           <Button
             key={option.id}
@@ -36,7 +44,7 @@ export function TextSizeToggle({ className }: { className?: string }) {
             role="radio"
             aria-checked={selected}
             className={cn(!selected && "text-muted-foreground")}
-            onClick={() => setPrefs({ textSize: option.id })}
+            onClick={() => onChange(option.id)}
           >
             {option.label}
           </Button>
