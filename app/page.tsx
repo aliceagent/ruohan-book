@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, Headphones, Languages, Sparkles } from "lucide-react"
+import { ArrowRight, CircleHelp, Headphones, Languages, Sparkles } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -28,14 +28,17 @@ export default function HomePage() {
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
             A study companion for Shelley Hsieh&apos;s conversation-topic book: every prompt with
-            pinyin, English, speaking practice, and the official lesson audio. Unit 1
-            家庭生活 is complete. The other 21 units are mapped and waiting.
+            pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson
+            audio. Unit 1 家庭生活 is complete. The other 21 units are mapped and waiting.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild>
               <Link href="/units/1">
                 Start Unit 1 <ArrowRight />
               </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/quiz">Take a quiz</Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/audio">Listen to Unit 1</Link>
@@ -61,7 +64,7 @@ export default function HomePage() {
         </Card>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Feature
           icon={<Languages className="size-5" />}
           title="Hanzi + pinyin + English"
@@ -71,6 +74,11 @@ export default function HomePage() {
           icon={<Sparkles className="size-5" />}
           title="Speak, don’t just decode"
           body="The book’s real job is turn-taking. Practice the model dialogue, then answer the 互动问答 out loud. Mark what you’ve actually said."
+        />
+        <Feature
+          icon={<CircleHelp className="size-5" />}
+          title="Multiple-choice quizzes"
+          body="Each lesson has a 10-question check: vocabulary, dialogue lines, and the scene. Missed items show up at the end so you can retry."
         />
         <Feature
           icon={<Headphones className="size-5" />}

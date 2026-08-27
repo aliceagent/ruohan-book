@@ -35,6 +35,7 @@ export default function PlanPage() {
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
           <li>Official Unit 1 MP3s (01-01 … 01-10) on every lesson and the audio playlist.</li>
           <li>Study desk: search, flashcards, glossary, local progress.</li>
+          <li>Multiple-choice quizzes on each Unit 1 lesson, plus a mixed unit quiz.</li>
           <li>Browser speech as a line-by-line fallback.</li>
         </ul>
       </section>

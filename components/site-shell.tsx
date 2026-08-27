@@ -21,6 +21,7 @@ const LINKS = [
   { href: "/units", label: "Units" },
   { href: "/units/1", label: "Unit 1" },
   { href: "/study", label: "Study" },
+  { href: "/quiz", label: "Quiz" },
   { href: "/audio", label: "Audio" },
   { href: "/plan", label: "Plan" },
 ]

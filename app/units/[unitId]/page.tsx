@@ -44,8 +44,9 @@ export default async function UnitPage({
         </h1>
         <p className="text-lg text-muted-foreground">{unit.titleEn}</p>
         <p className="max-w-2xl text-muted-foreground">
-          Each lesson has a real-world scene, a model dialogue with audio slot {unit.id}-n, related
-          words, and 20+ questions meant to be asked and answered — not just translated.
+          Each lesson has a real-world scene, a model dialogue with audio, related words, a
+          multiple-choice quiz, and 20+ questions meant to be asked and answered — not just
+          translated.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -59,17 +60,22 @@ export default async function UnitPage({
                   <Badge variant={href ? "default" : "outline"}>{topic.id}</Badge>
                   {lesson ? (
                     <span className="text-xs text-muted-foreground">
-                      {lesson.questions.length} questions · {lesson.vocabulary.length} words
+                      {lesson.questions.length} prompts · {lesson.vocabulary.length} words
                     </span>
                   ) : (
                     <span className="text-xs text-muted-foreground">Coming later</span>
                   )}
                 </div>
                 {href ? (
-                  <Link href={href} className="block">
-                    <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
-                    <CardDescription>{topic.titleEn}</CardDescription>
-                  </Link>
+                  <>
+                    <Link href={href} className="block">
+                      <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
+                      <CardDescription>{topic.titleEn}</CardDescription>
+                    </Link>
+                    <Link href={`/quiz/${topic.id}`} className="text-sm text-rose-800 hover:underline">
+                      Lesson quiz
+                    </Link>
+                  </>
                 ) : (
                   <>
                     <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>

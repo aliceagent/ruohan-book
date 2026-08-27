@@ -13,12 +13,14 @@ import {
 import { AudioBar } from "@/components/audio-bar"
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { QuizPlayer } from "@/components/quiz-player"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { questionKey, useProgress, vocabKey } from "@/hooks/use-progress"
 import { adjacentLessons } from "@/content/unit-1"
+import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -26,6 +28,8 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const { prefs } = useStudyPrefs()
   const { progress, toggleLesson, toggleQuestion, toggleVocab } = useProgress()
   const { prev, next } = adjacentLessons(lesson.id)
+  const quiz = getLessonQuiz(lesson.id)
+  const quizBest = progress.quizBest[lesson.id]
   const dialogueText = lesson.dialogue
     .filter((line) => line.speaker !== "stage")
     .map((line) => line.hanzi)
@@ -135,6 +139,20 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           })}
         </div>
       </section>
+
+      {quiz ? (
+        <section id="quiz" className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <SectionTitle title="测验" en="Multiple-choice check on this lesson's words, lines, and scene" />
+            {quizBest ? (
+              <Badge variant="secondary">
+                Best {quizBest.correct}/{quizBest.total}
+              </Badge>
+            ) : null}
+          </div>
+          <QuizPlayer quiz={quiz} compact />
+        </section>
+      ) : null}
 
       <section className="space-y-4">
         <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
