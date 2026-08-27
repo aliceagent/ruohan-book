@@ -1,9 +1,5 @@
-import type {
-  FillBlankItem,
-  MiniLesson,
-  MiniLessonExample,
-  VocabItem,
-} from "@/lib/types"
+import { fb } from "@/content/lessons/note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
 
 function v(hanzi: string, en: string): VocabItem {
   return { hanzi, en }
@@ -95,64 +91,27 @@ export const LESSON_1_1_PRACTICE: MiniLessonExample[] = [
   ex("我希望今天晚上可以一觉睡到天亮。", "I hope tonight I can sleep straight through until morning."),
 ]
 
-export const LESSON_1_1_FILL_BLANKS: FillBlankItem[] = [
-  {
-    id: "1",
-    promptEn: "I didn’t sleep well last night.",
-    prefix: "昨天晚上我没",
-    suffix: "。",
-    answer: "睡好",
-  },
-  {
-    id: "2",
-    promptEn: "I dreamed that someone was chasing me.",
-    prefix: "我",
-    suffix: "有人在追我。",
-    answer: "梦见",
-  },
-  {
-    id: "3",
-    promptEn: "He kept running.",
-    prefix: "他",
-    suffix: "跑。",
-    answer: "一直",
-  },
-  {
-    id: "4",
-    promptEn: "Do you normally sleep well?",
-    prefix: "你平常睡",
-    suffix: "好吗？",
-    answer: "得",
-  },
-  {
-    id: "5",
-    promptEn: "I can’t fall asleep.",
-    prefix: "我睡",
-    suffix: "。",
-    answer: "不着",
-    accepted: ["不著"],
-  },
-  {
-    id: "6",
-    promptEn: "I don’t get enough sleep.",
-    prefix: "我睡",
-    suffix: "。",
-    answer: "不够",
-  },
-  {
-    id: "7",
-    promptEn: "Get more sunlight.",
-    prefix: "",
-    suffix: "晒太阳。",
-    answer: "多",
-  },
-  {
-    id: "8",
-    promptEn: "I slept straight through until morning.",
-    prefix: "我一觉睡",
-    suffix: "天亮。",
-    answer: "到",
-  },
+export const LESSON_1_1_FILL_BLANKS = [
+  fb("1", "I didn’t sleep well last night.", "昨天晚上我没", "。", "睡好", [
+    "睡着",
+    "睡够",
+    "梦见",
+  ]),
+  fb("2", "I dreamed that someone was chasing me.", "我", "有人在追我。", "梦见", [
+    "睡着",
+    "一直",
+    "睡好",
+  ]),
+  fb("3", "He kept running.", "他", "跑。", "一直", ["已经", "还是", "多"]),
+  fb("4", "Do you normally sleep well?", "你平常睡", "好吗？", "得", ["的", "地", "着"]),
+  fb("5", "I can’t fall asleep.", "我睡", "。", "不着", ["不够", "不好", "不完"]),
+  fb("6", "I don’t get enough sleep.", "我睡", "。", "不够", ["不着", "不好", "太多"]),
+  fb("7", "Get more sunlight.", "", "晒太阳。", "多", ["少", "很", "太"]),
+  fb("8", "I slept straight through until morning.", "我一觉睡", "天亮。", "到", [
+    "在",
+    "给",
+    "得",
+  ]),
 ]
 
 export const LESSON_1_1_GRAMMAR_FOCUS: MiniLesson[] = [

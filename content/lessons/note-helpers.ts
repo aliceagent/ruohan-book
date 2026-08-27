@@ -1,5 +1,6 @@
 import type {
   DialogueLine,
+  FillBlankItem,
   MiniLesson,
   MiniLessonExample,
   VocabItem,
@@ -11,6 +12,34 @@ export function v(hanzi: string, en: string): VocabItem {
 
 export function ex(hanzi: string, en: string): MiniLessonExample {
   return { hanzi, en }
+}
+
+/**
+ * Multiple-choice fill-in. `distractors` are wrong answers the learner taps
+ * instead of typing. The correct `answer` is prepended; the UI shuffles.
+ */
+export function fb(
+  id: string,
+  promptEn: string,
+  prefix: string,
+  suffix: string,
+  answer: string,
+  distractors: string[],
+): FillBlankItem {
+  if (distractors.length < 2) {
+    throw new Error(`Fill-blank ${id} needs at least two distractors`)
+  }
+  if (distractors.includes(answer)) {
+    throw new Error(`Fill-blank ${id} distractor duplicates the answer`)
+  }
+  return {
+    id,
+    promptEn,
+    prefix,
+    suffix,
+    answer,
+    choices: [answer, ...distractors],
+  }
 }
 
 export function ml(
@@ -42,6 +71,8 @@ export function ml(
  * Export LESSON_X_Y_GRAMMAR_FOCUS with at least five MiniLesson items (title,
  * titleEn, pattern, body, examples) and set lesson.grammarFocus. content/unit-1.ts
  * throws if a lesson ships with fewer than five.
+ *
+ * RULE: fill-in items are multiple choice, never typed. Build them with fb().
  */
 export const GRAMMAR_FOCUS_MIN = 5
 

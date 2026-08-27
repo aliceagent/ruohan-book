@@ -172,7 +172,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       {lesson.fillBlanks && lesson.fillBlanks.length > 0 ? (
         <section className="space-y-4">
-          <SectionTitle title="填空练习" en="Fill these in before looking at the answers" />
+          <SectionTitle title="填空练习" en="Choose the missing words — tap before looking at the answers" />
           <FillBlankExercise items={lesson.fillBlanks} />
         </section>
       ) : null}

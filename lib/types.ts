@@ -43,7 +43,8 @@ export type FillBlankItem = {
   prefix: string
   suffix: string
   answer: string
-  accepted?: string[]
+  /** Tap options. Must include `answer` and at least two distractors. */
+  choices: string[]
 }
 
 export type Question = {

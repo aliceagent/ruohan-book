@@ -10,6 +10,7 @@ import { GRAMMAR_FOCUS_MIN } from "@/content/lessons/note-helpers"
  * Assemble lines with notedLine(LESSON_X_Y_LINE_NOTES, speaker, hanzi, en).
  * Keys are the exact 汉字, including punctuation and textbook 〔〕 notes.
  * This loop throws at import time so a lesson cannot ship without notes or grammar cards.
+ * Fill-in items, if present, must be multiple choice (fb()), never a typed blank.
  */
 export const UNIT_1: Lesson[] = [...UNIT_1_LESSONS, ...UNIT_1_LESSONS_B]
 
@@ -25,6 +26,14 @@ for (const lesson of UNIT_1) {
     throw new Error(
       `Lesson ${lesson.id} needs ${GRAMMAR_FOCUS_MIN} grammar-focus cards (五个优先句型), got ${lesson.grammarFocus?.length ?? 0}`,
     )
+  }
+  for (const blank of lesson.fillBlanks ?? []) {
+    const unique = new Set(blank.choices)
+    if (unique.size < 3 || !unique.has(blank.answer)) {
+      throw new Error(
+        `Lesson ${lesson.id} fill-blank ${blank.id} must be multiple choice (3+ options including the answer)`,
+      )
+    }
   }
 }
 
