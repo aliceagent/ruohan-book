@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
 export function VocabGrid({
   lessonId,
   items,
-  showSizeToggle = false,
+  showSizeToggle = true,
 }: {
   lessonId: string
   items: VocabItem[]

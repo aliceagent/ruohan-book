@@ -179,7 +179,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <section className="space-y-4">
         <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
-        <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} showSizeToggle />
+        <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} />
       </section>
 
       {quiz ? (
