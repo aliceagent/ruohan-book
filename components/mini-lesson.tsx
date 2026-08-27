@@ -1,0 +1,70 @@
+"use client"
+
+import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { useStudyPrefs } from "@/components/study-prefs"
+import { Badge } from "@/components/ui/badge"
+import type { MiniLesson } from "@/lib/types"
+
+export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
+  const { prefs } = useStudyPrefs()
+
+  return (
+    <article className="space-y-3 rounded-xl border bg-background/90 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <h3 className="font-serif text-lg leading-snug">{lesson.title}</h3>
+          <p className="text-sm text-muted-foreground">{lesson.titleEn}</p>
+        </div>
+        {lesson.pattern ? (
+          <Badge variant="outline" className="font-normal">
+            {lesson.pattern}
+          </Badge>
+        ) : null}
+      </div>
+      {lesson.body.map((paragraph, index) => (
+        <p key={`${index}-${paragraph.slice(0, 24)}`} className="text-sm leading-relaxed text-foreground/90">
+          {paragraph}
+        </p>
+      ))}
+      {lesson.compare && lesson.compare.length > 0 ? (
+        <div className="grid gap-2 sm:grid-cols-2">
+          {lesson.compare.map((item) => (
+            <div key={`${item.label}-${item.hanzi}`} className="rounded-lg bg-muted/60 p-3">
+              <p className="mb-1 text-xs tracking-wide text-muted-foreground uppercase">
+                {item.label}
+              </p>
+              <HanziText
+                hanzi={item.hanzi}
+                english={item.en}
+                showPinyin={prefs.pinyin}
+                showEnglish={prefs.english}
+                ruby={prefs.ruby}
+                size="sm"
+              />
+            </div>
+          ))}
+        </div>
+      ) : null}
+      {lesson.examples && lesson.examples.length > 0 ? (
+        <ul className="space-y-2">
+          {lesson.examples.map((example, index) => (
+            <li
+              key={`${example.hanzi}-${index}`}
+              className="flex items-start justify-between gap-2 rounded-lg border border-dashed px-3 py-2"
+            >
+              <HanziText
+                hanzi={example.hanzi}
+                english={example.en}
+                showPinyin={prefs.pinyin}
+                showEnglish={prefs.english}
+                ruby={prefs.ruby}
+                size="sm"
+              />
+              <SpeakButton text={example.hanzi} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </article>
+  )
+}
