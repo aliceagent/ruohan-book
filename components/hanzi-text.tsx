@@ -1,9 +1,11 @@
 "use client"
 
+import { type ReactNode } from "react"
+
 import { SpeakButton } from "@/components/speak-button"
 import { WordHover } from "@/components/word-hover"
 import { tokenizeHanzi, type GlossToken } from "@/lib/gloss"
-import { rubyTokens } from "@/lib/pinyin"
+import { rubyToPhrase, rubyTokens, type RubyToken } from "@/lib/pinyin"
 import { glossaryFor } from "@/lib/unit-glossary"
 import type { VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -52,20 +54,31 @@ export function HanziText({
 
   const tokens = inspectable ? tokenizeHanzi(hanzi, glossaryFor(glossary)) : null
   const rubyOn = showPinyin && ruby
+  const sentenceRuby = tokens || rubyOn || (showPinyin && !ruby) ? rubyTokens(hanzi) : []
 
   return (
     <div className={cn("space-y-1", className)}>
       <p className={cn("font-medium tracking-wide", rubyOn ? "leading-loose" : "leading-relaxed", sizeClass)}>
         {tokens ? (
-          tokens.map((token, index) => (
-            <InspectableChunk
-              key={`${token.hanzi}-${index}`}
-              token={token}
-              ruby={rubyOn}
-            />
-          ))
+          tokens.reduce<{ nodes: ReactNode[]; offset: number }>(
+            (state, token, index) => {
+              const length = Array.from(token.hanzi).length
+              const parts = sentenceRuby.slice(state.offset, state.offset + length)
+              state.nodes.push(
+                <InspectableChunk
+                  key={`${token.hanzi}-${index}`}
+                  token={token}
+                  ruby={rubyOn}
+                  parts={parts}
+                />,
+              )
+              state.offset += length
+              return state
+            },
+            { nodes: [], offset: 0 },
+          ).nodes
         ) : rubyOn ? (
-          rubyTokens(hanzi).map((token, index) =>
+          sentenceRuby.map((token, index) =>
             token.pinyin ? (
               <ruby key={`${token.hanzi}-${index}`} className="ruby-pair">
                 {token.hanzi}
@@ -81,9 +94,7 @@ export function HanziText({
       </p>
       {showPinyin && !ruby ? (
         <p className={cn("text-rose-800/80 dark:text-rose-200/80", pinyinClass)}>
-          {rubyTokens(hanzi)
-            .map((token) => token.pinyin ?? token.hanzi)
-            .join(" ")}
+          {sentenceRuby.map((token) => token.pinyin ?? token.hanzi).join(" ")}
         </p>
       ) : null}
       {showEnglish && english ? (
@@ -96,12 +107,14 @@ export function HanziText({
 function InspectableChunk({
   token,
   ruby,
+  parts,
 }: {
   token: GlossToken
   ruby: boolean
+  parts: RubyToken[]
 }) {
   const body = ruby
-    ? rubyTokens(token.hanzi).map((part, index) =>
+    ? parts.map((part, index) =>
         part.pinyin ? (
           <ruby key={`${part.hanzi}-${index}`} className="ruby-pair">
             {part.hanzi}
@@ -115,5 +128,9 @@ function InspectableChunk({
 
   if (token.kind !== "word") return <>{body}</>
 
-  return <WordHover token={token}>{body}</WordHover>
+  return (
+    <WordHover token={token} pinyin={rubyToPhrase(parts)}>
+      {body}
+    </WordHover>
+  )
 }

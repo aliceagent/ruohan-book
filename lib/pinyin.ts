@@ -1,11 +1,25 @@
 import { pinyin } from "pinyin-pro"
 
-export function phrasePinyin(hanzi: string) {
-  return pinyin(hanzi, {
-    toneType: "symbol",
-    nonZh: "consecutive",
-    type: "string",
-  })
+const HANZI_RE = /\p{Script=Han}/u
+
+const PINYIN_OPTIONS = {
+  toneType: "symbol" as const,
+  type: "all" as const,
+  nonZh: "consecutive" as const,
+  /** Max-probability segmentation — better 了/le vs 了/liǎo in full sentences. */
+  segmentit: 2,
+}
+
+type PinyinPiece = {
+  origin: string
+  pinyin: string
+  isZh: boolean
+}
+
+function pieces(hanzi: string): PinyinPiece[] {
+  if (!hanzi) return []
+  const result = pinyin(hanzi, PINYIN_OPTIONS)
+  return (Array.isArray(result) ? result : [result]) as PinyinPiece[]
 }
 
 export type RubyToken = {
@@ -13,30 +27,54 @@ export type RubyToken = {
   pinyin: string | null
 }
 
+/**
+ * Isolated 了 is the dictionary headword liǎo (“to finish”). In this book it is
+ * almost always the particle le. Keep liǎo when another Chinese character sits
+ * next to it (了解, 吃不了, 不得了) so the phrase model can decide.
+ */
+function maybeParticleLe(tokens: RubyToken[]) {
+  return tokens.map((token, index) => {
+    if (token.hanzi !== "了") return token
+    if (tokens[index - 1]?.hanzi === "为") {
+      return { ...token, pinyin: "le" }
+    }
+    if (token.pinyin !== "liǎo") return token
+    const prev = tokens[index - 1]?.hanzi
+    const next = tokens[index + 1]?.hanzi
+    const prevHan = Boolean(prev && HANZI_RE.test(prev))
+    const nextHan = Boolean(next && HANZI_RE.test(next))
+    if (prevHan || nextHan) return token
+    return { ...token, pinyin: "le" }
+  })
+}
+
+export function phrasePinyin(hanzi: string) {
+  return rubyToPhrase(rubyTokens(hanzi))
+}
+
 export function rubyTokens(hanzi: string): RubyToken[] {
   const tokens: RubyToken[] = []
-  const chars = Array.from(hanzi)
 
-  for (const char of chars) {
-    if (/\s/.test(char)) {
-      tokens.push({ hanzi: char, pinyin: null })
-      continue
-    }
-
-    const reading = pinyin(char, {
-      toneType: "symbol",
-      type: "string",
-      nonZh: "consecutive",
-    })
-
-    if (!reading || reading === char) {
-      tokens.push({ hanzi: char, pinyin: null })
+  for (const piece of pieces(hanzi)) {
+    const origin = piece.origin || ""
+    if (piece.isZh && origin) {
+      const chars = Array.from(origin)
+      const readings = (piece.pinyin || "").split(/\s+/).filter(Boolean)
+      for (let i = 0; i < chars.length; i += 1) {
+        const reading = readings[i] || piece.pinyin || ""
+        tokens.push({
+          hanzi: chars[i]!,
+          pinyin: reading || null,
+        })
+      }
     } else {
-      tokens.push({ hanzi: char, pinyin: reading })
+      for (const char of Array.from(origin)) {
+        tokens.push({ hanzi: char, pinyin: null })
+      }
     }
   }
 
-  return tokens
+  return maybeParticleLe(tokens)
 }
 
 export type MixedRun =
@@ -64,4 +102,11 @@ export function mixedRuns(text: string): MixedRun[] {
   }
 
   return runs
+}
+
+export function rubyToPhrase(tokens: RubyToken[]) {
+  return tokens
+    .map((token) => token.pinyin)
+    .filter((reading): reading is string => Boolean(reading))
+    .join(" ")
 }

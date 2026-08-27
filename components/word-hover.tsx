@@ -3,22 +3,21 @@
 import { HoverCard as HoverCardPrimitive } from "radix-ui"
 
 import { SpeakButton } from "@/components/speak-button"
-import { phrasePinyin } from "@/lib/pinyin"
 import type { GlossToken } from "@/lib/gloss"
 import { cn } from "@/lib/utils"
 
 export function WordHover({
   token,
+  pinyin,
   children,
 }: {
   token: GlossToken
+  pinyin: string
   children: React.ReactNode
 }) {
   if (token.kind !== "word") {
     return <>{children}</>
   }
-
-  const pinyin = phrasePinyin(token.hanzi)
 
   return (
     <HoverCardPrimitive.Root openDelay={80} closeDelay={200}>
@@ -48,7 +47,9 @@ export function WordHover({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <p className="font-serif text-2xl leading-tight">{token.hanzi}</p>
-              <p className="text-sm text-rose-800/80 dark:text-rose-200/80">{pinyin}</p>
+              {pinyin ? (
+                <p className="text-sm text-rose-800/80 dark:text-rose-200/80">{pinyin}</p>
+              ) : null}
             </div>
             <SpeakButton text={token.hanzi} label="Listen" />
           </div>
