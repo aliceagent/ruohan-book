@@ -24,7 +24,7 @@ export function ExpandableDialogue({
       {expandableCount > 0 ? (
         <p className="flex items-start gap-2 text-sm text-muted-foreground">
           <BookOpen className="mt-0.5 size-4 shrink-0" />
-          Hover a word for its meaning and sound, or open Mini lesson for the patterns on that line.
+          Tap or hover a word for its meaning and sound, or open Mini lesson for the patterns on that line.
         </p>
       ) : null}
       {lines.map((line, index) => (

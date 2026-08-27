@@ -58,7 +58,14 @@ export function HanziText({
 
   return (
     <div className={cn("space-y-1", className)}>
-      <p className={cn("font-medium tracking-wide", rubyOn ? "leading-loose" : "leading-relaxed", sizeClass)}>
+      <p
+        className={cn(
+          "font-medium tracking-wide",
+          rubyOn ? "leading-loose" : "leading-relaxed",
+          sizeClass,
+          inspectable && "select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
+        )}
+      >
         {tokens ? (
           tokens.reduce<{ nodes: ReactNode[]; offset: number }>(
             (state, token, index) => {
