@@ -1,8 +1,14 @@
-import type { DialogueLine, Lesson, Question, VocabItem } from "@/lib/types"
-
-function line(speaker: DialogueLine["speaker"], hanzi: string, en: string): DialogueLine {
-  return { speaker, hanzi, en }
-}
+/**
+ * RULE: every dialogue line is built with notedLine(LESSON_X_Y_LINE_NOTES, …).
+ * Do not add a local line() helper that skips mini lessons. Keys must match 汉字 exactly.
+ */
+import { LESSON_1_6_CORE_VOCAB, LESSON_1_6_LINE_NOTES } from "@/content/lessons/1-6-notes"
+import { LESSON_1_7_CORE_VOCAB, LESSON_1_7_LINE_NOTES } from "@/content/lessons/1-7-notes"
+import { LESSON_1_8_CORE_VOCAB, LESSON_1_8_LINE_NOTES } from "@/content/lessons/1-8-notes"
+import { LESSON_1_9_CORE_VOCAB, LESSON_1_9_LINE_NOTES } from "@/content/lessons/1-9-notes"
+import { LESSON_1_10_CORE_VOCAB, LESSON_1_10_LINE_NOTES } from "@/content/lessons/1-10-notes"
+import { notedLine } from "@/content/lessons/note-helpers"
+import type { Lesson, Question, VocabItem } from "@/lib/types"
 
 function v(hanzi: string, en: string): VocabItem {
   return { hanzi, en }
@@ -31,20 +37,21 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       topicEn: "Asking a colleague for help, chatting about parenting",
     },
     dialogue: [
-      line(
+      notedLine(LESSON_1_6_LINE_NOTES,
         "A",
         "不好意思，刚刚接到学校电话说小孩不舒服，我要提早下班，可以麻烦你帮我打印这些资料吗？",
         "Sorry — the school just called saying my kid isn’t well. I need to leave early. Could you print these materials for me?",
       ),
-      line("B", "没问题。生病了？要紧吗？", "No problem. Sick? Is it serious?"),
-      line("A", "不知道，我等一下带去看医生。", "I don’t know. I’ll take them to the doctor in a bit."),
-      line("B", "有小孩真累，怪不得出生率越来越低。", "Kids are exhausting. No wonder the birth rate keeps falling."),
-      line("A", "还好啦，大部分时间都很快乐，小孩很可爱。", "It’s alright. Most of the time it’s joyful. Kids are adorable."),
-      line("B", "听说养到大学要500万台币呢！父母老了还不一定能指望他们孝顺。", "I heard raising a child to university costs 5 million NTD! And when parents get old, they still might not be able to count on filial piety."),
-      line("A", "没想那么多，现在只希望他们健康快乐地长大就好了。", "I don’t think that far. Right now I just hope they grow up healthy and happy."),
-      line("B", "真佩服你们这些爸爸妈妈。你快去吧。这些就好了吗？", "I really admire you moms and dads. Go on. Is this all?"),
-      line("A", "对，麻烦你了，谢谢！我先走了。", "Yes. Thanks so much — I’m heading out."),
+      notedLine(LESSON_1_6_LINE_NOTES, "B", "没问题。生病了？要紧吗？", "No problem. Sick? Is it serious?"),
+      notedLine(LESSON_1_6_LINE_NOTES, "A", "不知道，我等一下带去看医生。", "I don’t know. I’ll take them to the doctor in a bit."),
+      notedLine(LESSON_1_6_LINE_NOTES, "B", "有小孩真累，怪不得出生率越来越低。", "Kids are exhausting. No wonder the birth rate keeps falling."),
+      notedLine(LESSON_1_6_LINE_NOTES, "A", "还好啦，大部分时间都很快乐，小孩很可爱。", "It’s alright. Most of the time it’s joyful. Kids are adorable."),
+      notedLine(LESSON_1_6_LINE_NOTES, "B", "听说养到大学要500万台币呢！父母老了还不一定能指望他们孝顺。", "I heard raising a child to university costs 5 million NTD! And when parents get old, they still might not be able to count on filial piety."),
+      notedLine(LESSON_1_6_LINE_NOTES, "A", "没想那么多，现在只希望他们健康快乐地长大就好了。", "I don’t think that far. Right now I just hope they grow up healthy and happy."),
+      notedLine(LESSON_1_6_LINE_NOTES, "B", "真佩服你们这些爸爸妈妈。你快去吧。这些就好了吗？", "I really admire you moms and dads. Go on. Is this all?"),
+      notedLine(LESSON_1_6_LINE_NOTES, "A", "对，麻烦你了，谢谢！我先走了。", "Yes. Thanks so much — I’m heading out."),
     ],
+    coreVocabulary: LESSON_1_6_CORE_VOCAB,
     vocabulary: [
       v("育儿", "child-rearing"),
       v("出生率", "birth rate"),
@@ -111,17 +118,18 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       topicEn: "Chatting about a party",
     },
     dialogue: [
-      line("A", "老师好！", "Hello, teacher!"),
-      line("B", "哦，杰克！有派对哦！", "Oh, Jack! There’s a party!"),
-      line("A", "派对？什么派对？", "A party? What kind?"),
-      line("B", "台湾美食派对。你喜欢派对吗？", "A Taiwanese food party. Do you like parties?"),
-      line("A", "我喜欢吃！可是我不喝酒，也不太会跟别人聊天。", "I like eating! But I don’t drink, and I’m not great at chatting with people."),
-      line("B", "没关系，还可以唱歌跳舞。", "That’s okay. You can also sing and dance."),
-      line("A", "我唱歌跳舞都不行，不过我喜欢听别人唱歌、看别人跳舞。", "I’m no good at singing or dancing, but I like listening to others sing and watching them dance."),
-      line("B", "也可以啊。要不你帮忙做菜好了！我们要做刈包、珍珠奶茶、炒米粉和贡丸汤。", "That works too. How about you help cook? We’re making gua bao, bubble tea, fried rice noodles, and pork-ball soup."),
-      line("A", "太好了！都是我爱吃的！老师教我做！", "Perfect! Those are all my favorites! Teacher, show me how!"),
-      line("B", "没问题，我也很高兴多一个助手！", "No problem. I’m glad to have an extra helper!"),
+      notedLine(LESSON_1_7_LINE_NOTES, "A", "老师好！", "Hello, teacher!"),
+      notedLine(LESSON_1_7_LINE_NOTES, "B", "哦，杰克！有派对哦！", "Oh, Jack! There’s a party!"),
+      notedLine(LESSON_1_7_LINE_NOTES, "A", "派对？什么派对？", "A party? What kind?"),
+      notedLine(LESSON_1_7_LINE_NOTES, "B", "台湾美食派对。你喜欢派对吗？", "A Taiwanese food party. Do you like parties?"),
+      notedLine(LESSON_1_7_LINE_NOTES, "A", "我喜欢吃！可是我不喝酒，也不太会跟别人聊天。", "I like eating! But I don’t drink, and I’m not great at chatting with people."),
+      notedLine(LESSON_1_7_LINE_NOTES, "B", "没关系，还可以唱歌跳舞。", "That’s okay. You can also sing and dance."),
+      notedLine(LESSON_1_7_LINE_NOTES, "A", "我唱歌跳舞都不行，不过我喜欢听别人唱歌、看别人跳舞。", "I’m no good at singing or dancing, but I like listening to others sing and watching them dance."),
+      notedLine(LESSON_1_7_LINE_NOTES, "B", "也可以啊。要不你帮忙做菜好了！我们要做刈包、珍珠奶茶、炒米粉和贡丸汤。", "That works too. How about you help cook? We’re making gua bao, bubble tea, fried rice noodles, and pork-ball soup."),
+      notedLine(LESSON_1_7_LINE_NOTES, "A", "太好了！都是我爱吃的！老师教我做！", "Perfect! Those are all my favorites! Teacher, show me how!"),
+      notedLine(LESSON_1_7_LINE_NOTES, "B", "没问题，我也很高兴多一个助手！", "No problem. I’m glad to have an extra helper!"),
     ],
+    coreVocabulary: LESSON_1_7_CORE_VOCAB,
     vocabulary: [
       v("开派对", "throw a party"),
       v("趴", "party (slang)"),
@@ -185,18 +193,19 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       topicEn: "Chatting about shopping in the elevator",
     },
     dialogue: [
-      line("A", "王妈妈早。", "Good morning, Auntie Wang."),
-      line("B", "早，早。去买东西啊？", "Morning, morning. Going shopping?"),
-      line("A", "对，去超市。", "Yes, to the supermarket."),
-      line("B", "怎么不去大菜市？传统市场东西多，又新鲜又便宜。", "Why not the big wet market? Traditional markets have more, and it’s fresher and cheaper."),
-      line("A", "超市有定价我感觉比较安心。不过大菜市好像真的比较新鲜和便宜，下次去看看。", "Supermarkets have set prices, so I feel safer. But the wet market does seem fresher and cheaper. I’ll try it next time."),
-      line("B", "对了，春天百货在打折你知道吗？周年庆，还有很多限定的东西哦！", "By the way, Spring Department Store is on sale — you know? Anniversary event, lots of limited items!"),
-      line("A", "真的吗？每天忙着上班都不知道。", "Really? I’ve been so busy with work I had no idea."),
-      line("B", "噢！我明天要去量贩店，要不要一起去？我们可以合买。", "Oh! I’m going to the warehouse store tomorrow. Want to come? We can split bulk packs."),
-      line("A", "太好了，我一直想去量贩店，可是只有我一个人，大包装吃不完用不完。", "Perfect. I’ve been wanting to go, but I’m alone — the big packs never get finished."),
-      line("B", "那我们明天早上9点出发，在楼下门口等我。", "Then we leave at 9 tomorrow. Wait for me at the downstairs entrance."),
-      line("A", "好，谢谢王妈妈！王妈妈再见！", "Okay, thanks Auntie Wang! See you!"),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "王妈妈早。", "Good morning, Auntie Wang."),
+      notedLine(LESSON_1_8_LINE_NOTES, "B", "早，早。去买东西啊？", "Morning, morning. Going shopping?"),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "对，去超市。", "Yes, to the supermarket."),
+      notedLine(LESSON_1_8_LINE_NOTES, "B", "怎么不去大菜市？传统市场东西多，又新鲜又便宜。", "Why not the big wet market? Traditional markets have more, and it’s fresher and cheaper."),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "超市有定价我感觉比较安心。不过大菜市好像真的比较新鲜和便宜，下次去看看。", "Supermarkets have set prices, so I feel safer. But the wet market does seem fresher and cheaper. I’ll try it next time."),
+      notedLine(LESSON_1_8_LINE_NOTES, "B", "对了，春天百货在打折你知道吗？周年庆，还有很多限定的东西哦！", "By the way, Spring Department Store is on sale — you know? Anniversary event, lots of limited items!"),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "真的吗？每天忙着上班都不知道。", "Really? I’ve been so busy with work I had no idea."),
+      notedLine(LESSON_1_8_LINE_NOTES, "B", "噢！我明天要去量贩店，要不要一起去？我们可以合买。", "Oh! I’m going to the warehouse store tomorrow. Want to come? We can split bulk packs."),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "太好了，我一直想去量贩店，可是只有我一个人，大包装吃不完用不完。", "Perfect. I’ve been wanting to go, but I’m alone — the big packs never get finished."),
+      notedLine(LESSON_1_8_LINE_NOTES, "B", "那我们明天早上9点出发，在楼下门口等我。", "Then we leave at 9 tomorrow. Wait for me at the downstairs entrance."),
+      notedLine(LESSON_1_8_LINE_NOTES, "A", "好，谢谢王妈妈！王妈妈再见！", "Okay, thanks Auntie Wang! See you!"),
     ],
+    coreVocabulary: LESSON_1_8_CORE_VOCAB,
     vocabulary: [
       v("网购", "shop online"),
       v("讲／杀／砍价", "haggle / bargain down the price"),
@@ -260,22 +269,23 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       topicEn: "Chatting about hobbies",
     },
     dialogue: [
-      line("A", "你在做什么？", "What are you doing?"),
-      line("B", "剪纸。", "Paper cutting."),
-      line("A", "剪纸？你什么时候开始有这个爱好的？我怎么不知道！", "Paper cutting? When did you start this hobby? How did I not know!"),
-      line("B", "今年年初才开始的，很有意思。", "Only at the beginning of this year. It’s really interesting."),
-      line("A", "好漂亮！嗯……在我的拼贴画上贴你的剪纸，应该不错！", "So pretty! Hmm… sticking your paper cuts on my collage would look good!"),
-      line("B", "拼贴画？什么拼贴画？", "Collage? What collage?"),
-      line("A", "把实物或各种材料贴在画面上的一种画，像这样……", "A picture where you paste real objects or materials onto the surface, like this…"),
-      line("B", "哇！这些都是你拼贴的吗？好厉害！", "Wow! You collaged all of these? Amazing!"),
-      line(
+      notedLine(LESSON_1_9_LINE_NOTES, "A", "你在做什么？", "What are you doing?"),
+      notedLine(LESSON_1_9_LINE_NOTES, "B", "剪纸。", "Paper cutting."),
+      notedLine(LESSON_1_9_LINE_NOTES, "A", "剪纸？你什么时候开始有这个爱好的？我怎么不知道！", "Paper cutting? When did you start this hobby? How did I not know!"),
+      notedLine(LESSON_1_9_LINE_NOTES, "B", "今年年初才开始的，很有意思。", "Only at the beginning of this year. It’s really interesting."),
+      notedLine(LESSON_1_9_LINE_NOTES, "A", "好漂亮！嗯……在我的拼贴画上贴你的剪纸，应该不错！", "So pretty! Hmm… sticking your paper cuts on my collage would look good!"),
+      notedLine(LESSON_1_9_LINE_NOTES, "B", "拼贴画？什么拼贴画？", "Collage? What collage?"),
+      notedLine(LESSON_1_9_LINE_NOTES, "A", "把实物或各种材料贴在画面上的一种画，像这样……", "A picture where you paste real objects or materials onto the surface, like this…"),
+      notedLine(LESSON_1_9_LINE_NOTES, "B", "哇！这些都是你拼贴的吗？好厉害！", "Wow! You collaged all of these? Amazing!"),
+      notedLine(LESSON_1_9_LINE_NOTES,
         "A",
         "没有啦！随便弄的。其实我最想学的是油画，可是一直没行动。如果可以培养任何爱好，你还想要有什么兴趣爱好？",
         "Nah, I just threw them together. What I really want to learn is oil painting, but I never act. If you could take up any hobby, what else would you want?",
       ),
-      line("B", "我最近迷上了摄影，想换单眼相机〔单反相机〕。", "I’ve gotten into photography lately. I want to switch to an SLR."),
-      line("A", "太好了！你要出外景的时候记得找我啊！", "Great! When you go shoot on location, remember to take me!"),
+      notedLine(LESSON_1_9_LINE_NOTES, "B", "我最近迷上了摄影，想换单眼相机〔单反相机〕。", "I’ve gotten into photography lately. I want to switch to an SLR."),
+      notedLine(LESSON_1_9_LINE_NOTES, "A", "太好了！你要出外景的时候记得找我啊！", "Great! When you go shoot on location, remember to take me!"),
     ],
+    coreVocabulary: LESSON_1_9_CORE_VOCAB,
     vocabulary: [
       v("兴趣", "interest"),
       v("爱好", "hobby"),
@@ -342,17 +352,18 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       topicEn: "Buying a late-night snack and chatting about bad habits",
     },
     dialogue: [
-      line("A", "你要不要吃宵夜？我要去买生煎包。", "Want a late-night snack? I’m going to buy pan-fried buns."),
-      line("B", "我不吃宵夜。吃宵夜不好吧，要睡觉了，不好消化。", "I don’t eat late-night snacks. It’s not good, right? We’re about to sleep — hard to digest."),
-      line("A", "我不吃早餐，没问题。", "I don’t eat breakfast. It’s fine."),
-      line("B", "你好像坏习惯不少，又抽烟〔吸烟〕又喝酒。", "You seem to have quite a few bad habits — smoking and drinking."),
-      line("A", "想戒烟啊！戒不掉，太难了。", "I want to quit smoking! I can’t. It’s too hard."),
-      line("B", "交个女朋友吧，说不定立刻改掉坏习惯。", "Get a girlfriend. Maybe you’d drop the bad habits overnight."),
-      line("A", "希望如此，不过要是我的女友要我改这改那的也很烦。你呢？你没有坏习惯？", "I hope so. But it’d also be annoying if a girlfriend made me change this and that. You? No bad habits?"),
-      line("B", "Hmm. 我的坏习惯大概是晚睡吧，每次都想早点睡，一上网，不知不觉就半夜1点了。", "Hmm. Mine is probably staying up late. I always mean to sleep early, get online, and it’s 1 a.m. before I notice."),
-      line("A", "那更应该要吃宵夜！你真的不要？我去买了！", "Then you need a snack even more! You really don’t want one? I’m going!"),
-      line("B", "要不然帮我带一碗芒果冰好了，好热！", "Then bring me a bowl of mango ice. It’s so hot!"),
+      notedLine(LESSON_1_10_LINE_NOTES, "A", "你要不要吃宵夜？我要去买生煎包。", "Want a late-night snack? I’m going to buy pan-fried buns."),
+      notedLine(LESSON_1_10_LINE_NOTES, "B", "我不吃宵夜。吃宵夜不好吧，要睡觉了，不好消化。", "I don’t eat late-night snacks. It’s not good, right? We’re about to sleep — hard to digest."),
+      notedLine(LESSON_1_10_LINE_NOTES, "A", "我不吃早餐，没问题。", "I don’t eat breakfast. It’s fine."),
+      notedLine(LESSON_1_10_LINE_NOTES, "B", "你好像坏习惯不少，又抽烟〔吸烟〕又喝酒。", "You seem to have quite a few bad habits — smoking and drinking."),
+      notedLine(LESSON_1_10_LINE_NOTES, "A", "想戒烟啊！戒不掉，太难了。", "I want to quit smoking! I can’t. It’s too hard."),
+      notedLine(LESSON_1_10_LINE_NOTES, "B", "交个女朋友吧，说不定立刻改掉坏习惯。", "Get a girlfriend. Maybe you’d drop the bad habits overnight."),
+      notedLine(LESSON_1_10_LINE_NOTES, "A", "希望如此，不过要是我的女友要我改这改那的也很烦。你呢？你没有坏习惯？", "I hope so. But it’d also be annoying if a girlfriend made me change this and that. You? No bad habits?"),
+      notedLine(LESSON_1_10_LINE_NOTES, "B", "Hmm. 我的坏习惯大概是晚睡吧，每次都想早点睡，一上网，不知不觉就半夜1点了。", "Hmm. Mine is probably staying up late. I always mean to sleep early, get online, and it’s 1 a.m. before I notice."),
+      notedLine(LESSON_1_10_LINE_NOTES, "A", "那更应该要吃宵夜！你真的不要？我去买了！", "Then you need a snack even more! You really don’t want one? I’m going!"),
+      notedLine(LESSON_1_10_LINE_NOTES, "B", "要不然帮我带一碗芒果冰好了，好热！", "Then bring me a bowl of mango ice. It’s so hot!"),
     ],
+    coreVocabulary: LESSON_1_10_CORE_VOCAB,
     vocabulary: [
       v("宵夜", "late-night snack"),
       v("改坏习惯", "change a bad habit"),

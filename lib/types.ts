@@ -24,6 +24,11 @@ export type DialogueLine = {
   speaker: "A" | "B" | "stage"
   hanzi: string
   en: string
+  /**
+   * Required in shipped lessons: build every line with notedLine() so missing
+   * notes throw at module load. Kept optional on the type so drafts can compile
+   * while a notes file is in progress — content/unit-1.ts still asserts it.
+   */
   miniLessons?: MiniLesson[]
 }
 

@@ -1,0 +1,206 @@
+import type { MiniLesson, VocabItem } from "@/lib/types"
+import { ex, ml, v } from "./note-helpers"
+
+export const LESSON_1_5_CORE_VOCAB: VocabItem[] = [
+  v("喂", "hello (on the phone)"),
+  v("有空", "to be free"),
+  v("带", "to bring"),
+  v("庭院", "yard; courtyard"),
+  v("烤肉", "to barbecue"),
+  v("热闹", "lively; bustling"),
+  v("麻烦", "trouble; to trouble (someone)"),
+  v("道", "measure word for dishes"),
+  v("负责", "to be in charge of"),
+  v("拼盘", "platter (assorted)"),
+  v("写生", "to sketch from life"),
+  v("折纸", "origami"),
+  v("积木", "building blocks"),
+  v("幼教", "preschool education"),
+  v("变魔术", "to do magic tricks"),
+]
+
+export const LESSON_1_5_LINE_NOTES: Record<string, MiniLesson[]> = {
+  "（电话铃声）": [
+    ml("舞台提示", "stage direction", [
+      "（） around a sound or action is not spoken as dialogue. 电话铃声 = phone ringing. You can skip reading it aloud.",
+    ]),
+  ],
+  "喂？": [
+    ml(
+      "喂？",
+      "hello? (phone)",
+      [
+        "First word when you pick up. Rising tone — 'hello?' Waiting to hear who it is.",
+      ],
+      {
+        compare: [
+          { label: "on the phone", hanzi: "喂？", en: "hello? (picking up)" },
+          { label: "in person", hanzi: "你好", en: "hello (not 喂)" },
+        ],
+      }
+    ),
+  ],
+  "喂，琳姐，我是小芳。下周末有空吗？带小孩来我家玩吧！": [
+    ml(
+      "琳姐 / 我是小芳",
+      "address + self-intro on the phone",
+      [
+        "姐 after a name is warm, not always a real sister. 我是 + name is how you identify yourself on a call.",
+      ],
+      {
+        examples: [ex("喂，我是小王。", "Hi, this is Xiao Wang.")],
+      }
+    ),
+    ml(
+      "有空吗？带…来…吧",
+      "are you free? bring … over",
+      [
+        "下周末有空吗 is a standard invite opener. 带小孩来我家玩吧 — 带 + person + 来 + place.",
+      ],
+      {
+        pattern: "带 + person + 来 + place",
+      }
+    ),
+  ],
+  "哇，怎么这么好！": [
+    ml(
+      "怎么这么好",
+      "that's so nice of you!",
+      [
+        "怎么 + 这么 + adj = how can it be this…! Delight, not a real question.",
+      ],
+      {
+        examples: [ex("怎么这么贵！", "How is it this expensive!")],
+      }
+    ),
+  ],
+  "在我家庭院烤肉，人多热闹！": [
+    ml(
+      "人多热闹",
+      "the more people, the livelier",
+      [
+        "Two short comments stacked. 热闹 is a key party word — noisy in a good way.",
+      ],
+      {
+        examples: [ex("夜市很热闹。", "The night market is lively.")],
+      }
+    ),
+  ],
+  "有大庭院真好！你不用太麻烦，我带两道菜过去吧。": [
+    ml("有…真好", "it's so nice to have…", [
+      "Compliment the house. 真好 after a noun phrase.",
+    ]),
+    ml(
+      "不用太麻烦",
+      "don't go to too much trouble",
+      [
+        "Guest politeness. Then offers to 带两道菜 — 道 is the measure word for cooked dishes.",
+      ],
+      {
+        examples: [ex("我带一道汤。", "I'll bring a soup.")],
+      }
+    ),
+  ],
+  "你负责沙拉和水果拼盘就好，其他我弄。": [
+    ml("沙拉 / 色拉 / 沙律", "salad, three writings", [
+      "The book notes 沙拉 is also written 色拉 or 沙律. Same word, different regions. Learn 沙拉 as the default in this course.",
+    ]),
+    ml(
+      "…就好，其他我弄",
+      "just do …, I'll handle the rest",
+      [
+        "就好 = that's all you need to do. 弄 = take care of / make, very spoken.",
+      ],
+      {
+        examples: [
+          ex(
+            "你洗碗就好，其他我弄。",
+            "Just do the dishes; I'll handle the rest."
+          ),
+        ],
+      }
+    ),
+  ],
+  "好。饭后给小孩玩什么？": [
+    ml(
+      "饭后给…玩什么",
+      "what should the kids play after the meal?",
+      [
+        "饭后 = after the meal. 给 + person + 玩 + what. Planning kids' activities.",
+      ],
+      {
+        pattern: "给 + person + V + 什么",
+      }
+    ),
+  ],
+  "如果喜欢画图的话，可以在庭院写生。也可以折纸、打牌、玩积木、打游戏。": [
+    ml(
+      "如果…的话，可以…",
+      "if they like…, they can…",
+      [
+        "的话 tags the if-clause. 写生 = sketch from life, a nice outdoor verb.",
+      ],
+      {
+        pattern: "如果 + situation + 的话，可以 + V",
+      }
+    ),
+    ml("也可以 A、B、C", "they can also…", [
+      "List of activities: 折纸、打牌、玩积木、打游戏. 打游戏 = play video games.",
+    ]),
+  ],
+  "最好别打游戏，我想一些创意活动吧。": [
+    ml(
+      "最好别…",
+      "better not…",
+      ["Soft prohibition. 别 + verb. 创意活动 = creative activities."],
+      {
+        examples: [ex("最好别迟到。", "Better not be late.")],
+      }
+    ),
+  ],
+  "你是幼教老师，活动就交给你啦。": [
+    ml(
+      "就交给你啦",
+      "I'll leave it to you then",
+      [
+        "交给 + person. 啦 is warm and final. Because she is a 幼教老师 (preschool teacher).",
+      ],
+      {
+        examples: [ex("这件事交给你。", "I'll leave this to you.")],
+      }
+    ),
+  ],
+  "我们学校有个老师会变魔术，要不也邀请他来？教魔术。": [
+    ml(
+      "要不…？",
+      "how about…?",
+      [
+        "Suggestion. 要不 + idea. 会变魔术 = knows how to do magic. 邀请他来 = invite him over.",
+      ],
+      {
+        examples: [ex("要不明天去？", "How about going tomorrow?")],
+      }
+    ),
+  ],
+  "好耶！我不曾这么近距离地看魔术，小孩们一定超兴奋的！": [
+    ml("好耶", "yay!", ["Cheerful yes. More excited than 好."]),
+    ml(
+      "不曾",
+      "have never (before)",
+      ["A bit literary / Taiwan textbook flavor. Same idea as 从来没有."],
+      {
+        compare: [
+          {
+            label: "more written",
+            hanzi: "不曾",
+            en: "have never (textbook / literary flavor)",
+          },
+          { label: "more spoken", hanzi: "从来没", en: "have never" },
+        ],
+      }
+    ),
+    ml("一定超兴奋", "they'll definitely be super excited", [
+      "超 + adj is very spoken 'super'. 近距离地 = from close up (adverb 地).",
+    ]),
+  ],
+}

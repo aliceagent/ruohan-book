@@ -1,3 +1,7 @@
+/**
+ * RULE: every dialogue line is built with notedLine(LESSON_X_Y_LINE_NOTES, …).
+ * Do not add a local line() helper that skips mini lessons. Keys must match 汉字 exactly.
+ */
 import {
   LESSON_1_1_CHUNKS,
   LESSON_1_1_CORE_VOCAB,
@@ -7,24 +11,12 @@ import {
   LESSON_1_1_PRACTICE,
   LESSON_1_1_SLEEP_FAMILY,
 } from "@/content/lessons/1-1-notes"
-import type { DialogueLine, Lesson, MiniLesson, Question, VocabItem } from "@/lib/types"
-
-function line(
-  speaker: DialogueLine["speaker"],
-  hanzi: string,
-  en: string,
-  miniLessons?: MiniLesson[],
-): DialogueLine {
-  return miniLessons ? { speaker, hanzi, en, miniLessons } : { speaker, hanzi, en }
-}
-
-function sleepLine(speaker: DialogueLine["speaker"], hanzi: string, en: string): DialogueLine {
-  const miniLessons = LESSON_1_1_LINE_NOTES[hanzi]
-  if (!miniLessons) {
-    throw new Error(`Missing mini lessons for 1-1 line: ${hanzi}`)
-  }
-  return line(speaker, hanzi, en, miniLessons)
-}
+import { LESSON_1_2_CORE_VOCAB, LESSON_1_2_LINE_NOTES } from "@/content/lessons/1-2-notes"
+import { LESSON_1_3_CORE_VOCAB, LESSON_1_3_LINE_NOTES } from "@/content/lessons/1-3-notes"
+import { LESSON_1_4_CORE_VOCAB, LESSON_1_4_LINE_NOTES } from "@/content/lessons/1-4-notes"
+import { LESSON_1_5_CORE_VOCAB, LESSON_1_5_LINE_NOTES } from "@/content/lessons/1-5-notes"
+import { notedLine } from "@/content/lessons/note-helpers"
+import type { Lesson, Question, VocabItem } from "@/lib/types"
 
 function v(hanzi: string, en: string): VocabItem {
   return { hanzi, en }
@@ -53,37 +45,37 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Coffee and chatting about sleep",
     },
     dialogue: [
-      sleepLine("stage", "（打呵欠）", "(Yawns)"),
-      sleepLine("B", "怎么一大早就打呵欠？", "Why are you yawning so early in the morning?"),
-      sleepLine("A", "昨天没睡好。", "I didn’t sleep well last night."),
-      sleepLine("B", "怎么了？", "What happened? / What’s wrong?"),
-      sleepLine(
+      notedLine(LESSON_1_1_LINE_NOTES, "stage", "（打呵欠）", "(Yawns)"),
+      notedLine(LESSON_1_1_LINE_NOTES, "B", "怎么一大早就打呵欠？", "Why are you yawning so early in the morning?"),
+      notedLine(LESSON_1_1_LINE_NOTES, "A", "昨天没睡好。", "I didn’t sleep well last night."),
+      notedLine(LESSON_1_1_LINE_NOTES, "B", "怎么了？", "What happened? / What’s wrong?"),
+      notedLine(LESSON_1_1_LINE_NOTES,
         "A",
         "我做了个恶梦，梦见有人在追我，一直追、一直追，我拼命跑，最后掉进一个山谷。",
         "I had a nightmare. I dreamed that someone was chasing me. They kept chasing and chasing me. I ran for my life, and eventually I fell into a valley.",
       ),
-      sleepLine(
+      notedLine(LESSON_1_1_LINE_NOTES,
         "B",
         "是不是压力太大了？你平常睡得好吗？",
         "Could it be that you’re under too much stress? Do you normally sleep well?",
       ),
-      sleepLine("A", "不太好，总是觉得睡眠不足。", "Not very well. I always feel like I don’t get enough sleep."),
-      sleepLine(
+      notedLine(LESSON_1_1_LINE_NOTES, "A", "不太好，总是觉得睡眠不足。", "Not very well. I always feel like I don’t get enough sleep."),
+      notedLine(LESSON_1_1_LINE_NOTES,
         "B",
         "我听一个睡眠专家的医生说，早上多晒太阳，可以帮助睡眠。",
         "I heard a doctor who specializes in sleep say that getting more sunlight in the morning can help with sleep.",
       ),
-      sleepLine(
+      notedLine(LESSON_1_1_LINE_NOTES,
         "A",
         "真的吗？我可能真的太阳晒不够。你呢？你都睡得好吗？",
         "Really? Maybe I really don’t get enough sunlight. What about you? Do you usually sleep well?",
       ),
-      sleepLine(
+      notedLine(LESSON_1_1_LINE_NOTES,
         "B",
         "几乎都是5分钟内睡着，一觉到天亮。",
         "I almost always fall asleep within five minutes and sleep straight through until morning.",
       ),
-      sleepLine("A", "真羡慕！", "I’m so jealous!"),
+      notedLine(LESSON_1_1_LINE_NOTES, "A", "真羡慕！", "I’m so jealous!"),
     ],
     coreVocabulary: LESSON_1_1_CORE_VOCAB,
     chunks: LESSON_1_1_CHUNKS,
@@ -163,17 +155,18 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Chatting about time planning",
     },
     dialogue: [
-      line("A", "你交报告了吗？", "Have you turned in the report?"),
-      line("B", "还没，我的坏习惯，都要拖到最后一刻。你呢？", "Not yet. My bad habit — I always drag it out until the last minute. How about you?"),
-      line("A", "交了。我都是按时完成的，不早一点做完不安心。", "I turned it in. I always finish on time. I don’t feel at ease if I don’t finish a bit early."),
-      line("B", "如果一天有25个小时就好了。", "If only a day had 25 hours."),
-      line("A", "如果一天有25个小时，你要用多的那一小时做什么？", "If a day had 25 hours, what would you do with the extra hour?"),
-      line("B", "可以看电影、睡觉。", "Watch movies, sleep."),
-      line("A", "结果报告还是最后一刻才完成？", "So the report would still get finished at the last minute?"),
-      line("B", "我得向你学习学习。你都怎么规划时间的？我总觉得时间不够用。", "I should learn from you. How do you plan your time? I always feel there isn’t enough."),
-      line("A", "我习惯用记事手册手写，你看。", "I’m used to writing in a paper planner. Look."),
-      line("B", "真有条理，好像用写的比用手机更能提醒自己。我也去买一本好了。", "So organized. Writing it down seems more of a reminder than a phone. I’ll go buy one too."),
+      notedLine(LESSON_1_2_LINE_NOTES, "A", "你交报告了吗？", "Have you turned in the report?"),
+      notedLine(LESSON_1_2_LINE_NOTES, "B", "还没，我的坏习惯，都要拖到最后一刻。你呢？", "Not yet. My bad habit — I always drag it out until the last minute. How about you?"),
+      notedLine(LESSON_1_2_LINE_NOTES, "A", "交了。我都是按时完成的，不早一点做完不安心。", "I turned it in. I always finish on time. I don’t feel at ease if I don’t finish a bit early."),
+      notedLine(LESSON_1_2_LINE_NOTES, "B", "如果一天有25个小时就好了。", "If only a day had 25 hours."),
+      notedLine(LESSON_1_2_LINE_NOTES, "A", "如果一天有25个小时，你要用多的那一小时做什么？", "If a day had 25 hours, what would you do with the extra hour?"),
+      notedLine(LESSON_1_2_LINE_NOTES, "B", "可以看电影、睡觉。", "Watch movies, sleep."),
+      notedLine(LESSON_1_2_LINE_NOTES, "A", "结果报告还是最后一刻才完成？", "So the report would still get finished at the last minute?"),
+      notedLine(LESSON_1_2_LINE_NOTES, "B", "我得向你学习学习。你都怎么规划时间的？我总觉得时间不够用。", "I should learn from you. How do you plan your time? I always feel there isn’t enough."),
+      notedLine(LESSON_1_2_LINE_NOTES, "A", "我习惯用记事手册手写，你看。", "I’m used to writing in a paper planner. Look."),
+      notedLine(LESSON_1_2_LINE_NOTES, "B", "真有条理，好像用写的比用手机更能提醒自己。我也去买一本好了。", "So organized. Writing it down seems more of a reminder than a phone. I’ll go buy one too."),
     ],
+    coreVocabulary: LESSON_1_2_CORE_VOCAB,
     vocabulary: [
       v("守时", "punctual"),
       v("夜猫子", "night owl"),
@@ -235,21 +228,22 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Turning down an invite because of housework",
     },
     dialogue: [
-      line("A", "下班后去喝一杯吧？", "Want to grab a drink after work?"),
-      line("B", "不好意思，今天轮到我煮饭。", "Sorry — it’s my turn to cook today."),
-      line("A", "你家用轮的？你负责星期几的？", "You take turns at home? Which days are yours?"),
-      line("B", "周末。你呢？你帮忙家务吗？", "Weekends. What about you? Do you help with housework?"),
-      line("A", "我负责洗碗和倒垃圾。我太太喜欢煮饭，可是不爱洗碗。", "I do the dishes and take out the trash. My wife likes cooking but hates washing dishes."),
-      line("B", "买一台洗碗机吧，很方便。", "Buy a dishwasher. It’s convenient."),
-      line("A", "还有我们都不喜欢熨衣服，熨衣服是最没有意思的家务。", "And neither of us likes ironing. Ironing is the most boring chore."),
-      line("B", "我也不喜欢熨衣服，要是有个机器人就好了！", "I don’t like ironing either. If only we had a robot!"),
-      line(
+      notedLine(LESSON_1_3_LINE_NOTES, "A", "下班后去喝一杯吧？", "Want to grab a drink after work?"),
+      notedLine(LESSON_1_3_LINE_NOTES, "B", "不好意思，今天轮到我煮饭。", "Sorry — it’s my turn to cook today."),
+      notedLine(LESSON_1_3_LINE_NOTES, "A", "你家用轮的？你负责星期几的？", "You take turns at home? Which days are yours?"),
+      notedLine(LESSON_1_3_LINE_NOTES, "B", "周末。你呢？你帮忙家务吗？", "Weekends. What about you? Do you help with housework?"),
+      notedLine(LESSON_1_3_LINE_NOTES, "A", "我负责洗碗和倒垃圾。我太太喜欢煮饭，可是不爱洗碗。", "I do the dishes and take out the trash. My wife likes cooking but hates washing dishes."),
+      notedLine(LESSON_1_3_LINE_NOTES, "B", "买一台洗碗机吧，很方便。", "Buy a dishwasher. It’s convenient."),
+      notedLine(LESSON_1_3_LINE_NOTES, "A", "还有我们都不喜欢熨衣服，熨衣服是最没有意思的家务。", "And neither of us likes ironing. Ironing is the most boring chore."),
+      notedLine(LESSON_1_3_LINE_NOTES, "B", "我也不喜欢熨衣服，要是有个机器人就好了！", "I don’t like ironing either. If only we had a robot!"),
+      notedLine(LESSON_1_3_LINE_NOTES,
         "A",
         "应该在不久后的未来就会有了，现在不是已经有扫地机器人、煮饭机器人，和照护老人的机器人了？",
         "There probably will be, soon. Don’t we already have robot vacuums, cooking robots, and robots that care for the elderly?",
       ),
-      line("B", "我希望有机器人包办所有的家务！", "I wish a robot would take over all the housework!"),
+      notedLine(LESSON_1_3_LINE_NOTES, "B", "我希望有机器人包办所有的家务！", "I wish a robot would take over all the housework!"),
     ],
+    coreVocabulary: LESSON_1_3_CORE_VOCAB,
     vocabulary: [
       v("家务", "housework"),
       v("职责", "duty / responsibility"),
@@ -314,24 +308,25 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Inviting someone to a singles mixer",
     },
     dialogue: [
-      line("A", "你现在有女朋友吗？这周末有个未婚联谊要不要一起去？", "Do you have a girlfriend now? There’s a singles mixer this weekend — want to go together?"),
-      line("B", "联谊？听起来挺好玩的，可是我还不想结婚。", "A mixer? Sounds fun, but I don’t want to get married yet."),
-      line(
+      notedLine(LESSON_1_4_LINE_NOTES, "A", "你现在有女朋友吗？这周末有个未婚联谊要不要一起去？", "Do you have a girlfriend now? There’s a singles mixer this weekend — want to go together?"),
+      notedLine(LESSON_1_4_LINE_NOTES, "B", "联谊？听起来挺好玩的，可是我还不想结婚。", "A mixer? Sounds fun, but I don’t want to get married yet."),
+      notedLine(LESSON_1_4_LINE_NOTES,
         "A",
         "不一定要急着结婚，先交个朋友也不错。我想看看能不能在35岁前找到另一半。",
         "You don’t have to rush into marriage. Making friends is fine too. I want to see if I can find a partner before 35.",
       ),
-      line("B", "你理想伴侣的条件是什么？", "What are your conditions for an ideal partner?"),
-      line("A", "温柔体贴、个性好就好了。", "Gentle, considerate, a good personality — that’s enough."),
-      line(
+      notedLine(LESSON_1_4_LINE_NOTES, "B", "你理想伴侣的条件是什么？", "What are your conditions for an ideal partner?"),
+      notedLine(LESSON_1_4_LINE_NOTES, "A", "温柔体贴、个性好就好了。", "Gentle, considerate, a good personality — that’s enough."),
+      notedLine(LESSON_1_4_LINE_NOTES,
         "B",
         "同意，我听说女生可挑了，要高富帅、体贴耐心、有房有车、有好婆婆等等，我们可能都不够格。",
         "Agreed. I hear women can be picky: tall, rich, handsome, considerate, patient, house, car, a good mother-in-law… we might not qualify.",
       ),
-      line("A", "缘分吧，不是每一个女生都那么势利眼的。怎么样，一起去看看吧。", "It’s fate. Not every woman is that snobbish. Come on, let’s go take a look."),
-      line("B", "好吧，几点？", "Fine. What time?"),
-      line("A", "周六上午11点我去你家接你。", "Saturday at 11 a.m. I’ll pick you up at your place."),
+      notedLine(LESSON_1_4_LINE_NOTES, "A", "缘分吧，不是每一个女生都那么势利眼的。怎么样，一起去看看吧。", "It’s fate. Not every woman is that snobbish. Come on, let’s go take a look."),
+      notedLine(LESSON_1_4_LINE_NOTES, "B", "好吧，几点？", "Fine. What time?"),
+      notedLine(LESSON_1_4_LINE_NOTES, "A", "周六上午11点我去你家接你。", "Saturday at 11 a.m. I’ll pick you up at your place."),
     ],
+    coreVocabulary: LESSON_1_4_CORE_VOCAB,
     vocabulary: [
       v("婆媳问题", "mother-in-law / daughter-in-law conflict"),
       v("配偶", "spouse"),
@@ -396,20 +391,21 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Inviting someone to a family party",
     },
     dialogue: [
-      line("stage", "（电话铃声）", "(Phone rings)"),
-      line("B", "喂？", "Hello?"),
-      line("A", "喂，琳姐，我是小芳。下周末有空吗？带小孩来我家玩吧！", "Hi, Sister Lin, it’s Xiaofang. Free next weekend? Bring the kids over!"),
-      line("B", "哇，怎么这么好！", "Wow, that’s so nice of you!"),
-      line("A", "在我家庭院烤肉，人多热闹！", "We’ll barbecue in the yard. The more people, the livelier!"),
-      line("B", "有大庭院真好！你不用太麻烦，我带两道菜过去吧。", "A big yard is wonderful! Don’t go to too much trouble. I’ll bring two dishes."),
-      line("A", "你负责沙拉和水果拼盘就好，其他我弄。", "Just take the salad and fruit platter. I’ll handle the rest."),
-      line("B", "好。饭后给小孩玩什么？", "Okay. What will the kids do after the meal?"),
-      line("A", "如果喜欢画图的话，可以在庭院写生。也可以折纸、打牌、玩积木、打游戏。", "If they like drawing, they can sketch in the yard. Or origami, cards, blocks, video games."),
-      line("B", "最好别打游戏，我想一些创意活动吧。", "Better not video games. Let me think of some creative activities."),
-      line("A", "你是幼教老师，活动就交给你啦。", "You’re a preschool teacher — I’ll leave the activities to you."),
-      line("B", "我们学校有个老师会变魔术，要不也邀请他来？教魔术。", "A teacher at our school does magic. Want to invite him too, to teach magic?"),
-      line("A", "好耶！我不曾这么近距离地看魔术，小孩们一定超兴奋的！", "Yes! I’ve never seen magic that close. The kids will be thrilled!"),
+      notedLine(LESSON_1_5_LINE_NOTES, "stage", "（电话铃声）", "(Phone rings)"),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "喂？", "Hello?"),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "喂，琳姐，我是小芳。下周末有空吗？带小孩来我家玩吧！", "Hi, Sister Lin, it’s Xiaofang. Free next weekend? Bring the kids over!"),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "哇，怎么这么好！", "Wow, that’s so nice of you!"),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "在我家庭院烤肉，人多热闹！", "We’ll barbecue in the yard. The more people, the livelier!"),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "有大庭院真好！你不用太麻烦，我带两道菜过去吧。", "A big yard is wonderful! Don’t go to too much trouble. I’ll bring two dishes."),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "你负责沙拉和水果拼盘就好，其他我弄。", "Just take the salad and fruit platter. I’ll handle the rest."),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "好。饭后给小孩玩什么？", "Okay. What will the kids do after the meal?"),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "如果喜欢画图的话，可以在庭院写生。也可以折纸、打牌、玩积木、打游戏。", "If they like drawing, they can sketch in the yard. Or origami, cards, blocks, video games."),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "最好别打游戏，我想一些创意活动吧。", "Better not video games. Let me think of some creative activities."),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "你是幼教老师，活动就交给你啦。", "You’re a preschool teacher — I’ll leave the activities to you."),
+      notedLine(LESSON_1_5_LINE_NOTES, "B", "我们学校有个老师会变魔术，要不也邀请他来？教魔术。", "A teacher at our school does magic. Want to invite him too, to teach magic?"),
+      notedLine(LESSON_1_5_LINE_NOTES, "A", "好耶！我不曾这么近距离地看魔术，小孩们一定超兴奋的！", "Yes! I’ve never seen magic that close. The kids will be thrilled!"),
     ],
+    coreVocabulary: LESSON_1_5_CORE_VOCAB,
     notes: [
       {
         hanzi: "沙拉又称色拉、沙律，凉拌菜的意思。",
