@@ -2,7 +2,23 @@ import type { Lesson, VocabItem } from "@/lib/types"
 import { UNIT_1_LESSONS } from "@/content/unit-1-part-a"
 import { UNIT_1_LESSONS_B } from "@/content/unit-1-part-b"
 
+/**
+ * RULE: every dialogue line in every lesson must have mini lessons.
+ * Assemble lines with notedLine(LESSON_X_Y_LINE_NOTES, speaker, hanzi, en).
+ * Keys are the exact 汉字, including punctuation and textbook 〔〕 notes.
+ * This loop throws at import time so a lesson cannot ship without notes.
+ */
 export const UNIT_1: Lesson[] = [...UNIT_1_LESSONS, ...UNIT_1_LESSONS_B]
+
+for (const lesson of UNIT_1) {
+  for (const line of lesson.dialogue) {
+    if (!line.miniLessons?.length) {
+      throw new Error(
+        `Lesson ${lesson.id} is missing mini lessons for: ${line.hanzi}`,
+      )
+    }
+  }
+}
 
 export function lessonVocabulary(lesson: Lesson): VocabItem[] {
   const seen = new Set<string>()
