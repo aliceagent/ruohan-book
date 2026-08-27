@@ -8,11 +8,12 @@ import type { GlossToken } from "@/lib/gloss"
 import { cn } from "@/lib/utils"
 
 const triggerClass = cn(
-  "cursor-help rounded-[0.35em] px-[0.06em] decoration-rose-400/80 decoration-dotted underline-offset-4",
+  "cursor-help rounded-[0.35em] px-[0.08em]",
+  // Extend the highlight up over ruby so the rounded box doesn't clip pinyin.
+  "box-decoration-clone py-[0.85em] -my-[0.85em] [-webkit-box-decoration-break:clone]",
   "touch-manipulation select-none [-webkit-touch-callout:none]",
-  "[@media(hover:none)]:underline",
-  "hover:bg-rose-200/80 hover:underline dark:hover:bg-rose-900/60",
-  "data-[state=open]:bg-rose-200/80 data-[state=open]:underline dark:data-[state=open]:bg-rose-900/60",
+  "hover:bg-rose-200/80 dark:hover:bg-rose-900/60",
+  "data-[state=open]:bg-rose-200/80 dark:data-[state=open]:bg-rose-900/60",
 )
 
 const contentClass =

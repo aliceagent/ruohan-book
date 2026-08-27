@@ -309,7 +309,7 @@ function ScenarioChip({
 }) {
   const { prefs } = useStudyPrefs()
   return (
-    <Card>
+    <Card className="overflow-visible">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
           {icon}

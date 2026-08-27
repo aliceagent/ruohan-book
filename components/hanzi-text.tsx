@@ -61,9 +61,9 @@ export function HanziText({
       <p
         className={cn(
           "font-medium tracking-wide",
-          rubyOn ? "leading-loose" : "leading-relaxed",
+          rubyOn ? (inspectable ? "leading-[2.35]" : "leading-loose") : "leading-relaxed",
           sizeClass,
-          inspectable && "select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
+          inspectable && "overflow-visible select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
         )}
       >
         {tokens ? (
