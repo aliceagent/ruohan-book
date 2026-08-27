@@ -7,10 +7,16 @@ import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { MiniLessonCard } from "@/components/mini-lesson"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
-import type { DialogueLine } from "@/lib/types"
+import type { DialogueLine, VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-export function ExpandableDialogue({ lines }: { lines: DialogueLine[] }) {
+export function ExpandableDialogue({
+  lines,
+  glossary,
+}: {
+  lines: DialogueLine[]
+  glossary?: VocabItem[]
+}) {
   const expandableCount = lines.filter((line) => (line.miniLessons?.length ?? 0) > 0).length
 
   return (
@@ -18,18 +24,23 @@ export function ExpandableDialogue({ lines }: { lines: DialogueLine[] }) {
       {expandableCount > 0 ? (
         <p className="flex items-start gap-2 text-sm text-muted-foreground">
           <BookOpen className="mt-0.5 size-4 shrink-0" />
-          Open a sentence, or the Mini lesson control, to see the important words and patterns on
-          that line.
+          Hover a word for its meaning and sound, or open Mini lesson for the patterns on that line.
         </p>
       ) : null}
       {lines.map((line, index) => (
-        <DialogueLineCard key={`${line.speaker}-${index}`} line={line} />
+        <DialogueLineCard key={`${line.speaker}-${index}`} line={line} glossary={glossary} />
       ))}
     </div>
   )
 }
 
-function DialogueLineCard({ line }: { line: DialogueLine }) {
+function DialogueLineCard({
+  line,
+  glossary,
+}: {
+  line: DialogueLine
+  glossary?: VocabItem[]
+}) {
   const { prefs } = useStudyPrefs()
   const miniLessons = line.miniLessons ?? []
   const expandable = miniLessons.length > 0
@@ -97,6 +108,8 @@ function DialogueLineCard({ line }: { line: DialogueLine }) {
         ruby={prefs.ruby}
         size="lg"
         className="not-italic"
+        inspectable
+        glossary={glossary}
       />
       {open ? (
         <div

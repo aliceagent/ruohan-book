@@ -45,6 +45,7 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
                 showEnglish={prefs.english}
                 ruby={prefs.ruby}
                 size="sm"
+                inspectable
               />
             </div>
           ))}
@@ -64,6 +65,7 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
                 showEnglish={prefs.english}
                 ruby={prefs.ruby}
                 size="sm"
+                inspectable
               />
               <SpeakButton text={example.hanzi} />
             </li>

@@ -1,7 +1,11 @@
 "use client"
 
 import { SpeakButton } from "@/components/speak-button"
+import { WordHover } from "@/components/word-hover"
+import { tokenizeHanzi, type GlossToken } from "@/lib/gloss"
 import { rubyTokens } from "@/lib/pinyin"
+import { glossaryFor } from "@/lib/unit-glossary"
+import type { VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export { SpeakButton }
@@ -14,6 +18,8 @@ export function HanziText({
   ruby,
   size = "lg",
   className,
+  inspectable = false,
+  glossary,
 }: {
   hanzi: string
   english?: string
@@ -22,6 +28,8 @@ export function HanziText({
   ruby: boolean
   size?: "sm" | "md" | "lg" | "xl"
   className?: string
+  inspectable?: boolean
+  glossary?: VocabItem[]
 }) {
   const sizeClass = {
     sm: "text-base",
@@ -42,13 +50,22 @@ export function HanziText({
     xl: "text-lg",
   }[size]
 
-  const tokens = showPinyin && ruby ? rubyTokens(hanzi) : null
+  const tokens = inspectable ? tokenizeHanzi(hanzi, glossaryFor(glossary)) : null
+  const rubyOn = showPinyin && ruby
 
   return (
     <div className={cn("space-y-1", className)}>
-      {tokens ? (
-        <p className={cn("font-medium leading-loose tracking-wide", sizeClass)}>
-          {tokens.map((token, index) =>
+      <p className={cn("font-medium tracking-wide", rubyOn ? "leading-loose" : "leading-relaxed", sizeClass)}>
+        {tokens ? (
+          tokens.map((token, index) => (
+            <InspectableChunk
+              key={`${token.hanzi}-${index}`}
+              token={token}
+              ruby={rubyOn}
+            />
+          ))
+        ) : rubyOn ? (
+          rubyTokens(hanzi).map((token, index) =>
             token.pinyin ? (
               <ruby key={`${token.hanzi}-${index}`} className="ruby-pair">
                 {token.hanzi}
@@ -57,11 +74,11 @@ export function HanziText({
             ) : (
               <span key={`${token.hanzi}-${index}`}>{token.hanzi}</span>
             ),
-          )}
-        </p>
-      ) : (
-        <p className={cn("font-medium leading-relaxed tracking-wide", sizeClass)}>{hanzi}</p>
-      )}
+          )
+        ) : (
+          hanzi
+        )}
+      </p>
       {showPinyin && !ruby ? (
         <p className={cn("text-rose-800/80 dark:text-rose-200/80", pinyinClass)}>
           {rubyTokens(hanzi)
@@ -74,4 +91,29 @@ export function HanziText({
       ) : null}
     </div>
   )
+}
+
+function InspectableChunk({
+  token,
+  ruby,
+}: {
+  token: GlossToken
+  ruby: boolean
+}) {
+  const body = ruby
+    ? rubyTokens(token.hanzi).map((part, index) =>
+        part.pinyin ? (
+          <ruby key={`${part.hanzi}-${index}`} className="ruby-pair">
+            {part.hanzi}
+            <rt>{part.pinyin}</rt>
+          </ruby>
+        ) : (
+          <span key={`${part.hanzi}-${index}`}>{part.hanzi}</span>
+        ),
+      )
+    : token.hanzi
+
+  if (token.kind !== "word") return <>{body}</>
+
+  return <WordHover token={token}>{body}</WordHover>
 }

@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { questionKey, useProgress } from "@/hooks/use-progress"
 import { adjacentLessons } from "@/content/unit-1"
+import { collectLessonGlosses } from "@/lib/gloss"
 import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
 
@@ -36,6 +37,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const { prev, next } = adjacentLessons(lesson.id)
   const quiz = getLessonQuiz(lesson.id)
   const quizBest = progress.quizBest[lesson.id]
+  const glosses = collectLessonGlosses(lesson)
   const dialogueText = lesson.dialogue
     .filter((line) => line.speaker !== "stage")
     .map((line) => line.hanzi)
@@ -88,7 +90,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <section className="space-y-4">
         <SectionTitle icon={<MessageCircle className="size-4" />} title="情境对话" en="Situational dialogue" />
-        <ExpandableDialogue lines={lesson.dialogue} />
+        <ExpandableDialogue lines={lesson.dialogue} glossary={glosses} />
         {lesson.notes?.map((note) => (
           <p key={note.hanzi} className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">
@@ -159,6 +161,8 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
                   size="md"
+                  inspectable
+                  glossary={glosses}
                 />
               </li>
             ))}
@@ -237,6 +241,8 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
                   size={CONTENT_HANZI_SIZE[prefs.questionSize]}
+                  inspectable
+                  glossary={glosses}
                 />
               </li>
             )
@@ -318,6 +324,7 @@ function ScenarioChip({
           showEnglish={prefs.english}
           ruby={prefs.ruby}
           size="sm"
+          inspectable
         />
       </CardContent>
     </Card>
