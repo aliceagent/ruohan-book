@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
@@ -41,14 +42,11 @@ export default async function UnitPage({
           {unit.status === "ready" ? "Ready to study" : "Mapped, not yet built"}
         </p>
         <h1 className="font-serif text-4xl">
-          Unit {unit.id} {unit.title}
+          Unit {unit.id} <MixedHanzi text={unit.title} />
         </h1>
         <p className="text-lg text-muted-foreground">{unit.titleEn}</p>
         <p className="max-w-2xl text-muted-foreground">
-          Each lesson has a real-world scene, a model dialogue with audio, related words, a
-          10-question quiz drawn from a larger bank, and 20+ questions meant to be asked and
-          answered — not just translated. On 休息睡觉, tap a dialogue line to open a mini lesson on
-          that sentence.
+          <MixedHanzi text="Each lesson has a real-world scene, a model dialogue with audio, related words, a 10-question quiz drawn from a larger bank, and 20+ questions meant to be asked and answered — not just translated. On 休息睡觉, tap a dialogue line to open a mini lesson on that sentence." />
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -81,7 +79,9 @@ export default async function UnitPage({
                     {href ? (
                       <>
                         <Link href={href} className="block">
-                          <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
+                          <CardTitle className="font-serif text-2xl">
+                            <MixedHanzi text={topic.title} />
+                          </CardTitle>
                           <CardDescription>{topic.titleEn}</CardDescription>
                         </Link>
                         <Link href={`/quiz/${topic.id}`} className="text-sm text-rose-800 hover:underline">
@@ -90,7 +90,9 @@ export default async function UnitPage({
                       </>
                     ) : (
                       <>
-                        <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
+                        <CardTitle className="font-serif text-2xl">
+                          <MixedHanzi text={topic.title} />
+                        </CardTitle>
                         <CardDescription>{topic.titleEn}</CardDescription>
                       </>
                     )}

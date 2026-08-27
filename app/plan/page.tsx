@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
+
 export const metadata: Metadata = {
   title: "Plan",
 }
@@ -12,8 +14,7 @@ export default function PlanPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Roadmap</p>
         <h1 className="font-serif text-4xl font-semibold">Website plan</h1>
         <p className="text-lg text-muted-foreground">
-          A conversation gym for 《聊天聊不完》, not a PDF viewer. Unit 1 is the template every later
-          unit will copy.
+          <MixedHanzi text="A conversation gym for 《聊天聊不完》, not a PDF viewer. Unit 1 is the template every later unit will copy." />
         </p>
       </div>
 
@@ -31,7 +32,9 @@ export default function PlanPage() {
         <h2 className="font-serif text-2xl">Now (this launch)</h2>
         <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
           <li>All 22 units catalogued so the map of the book is visible.</li>
-          <li>Unit 1 家庭生活: 10 lessons, dialogues, notes, vocabulary, and every 互动问答 item.</li>
+          <li>
+            <MixedHanzi text="Unit 1 家庭生活: 10 lessons, dialogues, notes, vocabulary, and every 互动问答 item." />
+          </li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
           <li>Official Unit 1 MP3s (01-01 … 01-10) on every lesson and the audio playlist.</li>
           <li>Study desk: search, flashcards, glossary, local progress.</li>
@@ -46,9 +49,7 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Next units</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Same data shape, one unit at a time: 学校生活, 职场, 自我认识, then the rest of the 22.
-          Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays
-          generated so we do not maintain two spellings.
+          <MixedHanzi text="Same data shape, one unit at a time: 学校生活, 职场, 自我认识, then the rest of the 22. Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays generated so we do not maintain two spellings." />
         </p>
       </section>
 
@@ -85,8 +86,7 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Credit</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Source text is from 解丽琪 / Shelley Hsieh, 新学林, 2023. This site is a learner
-          companion with added pinyin and English, not a replacement for the book.
+          <MixedHanzi text="Source text is from 解丽琪 / Shelley Hsieh, 新学林, 2023. This site is a learner companion with added pinyin and English, not a replacement for the book." />
         </p>
       </section>
     </article>

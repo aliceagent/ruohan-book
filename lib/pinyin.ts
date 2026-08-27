@@ -38,3 +38,30 @@ export function rubyTokens(hanzi: string): RubyToken[] {
 
   return tokens
 }
+
+export type MixedRun =
+  | { kind: "zh"; hanzi: string; readings: string[] }
+  | { kind: "text"; text: string }
+
+/** Groups a mixed English/Chinese string into pinyin-bearing runs and plain text. */
+export function mixedRuns(text: string): MixedRun[] {
+  const runs: MixedRun[] = []
+
+  for (const token of rubyTokens(text)) {
+    const last = runs[runs.length - 1]
+    if (token.pinyin) {
+      if (last?.kind === "zh") {
+        last.hanzi += token.hanzi
+        last.readings.push(token.pinyin)
+      } else {
+        runs.push({ kind: "zh", hanzi: token.hanzi, readings: [token.pinyin] })
+      }
+    } else if (last?.kind === "text") {
+      last.text += token.hanzi
+    } else {
+      runs.push({ kind: "text", text: token.hanzi })
+    }
+  }
+
+  return runs
+}

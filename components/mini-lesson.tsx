@@ -1,6 +1,7 @@
 "use client"
 
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
 import type { MiniLesson } from "@/lib/types"
@@ -12,18 +13,22 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
     <article className="space-y-3 rounded-xl border bg-background/90 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h3 className="font-serif text-lg leading-snug">{lesson.title}</h3>
-          <p className="text-sm text-muted-foreground">{lesson.titleEn}</p>
+          <h3 className="font-serif text-lg leading-snug">
+            <MixedHanzi text={lesson.title} />
+          </h3>
+          {prefs.english ? (
+            <p className="text-sm text-muted-foreground">{lesson.titleEn}</p>
+          ) : null}
         </div>
         {lesson.pattern ? (
           <Badge variant="outline" className="font-normal">
-            {lesson.pattern}
+            <MixedHanzi text={lesson.pattern} />
           </Badge>
         ) : null}
       </div>
       {lesson.body.map((paragraph, index) => (
         <p key={`${index}-${paragraph.slice(0, 24)}`} className="text-sm leading-relaxed text-foreground/90">
-          {paragraph}
+          <MixedHanzi text={paragraph} />
         </p>
       ))}
       {lesson.compare && lesson.compare.length > 0 ? (
@@ -31,7 +36,7 @@ export function MiniLessonCard({ lesson }: { lesson: MiniLesson }) {
           {lesson.compare.map((item) => (
             <div key={`${item.label}-${item.hanzi}`} className="rounded-lg bg-muted/60 p-3">
               <p className="mb-1 text-xs tracking-wide text-muted-foreground uppercase">
-                {item.label}
+                <MixedHanzi text={item.label} />
               </p>
               <HanziText
                 hanzi={item.hanzi}

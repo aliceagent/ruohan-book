@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -86,7 +87,9 @@ function SearchPanel() {
         placeholder="Search hanzi, English, or a lesson id like 1-4"
       />
       {!q ? (
-        <p className="text-sm text-muted-foreground">Try 失眠, marriage, barbecue, or 1-8.</p>
+        <p className="text-sm text-muted-foreground">
+          Try <MixedHanzi text="失眠" />, marriage, barbecue, or 1-8.
+        </p>
       ) : (
         <>
           <p className="text-sm text-muted-foreground">
@@ -98,7 +101,7 @@ function SearchPanel() {
                 <CardContent className="flex items-start justify-between gap-3 pt-5">
                   <div>
                     <p className="text-xs text-muted-foreground">
-                      {item.lessonId} {item.lessonTitle} · word
+                      {item.lessonId} <MixedHanzi text={item.lessonTitle} /> · word
                     </p>
                     <HanziText
                       hanzi={item.hanzi}
@@ -117,7 +120,7 @@ function SearchPanel() {
               <Card key={`${item.lessonId}-${item.n}`}>
                 <CardContent className="pt-5">
                   <p className="text-xs text-muted-foreground">
-                    {item.lessonId} {item.lessonTitle} · Q{item.n}
+                    {item.lessonId} <MixedHanzi text={item.lessonTitle} /> · Q{item.n}
                   </p>
                   <HanziText
                     hanzi={item.hanzi}
@@ -156,14 +159,14 @@ function Flashcards() {
   return (
     <div className="mx-auto max-w-xl space-y-4 pt-4">
       <p className="text-sm text-muted-foreground">
-        Card {index + 1} of {deck.length} · {card.lessonId} {card.lessonTitle}
+        Card {index + 1} of {deck.length} · {card.lessonId} <MixedHanzi text={card.lessonTitle} />
       </p>
       <Card className="min-h-64">
         <CardContent className="flex min-h-64 flex-col items-center justify-center gap-4 py-10 text-center">
           <HanziText
             hanzi={card.hanzi}
             english={revealed ? card.en : undefined}
-            showPinyin={revealed && prefs.pinyin}
+            showPinyin={prefs.pinyin}
             showEnglish={revealed && prefs.english}
             ruby={prefs.ruby}
             size="xl"
@@ -202,7 +205,7 @@ function Glossary() {
             <CardContent className="flex items-start justify-between gap-3 pt-5">
               <div>
                 <p className="text-xs text-muted-foreground">
-                  {item.lessonId} {item.lessonTitle}
+                  {item.lessonId} <MixedHanzi text={item.lessonTitle} />
                 </p>
                 <HanziText
                   hanzi={item.hanzi}

@@ -16,6 +16,7 @@ import { ExpandableDialogue } from "@/components/expandable-dialogue"
 import { FillBlankExercise } from "@/components/fill-blank-exercise"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { LessonIllustration } from "@/components/lesson-illustration"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { MiniLessonCard } from "@/components/mini-lesson"
 import { QuizPlayer } from "@/components/quiz-player"
 import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
@@ -90,7 +91,10 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         <ExpandableDialogue lines={lesson.dialogue} />
         {lesson.notes?.map((note) => (
           <p key={note.hanzi} className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">注：{note.hanzi}</span> {note.en}
+            <span className="font-medium text-foreground">
+              <MixedHanzi text={`注：${note.hanzi}`} />
+            </span>{" "}
+            {note.en}
           </p>
         ))}
       </section>
@@ -279,7 +283,7 @@ function SectionTitle({
     <div>
       <h2 className="flex items-center gap-2 font-serif text-2xl">
         {icon}
-        {title}
+        <MixedHanzi text={title} />
       </h2>
       <p className="text-sm text-muted-foreground">{en}</p>
     </div>

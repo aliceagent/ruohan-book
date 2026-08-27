@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -22,10 +23,7 @@ export default function QuizIndexPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Check yourself</p>
         <h1 className="font-serif text-4xl">Unit 1 quizzes</h1>
         <p className="max-w-2xl text-muted-foreground">
-          Each try draws {unitQuiz.drawCount} questions at random from a larger bank — vocabulary,
-          model-dialogue lines, and the scene — so you can retake without seeing the same set. The
-          book’s 互动问答 stay open speaking prompts — this is the closed-answer check after you
-          read.
+          <MixedHanzi text={`Each try draws ${unitQuiz.drawCount} questions at random from a larger bank — vocabulary, model-dialogue lines, and the scene — so you can retake without seeing the same set. The book’s 互动问答 stay open speaking prompts — this is the closed-answer check after you read.`} />
         </p>
         <Button asChild>
           <Link href="/quiz/unit-1">
@@ -57,7 +55,9 @@ export default function QuizIndexPage() {
                       <span className="text-xs text-muted-foreground">{lesson?.audioId}</span>
                     </div>
                     <Link href={`/quiz/${quiz.id}`} className="block">
-                      <CardTitle className="font-serif text-2xl">{quiz.title}</CardTitle>
+                      <CardTitle className="font-serif text-2xl">
+                        <MixedHanzi text={quiz.title} />
+                      </CardTitle>
                       <CardDescription>{quiz.titleEn}</CardDescription>
                     </Link>
                     {lesson ? (

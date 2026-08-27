@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 import { LessonAudio, PlaybackSpeedControl } from "@/components/playback-speed"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BOOK } from "@/content/catalog"
@@ -20,8 +21,8 @@ export default function AudioPage() {
         <h1 className="font-serif text-4xl">Unit 1 audio</h1>
         <p className="max-w-2xl text-muted-foreground">
           The ten official dialogue tracks for Unit 1 are on every lesson page and here as a
-          playlist. Narrators: {BOOK.narrators.join(" and ")}. Slow a track to 0.7× or 0.5× when you
-          want to catch every syllable.
+          playlist. Narrators: <MixedHanzi text={BOOK.narrators.join(" and ")} />. Slow a track to
+          0.7× or 0.5× when you want to catch every syllable.
         </p>
       </div>
 
@@ -41,7 +42,7 @@ export default function AudioPage() {
                   <Badge variant="outline" className="mr-2">
                     {lesson.audioId}
                   </Badge>
-                  {lesson.title}
+                  <MixedHanzi text={lesson.title} />
                   <span className="ml-2 text-muted-foreground">· {lesson.titleEn}</span>
                 </Link>
                 <code className="text-xs text-muted-foreground">

@@ -6,6 +6,7 @@ import { BookOpen, Menu, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { DisplayToggles } from "@/components/display-toggles"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useShowDisplayTogglesInHeader } from "@/components/sticky-display"
 import { Button } from "@/components/ui/button"
 import {
@@ -34,14 +35,14 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
+      <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-4 py-2">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-rose-700 text-white">
             <BookOpen className="size-4" />
           </span>
           <span className={cn("leading-tight", showToggles && "hidden sm:block")}>
             <span className="block truncate font-serif text-lg font-semibold tracking-tight">
-              {BOOK.title}
+              <MixedHanzi text={BOOK.title} />
             </span>
             <span className={cn("hidden text-xs text-muted-foreground", !showToggles && "sm:block")}>
               {BOOK.titleEn}
@@ -84,7 +85,9 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right">
               <SheetHeader>
-                <SheetTitle>{BOOK.title}</SheetTitle>
+                <SheetTitle>
+                <MixedHanzi text={BOOK.title} />
+              </SheetTitle>
               </SheetHeader>
               <div className="mt-6 grid gap-2">
                 {LINKS.map((link) => (
@@ -127,7 +130,8 @@ export function SiteFooter() {
     <footer className="border-t py-8 text-sm text-muted-foreground">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 sm:flex-row sm:items-center sm:justify-between">
         <p>
-          Study companion for {BOOK.title} by {BOOK.author} ({BOOK.authorEn}). {BOOK.publisher}, {BOOK.year}.
+          Study companion for <MixedHanzi text={BOOK.title} /> by <MixedHanzi text={BOOK.author} /> (
+          {BOOK.authorEn}). <MixedHanzi text={BOOK.publisher} />, {BOOK.year}.
         </p>
         <p>Pinyin and English added for learners. Original book remains the source.</p>
       </div>

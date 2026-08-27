@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { UNITS } from "@/content/catalog"
@@ -33,13 +34,13 @@ export default function UnitsPage() {
                   <span className="text-xs text-muted-foreground">{unit.lessonCount} lessons</span>
                 </div>
                 <CardTitle className="font-serif text-2xl">
-                  Unit {unit.id} {unit.title}
+                  Unit {unit.id} <MixedHanzi text={unit.title} />
                 </CardTitle>
                 <CardDescription>{unit.titleEn}</CardDescription>
                 <ul className="mt-3 grid gap-1 text-sm text-muted-foreground">
                   {unit.topics.slice(0, 6).map((topic) => (
                     <li key={topic.id}>
-                      {topic.id} {topic.title} · {topic.titleEn}
+                      {topic.id} <MixedHanzi text={topic.title} /> · {topic.titleEn}
                     </li>
                   ))}
                   {unit.topics.length > 6 ? (

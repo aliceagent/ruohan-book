@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { Check, Eye, RotateCcw } from "lucide-react"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { FillBlankItem } from "@/lib/types"
@@ -61,7 +62,11 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                 {index + 1}. {item.promptEn}
               </p>
               <div className="flex flex-wrap items-center gap-2 text-lg">
-                {item.prefix ? <span className="font-medium">{item.prefix}</span> : null}
+                {item.prefix ? (
+                  <span className="font-medium">
+                    <MixedHanzi text={item.prefix} />
+                  </span>
+                ) : null}
                 <Input
                   value={revealed ? item.answer : (values[item.id] ?? "")}
                   onChange={(event) => {
@@ -79,7 +84,11 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                   )}
                   disabled={revealed}
                 />
-                {item.suffix ? <span className="font-medium">{item.suffix}</span> : null}
+                {item.suffix ? (
+                  <span className="font-medium">
+                    <MixedHanzi text={item.suffix} />
+                  </span>
+                ) : null}
                 {showMark ? (
                   <span
                     className={cn(
@@ -90,10 +99,12 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                     {result.correct ? (
                       <span className="inline-flex items-center gap-1">
                         <Check className="size-4" />
-                        {item.answer}
+                        <MixedHanzi text={item.answer} />
                       </span>
                     ) : (
-                      `Answer: ${item.answer}`
+                      <span>
+                        Answer: <MixedHanzi text={item.answer} />
+                      </span>
                     )}
                   </span>
                 ) : null}

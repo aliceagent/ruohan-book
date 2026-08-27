@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, CircleHelp, Headphones, Languages, Sparkles } from "lucide-react"
 
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,21 +16,23 @@ export default function HomePage() {
     <div className="space-y-14">
       <section className="grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
-          <Badge variant="secondary">{BOOK.edition} · {BOOK.year}</Badge>
+          <Badge variant="secondary">
+            <MixedHanzi text={BOOK.edition} /> · {BOOK.year}
+          </Badge>
           <div>
             <p className="text-sm tracking-[0.2em] text-rose-800 uppercase dark:text-rose-300">
               Mandarin conversation lab
             </p>
             <h1 className="mt-2 font-serif text-5xl leading-tight font-semibold tracking-tight md:text-6xl">
-              {BOOK.title}
+              <MixedHanzi text={BOOK.title} />
             </h1>
             <p className="mt-3 text-xl text-muted-foreground">{BOOK.titleEn}</p>
-            <p className="mt-2 text-lg">{BOOK.subtitle}</p>
+            <p className="mt-2 text-lg">
+              <MixedHanzi text={BOOK.subtitle} />
+            </p>
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-            A study companion for Shelley Hsieh&apos;s conversation-topic book: every prompt with
-            pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson
-            audio. Unit 1 家庭生活 is complete. The other 21 units are mapped and waiting.
+            <MixedHanzi text="A study companion for Shelley Hsieh's conversation-topic book: every prompt with pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson audio. Unit 1 家庭生活 is complete. The other 21 units are mapped and waiting." />
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild>
@@ -52,7 +55,7 @@ export default function HomePage() {
           <CardHeader>
             <CardTitle>Unit 1 is ready</CardTitle>
             <CardDescription>
-              {unit1.title} · {unit1.titleEn}
+              <MixedHanzi text={unit1.title} /> · {unit1.titleEn}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-4 text-sm">
@@ -109,7 +112,7 @@ export default function HomePage() {
                     <span className="text-xs text-muted-foreground">{unit.lessonCount} lessons</span>
                   </div>
                   <CardTitle className="font-serif text-xl">
-                    Unit {unit.id} {unit.title}
+                    Unit {unit.id} <MixedHanzi text={unit.title} />
                   </CardTitle>
                   <CardDescription>{unit.titleEn}</CardDescription>
                 </CardHeader>
@@ -147,7 +150,9 @@ function Feature({
           {icon}
         </div>
         <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-sm leading-relaxed">{body}</CardDescription>
+        <CardDescription className="text-sm leading-relaxed">
+          <MixedHanzi text={body} />
+        </CardDescription>
       </CardHeader>
     </Card>
   )

@@ -5,6 +5,7 @@ import { Check, RotateCcw, X } from "lucide-react"
 
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -90,7 +91,9 @@ export function QuizPlayer({
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Multiple choice</p>
-              <h2 className="font-serif text-2xl">{quiz.title}</h2>
+              <h2 className="font-serif text-2xl">
+                <MixedHanzi text={quiz.title} />
+              </h2>
               <p className="text-sm text-muted-foreground">{quiz.titleEn}</p>
             </div>
             <DisplayToggles compact />
@@ -149,11 +152,18 @@ export function QuizPlayer({
                     )}
                     <p className="text-sm">
                       <span className="text-muted-foreground">Your answer: </span>
-                      {picked?.hanzi ?? picked?.en ?? "—"}
+                      {picked?.hanzi ? <MixedHanzi text={picked.hanzi} /> : (picked?.en ?? "—")}
                     </p>
                     <p className="text-sm">
                       <span className="text-muted-foreground">Correct: </span>
-                      {correct?.hanzi ? `${correct.hanzi} · ${correct.en}` : correct?.en}
+                      {correct?.hanzi ? (
+                        <>
+                          <MixedHanzi text={correct.hanzi} />
+                          {correct.en ? ` · ${correct.en}` : null}
+                        </>
+                      ) : (
+                        correct?.en
+                      )}
                     </p>
                   </CardContent>
                 </Card>
@@ -179,7 +189,9 @@ export function QuizPlayer({
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Multiple choice</p>
-            <h2 className="font-serif text-2xl">{quiz.title}</h2>
+            <h2 className="font-serif text-2xl">
+              <MixedHanzi text={quiz.title} />
+            </h2>
             <p className="text-sm text-muted-foreground">{quiz.titleEn}</p>
           </div>
           <DisplayToggles compact />
@@ -201,7 +213,7 @@ export function QuizPlayer({
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{item.kind.replace("-", " ")}</Badge>
           <p className="text-sm text-muted-foreground">
-            {item.instruction}
+            <MixedHanzi text={item.instruction} />
             <span className="mx-1">·</span>
             {item.instructionEn}
           </p>
