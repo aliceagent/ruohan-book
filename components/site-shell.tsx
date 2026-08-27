@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation"
 import { BookOpen, Menu, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
+import { DisplayToggles } from "@/components/display-toggles"
+import { useShowDisplayTogglesInHeader } from "@/components/sticky-display"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -28,20 +30,25 @@ const LINKS = [
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const showToggles = useShowDisplayTogglesInHeader()
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex size-9 items-center justify-center rounded-full bg-rose-700 text-white">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
+        <Link href="/" className="flex min-w-0 items-center gap-2.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-rose-700 text-white">
             <BookOpen className="size-4" />
           </span>
-          <span className="leading-tight">
-            <span className="block font-serif text-lg font-semibold tracking-tight">{BOOK.title}</span>
-            <span className="hidden text-xs text-muted-foreground sm:block">{BOOK.titleEn}</span>
+          <span className={cn("leading-tight", showToggles && "hidden sm:block")}>
+            <span className="block truncate font-serif text-lg font-semibold tracking-tight">
+              {BOOK.title}
+            </span>
+            <span className={cn("hidden text-xs text-muted-foreground", !showToggles && "sm:block")}>
+              {BOOK.titleEn}
+            </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className={cn("hidden items-center gap-1", showToggles ? "xl:flex" : "md:flex")}>
           {LINKS.map((link) => (
             <Link
               key={link.href}
@@ -57,11 +64,21 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
+          {showToggles ? (
+            <div className="shrink-0">
+              <DisplayToggles compact placement="header" />
+            </div>
+          ) : null}
           <ThemeToggle />
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
+              <Button
+                variant="ghost"
+                size="icon"
+                className={showToggles ? "xl:hidden" : "md:hidden"}
+                aria-label="Open menu"
+              >
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
