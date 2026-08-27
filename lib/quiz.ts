@@ -74,10 +74,14 @@ function spokenLines(lesson: Lesson) {
   )
 }
 
+function lessonQuizVocab(lesson: Lesson) {
+  return uniqueBy([...(lesson.coreVocabulary ?? []), ...lesson.vocabulary], (item) => item.hanzi)
+}
+
 function vocabPool(lessons: Lesson[]) {
   return uniqueBy(
     lessons.flatMap((lesson) =>
-      lesson.vocabulary.map((item) => ({ ...item, lessonId: lesson.id })),
+      lessonQuizVocab(lesson).map((item) => ({ ...item, lessonId: lesson.id })),
     ),
     (item) => item.hanzi,
   )
@@ -183,7 +187,7 @@ function sceneItem(lesson: Lesson, field: "location" | "topic", others: Lesson[]
 }
 
 export function buildLessonQuiz(lesson: Lesson, allLessons: Lesson[] = UNIT_1): QuizItem[] {
-  const localVocab = uniqueBy(lesson.vocabulary, (item) => item.hanzi)
+  const localVocab = lessonQuizVocab(lesson)
   const unitVocab = vocabPool(allLessons)
   const localLines = spokenLines(lesson)
   const unitLines = linePool(allLessons)

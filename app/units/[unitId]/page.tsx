@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
 import { getUnit } from "@/content/catalog"
-import { UNIT_1 } from "@/content/unit-1"
+import { UNIT_1, lessonVocabulary } from "@/content/unit-1"
 
 export async function generateStaticParams() {
   return [{ unitId: "1" }]
@@ -47,7 +47,7 @@ export default async function UnitPage({
         <p className="max-w-2xl text-muted-foreground">
           Each lesson has a real-world scene, a model dialogue with audio, related words, a
           multiple-choice quiz, and 20+ questions meant to be asked and answered — not just
-          translated.
+          translated. On 休息睡觉, tap a dialogue line to open a mini lesson on that sentence.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -71,7 +71,7 @@ export default async function UnitPage({
                       <Badge variant={href ? "default" : "outline"}>{topic.id}</Badge>
                       {lesson ? (
                         <span className="text-xs text-muted-foreground">
-                          {lesson.questions.length} prompts · {lesson.vocabulary.length} words
+                          {lesson.questions.length} prompts · {lessonVocabulary(lesson).length} words
                         </span>
                       ) : (
                         <span className="text-xs text-muted-foreground">Coming later</span>

@@ -1,7 +1,29 @@
-import type { DialogueLine, Lesson, Question, VocabItem } from "@/lib/types"
+import {
+  LESSON_1_1_CHUNKS,
+  LESSON_1_1_CORE_VOCAB,
+  LESSON_1_1_FILL_BLANKS,
+  LESSON_1_1_GRAMMAR_FOCUS,
+  LESSON_1_1_LINE_NOTES,
+  LESSON_1_1_PRACTICE,
+  LESSON_1_1_SLEEP_FAMILY,
+} from "@/content/lessons/1-1-notes"
+import type { DialogueLine, Lesson, MiniLesson, Question, VocabItem } from "@/lib/types"
 
-function line(speaker: DialogueLine["speaker"], hanzi: string, en: string): DialogueLine {
-  return { speaker, hanzi, en }
+function line(
+  speaker: DialogueLine["speaker"],
+  hanzi: string,
+  en: string,
+  miniLessons?: MiniLesson[],
+): DialogueLine {
+  return miniLessons ? { speaker, hanzi, en, miniLessons } : { speaker, hanzi, en }
+}
+
+function sleepLine(speaker: DialogueLine["speaker"], hanzi: string, en: string): DialogueLine {
+  const miniLessons = LESSON_1_1_LINE_NOTES[hanzi]
+  if (!miniLessons) {
+    throw new Error(`Missing mini lessons for 1-1 line: ${hanzi}`)
+  }
+  return line(speaker, hanzi, en, miniLessons)
 }
 
 function v(hanzi: string, en: string): VocabItem {
@@ -31,26 +53,48 @@ export const UNIT_1_LESSONS: Lesson[] = [
       topicEn: "Coffee and chatting about sleep",
     },
     dialogue: [
-      line("stage", "（打呵欠）", "(Yawns)"),
-      line("B", "怎么一大早就打呵欠？", "Why are you yawning so early in the morning?"),
-      line("A", "昨天没睡好。", "I didn’t sleep well last night."),
-      line("B", "怎么了？", "What happened?"),
-      line(
+      sleepLine("stage", "（打呵欠）", "(Yawns)"),
+      sleepLine("B", "怎么一大早就打呵欠？", "Why are you yawning so early in the morning?"),
+      sleepLine("A", "昨天没睡好。", "I didn’t sleep well last night."),
+      sleepLine("B", "怎么了？", "What happened? / What’s wrong?"),
+      sleepLine(
         "A",
         "我做了个恶梦，梦见有人在追我，一直追、一直追，我拼命跑，最后掉进一个山谷。",
-        "I had a nightmare. I dreamed someone was chasing me, chasing and chasing. I ran for my life and finally fell into a valley.",
+        "I had a nightmare. I dreamed that someone was chasing me. They kept chasing and chasing me. I ran for my life, and eventually I fell into a valley.",
       ),
-      line("B", "是不是压力太大了？你平常睡得好吗？", "Is it too much stress? Do you usually sleep well?"),
-      line("A", "不太好，总是觉得睡眠不足。", "Not really. I always feel like I don’t get enough sleep."),
-      line(
+      sleepLine(
+        "B",
+        "是不是压力太大了？你平常睡得好吗？",
+        "Could it be that you’re under too much stress? Do you normally sleep well?",
+      ),
+      sleepLine("A", "不太好，总是觉得睡眠不足。", "Not very well. I always feel like I don’t get enough sleep."),
+      sleepLine(
         "B",
         "我听一个睡眠专家的医生说，早上多晒太阳，可以帮助睡眠。",
-        "I heard a sleep-specialist doctor say that getting more morning sun can help you sleep.",
+        "I heard a doctor who specializes in sleep say that getting more sunlight in the morning can help with sleep.",
       ),
-      line("A", "真的吗？我可能真的太阳晒不够。你呢？你都睡得好吗？", "Really? I might not be getting enough sun. What about you? Do you sleep well?"),
-      line("B", "几乎都是5分钟内睡着，一觉到天亮。", "I almost always fall asleep within five minutes and sleep through until dawn."),
-      line("A", "真羡慕！", "I’m so jealous!"),
+      sleepLine(
+        "A",
+        "真的吗？我可能真的太阳晒不够。你呢？你都睡得好吗？",
+        "Really? Maybe I really don’t get enough sunlight. What about you? Do you usually sleep well?",
+      ),
+      sleepLine(
+        "B",
+        "几乎都是5分钟内睡着，一觉到天亮。",
+        "I almost always fall asleep within five minutes and sleep straight through until morning.",
+      ),
+      sleepLine("A", "真羡慕！", "I’m so jealous!"),
     ],
+    coreVocabulary: LESSON_1_1_CORE_VOCAB,
+    chunks: LESSON_1_1_CHUNKS,
+    expressionFamily: {
+      title: "一套睡眠说法",
+      titleEn: "One family of sleep expressions — learn them together",
+      items: LESSON_1_1_SLEEP_FAMILY,
+    },
+    grammarFocus: LESSON_1_1_GRAMMAR_FOCUS,
+    practiceSentences: LESSON_1_1_PRACTICE,
+    fillBlanks: LESSON_1_1_FILL_BLANKS,
     vocabulary: [
       v("失眠", "insomnia"),
       v("深度睡眠", "deep sleep"),

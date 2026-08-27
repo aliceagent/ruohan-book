@@ -12,23 +12,26 @@ import {
 
 import { AudioBar } from "@/components/audio-bar"
 import { DisplayToggles } from "@/components/display-toggles"
+import { ExpandableDialogue } from "@/components/expandable-dialogue"
+import { FillBlankExercise } from "@/components/fill-blank-exercise"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { LessonIllustration } from "@/components/lesson-illustration"
+import { MiniLessonCard } from "@/components/mini-lesson"
 import { QuizPlayer } from "@/components/quiz-player"
 import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
 import { useStudyPrefs } from "@/components/study-prefs"
+import { VocabGrid } from "@/components/vocab-grid"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { questionKey, useProgress, vocabKey } from "@/hooks/use-progress"
+import { questionKey, useProgress } from "@/hooks/use-progress"
 import { adjacentLessons } from "@/content/unit-1"
 import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
-import { cn } from "@/lib/utils"
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
   const { prefs, setPrefs } = useStudyPrefs()
-  const { progress, toggleLesson, toggleQuestion, toggleVocab } = useProgress()
+  const { progress, toggleLesson, toggleQuestion } = useProgress()
   const { prev, next } = adjacentLessons(lesson.id)
   const quiz = getLessonQuiz(lesson.id)
   const quizBest = progress.quizBest[lesson.id]
@@ -84,34 +87,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <section className="space-y-4">
         <SectionTitle icon={<MessageCircle className="size-4" />} title="情境对话" en="Situational dialogue" />
-        <div className="space-y-3">
-          {lesson.dialogue.map((line, index) => (
-            <div
-              key={`${line.speaker}-${index}`}
-              className={cn(
-                "rounded-2xl border p-4",
-                line.speaker === "A" && "bg-rose-50/80 dark:bg-rose-950/20",
-                line.speaker === "B" && "bg-card",
-                line.speaker === "stage" && "border-dashed bg-muted/40 italic",
-              )}
-            >
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <Badge variant={line.speaker === "stage" ? "outline" : "secondary"}>
-                  {line.speaker === "stage" ? "Scene" : line.speaker}
-                </Badge>
-                {line.speaker !== "stage" ? <SpeakButton text={line.hanzi} /> : null}
-              </div>
-              <HanziText
-                hanzi={line.hanzi}
-                english={line.en}
-                showPinyin={prefs.pinyin}
-                showEnglish={prefs.english}
-                ruby={prefs.ruby}
-                size="lg"
-              />
-            </div>
-          ))}
-        </div>
+        <ExpandableDialogue lines={lesson.dialogue} />
         {lesson.notes?.map((note) => (
           <p key={note.hanzi} className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">注：{note.hanzi}</span> {note.en}
@@ -119,46 +95,83 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         ))}
       </section>
 
-      <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
-          <TextSizeToggle
-            value={prefs.textSize}
-            onChange={(textSize) => setPrefs({ textSize })}
-            label="Vocabulary text size"
+      {lesson.coreVocabulary && lesson.coreVocabulary.length > 0 ? (
+        <section className="space-y-4">
+          <SectionTitle
+            title="对话词汇"
+            en="Words from this dialogue — tap a sentence above for the mini lesson"
           />
-        </div>
-        <div
-          className={cn(
-            "grid gap-3",
-            prefs.textSize === "lg" ? "sm:grid-cols-1 lg:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3",
-          )}
-        >
-          {lesson.vocabulary.map((item) => {
-            const key = vocabKey(lesson.id, item.hanzi)
-            const known = progress.knownVocab.includes(key)
-            return (
-              <Card key={item.hanzi} className={cn(known && "border-rose-400")}>
-                <CardContent className="flex items-start justify-between gap-2 pt-5">
-                  <HanziText
-                    hanzi={item.hanzi}
-                    english={item.en}
-                    showPinyin={prefs.pinyin}
-                    showEnglish={prefs.english}
-                    ruby={prefs.ruby}
-                    size={CONTENT_HANZI_SIZE[prefs.textSize]}
-                  />
-                  <div className="flex flex-col items-end gap-1">
-                    <SpeakButton text={item.hanzi} />
-                    <Button size="xs" variant={known ? "secondary" : "ghost"} onClick={() => toggleVocab(key)}>
-                      {known ? "Known" : "Learn"}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
+          <VocabGrid lessonId={lesson.id} items={lesson.coreVocabulary} />
+        </section>
+      ) : null}
+
+      {lesson.expressionFamily ? (
+        <section className="space-y-4">
+          <SectionTitle title={lesson.expressionFamily.title} en={lesson.expressionFamily.titleEn} />
+          <VocabGrid lessonId={lesson.id} items={lesson.expressionFamily.items} />
+        </section>
+      ) : null}
+
+      {lesson.chunks && lesson.chunks.length > 0 ? (
+        <section className="space-y-4">
+          <SectionTitle title="值得整句记的" en="Memorize these as complete chunks, not as loose words" />
+          <VocabGrid lessonId={lesson.id} items={lesson.chunks} />
+        </section>
+      ) : null}
+
+      {lesson.grammarFocus && lesson.grammarFocus.length > 0 ? (
+        <section className="space-y-4">
+          <SectionTitle
+            title="五个优先句型"
+            en="If you study this dialogue rather than everything, start here"
+          />
+          <div className="grid gap-3 lg:grid-cols-2">
+            {lesson.grammarFocus.map((item) => (
+              <MiniLessonCard key={item.title} lesson={item} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {lesson.practiceSentences && lesson.practiceSentences.length > 0 ? (
+        <section className="space-y-4">
+          <SectionTitle
+            title="练习句子"
+            en="Personalized practice at about HSK 3 — say them out loud"
+          />
+          <ol className="space-y-3">
+            {lesson.practiceSentences.map((item, index) => (
+              <li key={item.hanzi} className="rounded-2xl border bg-card p-4">
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <SpeakButton text={item.hanzi} />
+                </div>
+                <HanziText
+                  hanzi={item.hanzi}
+                  english={item.en}
+                  showPinyin={prefs.pinyin}
+                  showEnglish={prefs.english}
+                  ruby={prefs.ruby}
+                  size="md"
+                />
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
+
+      {lesson.fillBlanks && lesson.fillBlanks.length > 0 ? (
+        <section className="space-y-4">
+          <SectionTitle title="填空练习" en="Fill these in before looking at the answers" />
+          <FillBlankExercise items={lesson.fillBlanks} />
+        </section>
+      ) : null}
+
+      <section className="space-y-4">
+        <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
+        <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} showSizeToggle />
       </section>
 
       {quiz ? (

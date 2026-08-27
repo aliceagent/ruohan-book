@@ -1,8 +1,17 @@
-import type { Lesson } from "@/lib/types"
+import type { Lesson, VocabItem } from "@/lib/types"
 import { UNIT_1_LESSONS } from "@/content/unit-1-part-a"
 import { UNIT_1_LESSONS_B } from "@/content/unit-1-part-b"
 
 export const UNIT_1: Lesson[] = [...UNIT_1_LESSONS, ...UNIT_1_LESSONS_B]
+
+export function lessonVocabulary(lesson: Lesson): VocabItem[] {
+  const seen = new Set<string>()
+  return [...(lesson.coreVocabulary ?? []), ...lesson.vocabulary].filter((item) => {
+    if (seen.has(item.hanzi)) return false
+    seen.add(item.hanzi)
+    return true
+  })
+}
 
 export function getLesson(id: string) {
   return UNIT_1.find((lesson) => lesson.id === id)
@@ -22,7 +31,7 @@ export function adjacentLessons(id: string) {
 
 export function allVocabulary() {
   return UNIT_1.flatMap((lesson) =>
-    lesson.vocabulary.map((item) => ({
+    lessonVocabulary(lesson).map((item) => ({
       ...item,
       lessonId: lesson.id,
       lessonTitle: lesson.title,
@@ -44,7 +53,7 @@ export function unitStats() {
   return {
     lessons: UNIT_1.length,
     dialogueLines: UNIT_1.reduce((sum, lesson) => sum + lesson.dialogue.length, 0),
-    vocabulary: UNIT_1.reduce((sum, lesson) => sum + lesson.vocabulary.length, 0),
+    vocabulary: UNIT_1.reduce((sum, lesson) => sum + lessonVocabulary(lesson).length, 0),
     questions: UNIT_1.reduce((sum, lesson) => sum + lesson.questions.length, 0),
   }
 }
