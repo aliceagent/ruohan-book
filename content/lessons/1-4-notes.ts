@@ -178,3 +178,72 @@ export const LESSON_1_4_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_4_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "要不要一起…",
+    "Want to … together?",
+    ["Soft invite. 要不要 + verb. 这周末有个未婚联谊要不要一起去？"],
+    {
+      pattern: "要不要 + V",
+      examples: [
+        ex("要不要一起吃饭？", "Want to eat together?"),
+        ex("要不要一起去？", "Want to go together?"),
+        ex("要不要看电影？", "Want to watch a movie?"),
+      ],
+    },
+  ),
+  ml(
+    "听起来挺…的",
+    "Sounds pretty…",
+    ["听起来 = it sounds. 挺 + adj + 的 = fairly / pretty. Soft positive before a 可是."],
+    {
+      pattern: "听起来挺 + Adj + 的",
+      examples: [
+        ex("听起来挺好玩的。", "Sounds pretty fun."),
+        ex("听起来挺不错的。", "Sounds pretty good."),
+        ex("听起来挺累的。", "Sounds pretty tiring."),
+      ],
+    },
+  ),
+  ml(
+    "不一定要",
+    "You don’t necessarily have to",
+    ["不一定 softens advice. 不一定要急着结婚 — you don’t have to rush into marriage."],
+    {
+      pattern: "不一定要 + V",
+      examples: [
+        ex("不一定要现在决定。", "You don’t have to decide now."),
+        ex("不一定要结婚。", "You don’t necessarily have to get married."),
+        ex("不一定要买贵的。", "You don’t have to buy the expensive one."),
+      ],
+    },
+  ),
+  ml(
+    "…就好了",
+    "That’s enough / that’s all I ask",
+    ["温柔体贴、个性好就好了 — I don’t need more than this. Different from 如果…就好了 (a wish)."],
+    {
+      pattern: "condition + 就好了",
+      examples: [
+        ex("健康就好了。", "As long as we’re healthy."),
+        ex("个性好就好了。", "A good personality is enough."),
+        ex("你来就好了。", "You just coming is enough."),
+      ],
+    },
+  ),
+  ml(
+    "接 + person",
+    "Pick someone up",
+    ["周六上午11点我去你家接你. 接 + person: car, school, airport."],
+    {
+      pattern: "去 + place + 接 + person",
+      examples: [
+        ex("我去机场接你。", "I’ll pick you up at the airport."),
+        ex("我去学校接小孩。", "I’ll pick the kids up at school."),
+        ex("晚上八点来接我。", "Come pick me up at eight."),
+      ],
+    },
+  ),
+]
+

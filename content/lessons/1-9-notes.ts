@@ -342,3 +342,72 @@ export const LESSON_1_9_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_9_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "什么时候开始…的",
+    "When did you start…?",
+    ["你什么时候开始有这个爱好的？ 是…的 often marks a past detail (time, place, manner)."],
+    {
+      pattern: "什么时候开始 + V + 的",
+      examples: [
+        ex("你什么时候开始学中文的？", "When did you start learning Chinese?"),
+        ex("你什么时候开始有这个爱好的？", "When did you pick up this hobby?"),
+        ex("我去年才开始的。", "I only started last year."),
+      ],
+    },
+  ),
+  ml(
+    "才 + verb",
+    "Only just (started)…",
+    ["今年年初才开始的. 才 means later or fewer than expected: only then / only as recently as."],
+    {
+      pattern: "才 + V",
+      examples: [
+        ex("今年才开始。", "I only started this year."),
+        ex("我昨天才知道。", "I only found out yesterday."),
+        ex("他十点才到。", "He didn’t arrive until ten."),
+      ],
+    },
+  ),
+  ml(
+    "把 + object + 贴在…",
+    "Stick / put something onto…",
+    ["把实物或各种材料贴在画面上. 把 moves the object in front of the verb."],
+    {
+      pattern: "把 + object + V 在 + place",
+      examples: [
+        ex("把照片贴在墙上。", "Stick the photo on the wall."),
+        ex("把剪纸贴在画上。", "Stick the paper-cut on the painting."),
+        ex("把书放在桌子上。", "Put the book on the table."),
+      ],
+    },
+  ),
+  ml(
+    "迷上了",
+    "Got hooked on…",
+    ["我最近迷上了摄影. 迷上 + hobby / person. Result: you fell for it."],
+    {
+      pattern: "迷上了 + noun",
+      examples: [
+        ex("我最近迷上了摄影。", "I’ve gotten into photography lately."),
+        ex("他迷上了打游戏。", "He’s hooked on gaming."),
+        ex("她迷上了这家店。", "She’s hooked on this shop."),
+      ],
+    },
+  ),
+  ml(
+    "记得 + verb",
+    "Remember to…",
+    ["你要出外景的时候记得找我啊. 记得 + verb = don’t forget to. 啊 keeps it warm."],
+    {
+      pattern: "记得 + V",
+      examples: [
+        ex("记得找我啊。", "Remember to get me."),
+        ex("记得带伞。", "Remember to bring an umbrella."),
+        ex("记得打电话。", "Remember to call."),
+      ],
+    },
+  ),
+]
+

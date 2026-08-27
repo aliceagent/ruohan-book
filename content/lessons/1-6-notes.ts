@@ -414,3 +414,72 @@ export const LESSON_1_6_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_6_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "可以麻烦你帮我…吗",
+    "Could I trouble you to help me…?",
+    ["Polite request. 可以麻烦你帮我打印这些资料吗？ 麻烦你 + 帮我 + verb."],
+    {
+      pattern: "可以麻烦你帮我 + V + 吗？",
+      examples: [
+        ex("可以麻烦你帮我打印吗？", "Could you print this for me?"),
+        ex("可以麻烦你帮我看一下吗？", "Could you take a look for me?"),
+        ex("麻烦你帮我带一杯咖啡。", "Could you grab me a coffee?"),
+      ],
+    },
+  ),
+  ml(
+    "怪不得",
+    "No wonder…",
+    ["怪不得出生率越来越低. After you hear a reason, 怪不得 + result. “That explains it.”"],
+    {
+      pattern: "怪不得 + result",
+      examples: [
+        ex("怪不得你这么累。", "No wonder you’re so tired."),
+        ex("怪不得他没来。", "No wonder he didn’t come."),
+        ex("怪不得出生率越来越低。", "No wonder the birth rate keeps falling."),
+      ],
+    },
+  ),
+  ml(
+    "越来越…",
+    "More and more…",
+    ["出生率越来越低. 越来越 + adj / verb: a change over time."],
+    {
+      pattern: "越来越 + Adj / V",
+      examples: [
+        ex("天气越来越冷。", "The weather is getting colder and colder."),
+        ex("他越来越忙。", "He’s getting busier and busier."),
+        ex("生活越来越贵。", "Life is getting more and more expensive."),
+      ],
+    },
+  ),
+  ml(
+    "只希望…就好了",
+    "I only hope that…",
+    ["现在只希望他们健康快乐地长大就好了. 只希望 + wish + 就好了 = that’s all I ask."],
+    {
+      pattern: "只希望 + situation + 就好了",
+      examples: [
+        ex("只希望他们健康就好了。", "I only hope they’re healthy."),
+        ex("只希望考试顺利就好了。", "I only hope the exam goes smoothly."),
+        ex("只希望别迟到就好了。", "I only hope we’re not late."),
+      ],
+    },
+  ),
+  ml(
+    "我先走了 / 麻烦你了",
+    "Leaving politely",
+    ["对，麻烦你了，谢谢！我先走了. 麻烦你了 thanks someone who just helped. 我先走了 is how you exit a conversation at work."],
+    {
+      pattern: "麻烦你了 / 我先走了",
+      examples: [
+        ex("麻烦你了，谢谢！", "Sorry for the trouble — thanks!"),
+        ex("我先走了。", "I’ll head out now."),
+        ex("那我先走了，明天见。", "I’ll head out then. See you tomorrow."),
+      ],
+    },
+  ),
+]
+

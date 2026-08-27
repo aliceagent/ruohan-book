@@ -203,3 +203,72 @@ export const LESSON_1_2_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_2_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "还没",
+    "Not yet",
+    ["还没 is short for 还没有. Use it when someone asks if you have finished something. Pair it with 了 in the question: 交了吗？还没。"],
+    {
+      pattern: "还没（有）",
+      examples: [
+        ex("吃了吗？还没。", "Have you eaten? Not yet."),
+        ex("报告还没交。", "I haven’t turned in the report yet."),
+        ex("我还没想好。", "I haven’t decided yet."),
+      ],
+    },
+  ),
+  ml(
+    "拖到 + time",
+    "Put it off until…",
+    ["拖 is “drag / delay.” 拖到最后一刻 is the last-minute habit in this dialogue. You can also 拖到明天, 拖到周末。"],
+    {
+      pattern: "拖到 + time",
+      examples: [
+        ex("别拖到明天。", "Don’t put it off until tomorrow."),
+        ex("作业拖到周日晚上。", "The homework got dragged to Sunday night."),
+        ex("我总是拖到最后一刻。", "I always leave it until the last minute."),
+      ],
+    },
+  ),
+  ml(
+    "如果…就好了",
+    "If only…",
+    ["A wish for something that is not true. 如果一天有25个小时就好了. Same family as 要是…就好了 — 要是 is a bit more spoken."],
+    {
+      pattern: "如果 + unreal + 就好了",
+      examples: [
+        ex("如果会飞就好了。", "If only I could fly."),
+        ex("如果今天放假就好了。", "If only today were a day off."),
+        ex("要是有更多时间就好了。", "If only I had more time."),
+      ],
+    },
+  ),
+  ml(
+    "向…学习学习",
+    "I should pick this up from you",
+    ["向 + person + 学习. Doubling 学习 softens it: “learn a bit from you,” not a formal course."],
+    {
+      pattern: "向 + person + 学习（学习）",
+      examples: [
+        ex("我得向你学习学习。", "I should learn a thing or two from you."),
+        ex("向老师学习。", "Learn from the teacher."),
+        ex("多向同事学习。", "Learn more from colleagues."),
+      ],
+    },
+  ),
+  ml(
+    "好像 A 比 B 更能…",
+    "A seems better than B at…",
+    ["好像 softens the comparison. 用写的比用手机更能提醒自己 — handwriting seems better than a phone at reminding you."],
+    {
+      pattern: "好像 A 比 B 更能 + V",
+      examples: [
+        ex("好像走路比开车更健康。", "Walking seems healthier than driving."),
+        ex("好像手写比打字记得更牢。", "Handwriting seems to stick better than typing."),
+        ex("好像早起比熬夜更有效。", "Getting up early seems more effective than staying up late."),
+      ],
+    },
+  ),
+]
+

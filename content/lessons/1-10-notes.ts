@@ -326,3 +326,72 @@ export const LESSON_1_10_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_10_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "要不要…",
+    "Do you want to…?",
+    ["你要不要吃宵夜？ Soft offer. Same 要不要 as the invites in 1-4 and 1-8."],
+    {
+      pattern: "要不要 + V",
+      examples: [
+        ex("你要不要吃宵夜？", "Want a late-night snack?"),
+        ex("要不要喝点什么？", "Want something to drink?"),
+        ex("你真的不要？", "You really don’t want any?"),
+      ],
+    },
+  ),
+  ml(
+    "V 不掉",
+    "Can’t get rid of it / can’t quit",
+    ["戒不掉. Potential complement: 戒 + 不 + 掉 = try to quit, fail. 改不掉坏习惯, 忘不掉。"],
+    {
+      pattern: "V + 不掉",
+      examples: [
+        ex("烟戒不掉。", "I can’t quit smoking."),
+        ex("这个习惯改不掉。", "I can’t break this habit."),
+        ex("那件事忘不掉。", "I can’t forget that."),
+      ],
+    },
+  ),
+  ml(
+    "又 A 又 B",
+    "Both A and B (often two vices)",
+    ["又抽烟又喝酒. Same 又…又… as 1-8, here stacking bad habits."],
+    {
+      pattern: "又 + V + 又 + V",
+      examples: [
+        ex("又抽烟又喝酒。", "Smokes and drinks."),
+        ex("又晚睡又不吃早餐。", "Stays up late and skips breakfast."),
+        ex("又便宜又好吃。", "Cheap and tasty."),
+      ],
+    },
+  ),
+  ml(
+    "一…就…",
+    "As soon as… then…",
+    ["一上网，不知不觉就半夜1点了. 一 + action, 就 + result. Fast, almost automatic."],
+    {
+      pattern: "一 + V，就 + result",
+      examples: [
+        ex("一上网就忘了时间。", "Once I go online I lose track of time."),
+        ex("一到家就睡觉。", "I go to sleep as soon as I get home."),
+        ex("一吃饭就想喝奶茶。", "As soon as I eat I want milk tea."),
+      ],
+    },
+  ),
+  ml(
+    "要不然…",
+    "In that case… / otherwise…",
+    ["要不然帮我带一碗芒果冰好了. After a no, 要不然 offers a smaller alternative."],
+    {
+      pattern: "要不然 + plan",
+      examples: [
+        ex("要不然帮我带一碗芒果冰好了。", "In that case, grab me a mango ice."),
+        ex("要不然明天再去。", "Otherwise let’s go tomorrow."),
+        ex("要不然你先走好了。", "In that case you go ahead."),
+      ],
+    },
+  ),
+]
+

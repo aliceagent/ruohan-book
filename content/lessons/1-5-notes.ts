@@ -204,3 +204,72 @@ export const LESSON_1_5_LINE_NOTES: Record<string, MiniLesson[]> = {
     ]),
   ],
 }
+
+export const LESSON_1_5_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "带 + person + 来 + place",
+    "Bring someone over",
+    ["带小孩来我家玩吧. 带 + person + 来 + place is the standard invite to come along."],
+    {
+      pattern: "带 + person + 来 + place",
+      examples: [
+        ex("带小孩来我家玩吧。", "Bring the kids over to my place."),
+        ex("带朋友来吃饭。", "Bring a friend to eat."),
+        ex("下次带你弟弟来。", "Bring your little brother next time."),
+      ],
+    },
+  ),
+  ml(
+    "…就好，其他我弄",
+    "Just do this; I’ll handle the rest",
+    ["你负责沙拉和水果拼盘就好，其他我弄. 就好 = that’s all you need to do. 弄 is spoken “take care of.”"],
+    {
+      pattern: "你 + V + 就好，其他我弄",
+      examples: [
+        ex("你洗碗就好，其他我弄。", "Just do the dishes; I’ll handle the rest."),
+        ex("你带饮料就好。", "Just bring drinks — that’s enough."),
+        ex("其他我弄。", "I’ll take care of the rest."),
+      ],
+    },
+  ),
+  ml(
+    "最好别…",
+    "Better not…",
+    ["最好别打游戏 is a soft prohibition. 最好 + 别 + verb."],
+    {
+      pattern: "最好别 + V",
+      examples: [
+        ex("最好别打游戏。", "Better not play video games."),
+        ex("最好别迟到。", "Better not be late."),
+        ex("最好别跟他说。", "Better not tell him."),
+      ],
+    },
+  ),
+  ml(
+    "交给 + person",
+    "Leave it to someone",
+    ["活动就交给你啦. 交给 + person = I’ll leave this in your hands. 啦 is warm and final."],
+    {
+      pattern: "就交给 + person",
+      examples: [
+        ex("这件事交给你。", "I’ll leave this to you."),
+        ex("活动就交给你啦。", "I’ll leave the activities to you then."),
+        ex("做饭交给我。", "Leave the cooking to me."),
+      ],
+    },
+  ),
+  ml(
+    "要不…？",
+    "How about…?",
+    ["要不也邀请他来？ is a suggestion. 要不 + idea. Often a new option in the middle of a plan."],
+    {
+      pattern: "要不 + suggestion",
+      examples: [
+        ex("要不明天去？", "How about going tomorrow?"),
+        ex("要不也邀请他来？", "How about inviting him too?"),
+        ex("要不我们先吃饭？", "How about we eat first?"),
+      ],
+    },
+  ),
+]
+

@@ -326,3 +326,72 @@ export const LESSON_1_8_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_8_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "怎么不…",
+    "Why not…? / How come you don’t…?",
+    ["怎么不去大菜市？ is a real suggestion dressed as a question. 怎么不 + verb."],
+    {
+      pattern: "怎么不 + V",
+      examples: [
+        ex("怎么不去大菜市？", "Why not go to the wet market?"),
+        ex("怎么不早说？", "Why didn’t you say so earlier?"),
+        ex("怎么不一起去？", "Why not go together?"),
+      ],
+    },
+  ),
+  ml(
+    "又 A 又 B",
+    "Both A and B",
+    ["又新鲜又便宜. Two good (or two bad) qualities stacked. 又累又饿, 又便宜又好吃。"],
+    {
+      pattern: "又 + Adj + 又 + Adj",
+      examples: [
+        ex("又新鲜又便宜。", "Fresh and cheap."),
+        ex("又好吃又好看。", "Tasty and pretty."),
+        ex("又忙又累。", "Busy and tired."),
+      ],
+    },
+  ),
+  ml(
+    "对了",
+    "By the way…",
+    ["对了，春天百货在打折. 对了 jumps to a new topic you just remembered — not “that’s correct.”"],
+    {
+      pattern: "对了，+ new topic",
+      examples: [
+        ex("对了，你明天有空吗？", "By the way, are you free tomorrow?"),
+        ex("对了，百货公司在打折。", "By the way, the department store is on sale."),
+        ex("对了，我有件事忘了说。", "By the way, I forgot to mention something."),
+      ],
+    },
+  ),
+  ml(
+    "V 不完",
+    "Can’t finish (using / eating) it",
+    ["大包装吃不完用不完. Potential complement: V + 不 + 完 = can’t get through it all."],
+    {
+      pattern: "V + 不完",
+      examples: [
+        ex("吃不完。", "I can’t finish eating it."),
+        ex("用不完。", "I can’t use it all up."),
+        ex("看不完。", "I can’t finish watching it."),
+      ],
+    },
+  ),
+  ml(
+    "要不要一起…",
+    "Want to go together?",
+    ["要不要一起去？我们可以合买. Same invite pattern as 1-4, here for shopping and splitting bulk packs."],
+    {
+      pattern: "要不要一起 + V",
+      examples: [
+        ex("要不要一起去？", "Want to go together?"),
+        ex("我们可以合买。", "We can split the bulk pack."),
+        ex("要不要一起逛逛？", "Want to wander around together?"),
+      ],
+    },
+  ),
+]
+

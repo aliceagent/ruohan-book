@@ -287,3 +287,72 @@ export const LESSON_1_7_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_7_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "不太会跟别人…",
+    "Not very good at … with other people",
+    ["不太会跟别人聊天. 不太会 = not really able / not great at. 跟别人 + verb."],
+    {
+      pattern: "不太会跟别人 + V",
+      examples: [
+        ex("我不太会跟别人聊天。", "I’m not great at chatting with people."),
+        ex("他不太会跟陌生人说话。", "He’s not great at talking to strangers."),
+        ex("我不太会唱歌。", "I’m not great at singing."),
+      ],
+    },
+  ),
+  ml(
+    "V + 都不行",
+    "No good at either…",
+    ["我唱歌跳舞都不行. A 都 B 不行 / A、B 都不行 = bad at both."],
+    {
+      pattern: "A B 都不行",
+      examples: [
+        ex("我唱歌跳舞都不行。", "I’m no good at singing or dancing."),
+        ex("游泳跑步我都不行。", "I’m no good at swimming or running."),
+        ex("这个我真的不行。", "I really can’t do this."),
+      ],
+    },
+  ),
+  ml(
+    "听别人… / 看别人…",
+    "Listen to others … / watch others …",
+    ["我喜欢听别人唱歌、看别人跳舞. 听 / 看 + 别人 + V: enjoy it as an audience, not a performer."],
+    {
+      pattern: "听 / 看 + 别人 + V",
+      examples: [
+        ex("我喜欢听别人唱歌。", "I like listening to other people sing."),
+        ex("我喜欢看别人跳舞。", "I like watching other people dance."),
+        ex("他爱看别人做饭。", "He loves watching other people cook."),
+      ],
+    },
+  ),
+  ml(
+    "要不…好了",
+    "How about you just… then",
+    ["要不你帮忙做菜好了. 要不 introduces a new plan; 好了 decides on the spot."],
+    {
+      pattern: "要不 + V + 好了",
+      examples: [
+        ex("要不你帮忙做菜好了。", "How about you help cook then."),
+        ex("要不明天再看好了。", "Let’s just look tomorrow then."),
+        ex("要不我先回去好了。", "I’ll just head back then."),
+      ],
+    },
+  ),
+  ml(
+    "教我 + verb",
+    "Show me how to…",
+    ["老师教我做！ 教 + person + verb. Very useful at a food party: 教我做刈包。"],
+    {
+      pattern: "教 + person + V",
+      examples: [
+        ex("老师教我做。", "Teacher, show me how."),
+        ex("你教我唱歌吧。", "Teach me to sing."),
+        ex("谁教你做饭的？", "Who taught you to cook?"),
+      ],
+    },
+  ),
+]
+

@@ -133,7 +133,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           />
           <div className="grid gap-3 lg:grid-cols-2">
             {lesson.grammarFocus.map((item) => (
-              <MiniLessonCard key={item.title} lesson={item} />
+              <MiniLessonCard key={`${item.title}-${item.pattern ?? ""}`} lesson={item} />
             ))}
           </div>
         </section>

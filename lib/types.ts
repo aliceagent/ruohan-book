@@ -82,6 +82,10 @@ export type Lesson = {
     titleEn: string
     items: VocabItem[]
   }
+  /**
+   * Required in shipped lessons: at least five priority patterns (五个优先句型).
+   * content/unit-1.ts throws if this is missing or shorter than five.
+   */
   grammarFocus?: MiniLesson[]
   practiceSentences?: MiniLessonExample[]
   fillBlanks?: FillBlankItem[]

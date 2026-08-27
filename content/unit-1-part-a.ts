@@ -11,10 +11,10 @@ import {
   LESSON_1_1_PRACTICE,
   LESSON_1_1_SLEEP_FAMILY,
 } from "@/content/lessons/1-1-notes"
-import { LESSON_1_2_CORE_VOCAB, LESSON_1_2_LINE_NOTES } from "@/content/lessons/1-2-notes"
-import { LESSON_1_3_CORE_VOCAB, LESSON_1_3_LINE_NOTES } from "@/content/lessons/1-3-notes"
-import { LESSON_1_4_CORE_VOCAB, LESSON_1_4_LINE_NOTES } from "@/content/lessons/1-4-notes"
-import { LESSON_1_5_CORE_VOCAB, LESSON_1_5_LINE_NOTES } from "@/content/lessons/1-5-notes"
+import { LESSON_1_2_CORE_VOCAB, LESSON_1_2_GRAMMAR_FOCUS, LESSON_1_2_LINE_NOTES } from "@/content/lessons/1-2-notes"
+import { LESSON_1_3_CORE_VOCAB, LESSON_1_3_GRAMMAR_FOCUS, LESSON_1_3_LINE_NOTES } from "@/content/lessons/1-3-notes"
+import { LESSON_1_4_CORE_VOCAB, LESSON_1_4_GRAMMAR_FOCUS, LESSON_1_4_LINE_NOTES } from "@/content/lessons/1-4-notes"
+import { LESSON_1_5_CORE_VOCAB, LESSON_1_5_GRAMMAR_FOCUS, LESSON_1_5_LINE_NOTES } from "@/content/lessons/1-5-notes"
 import { notedLine } from "@/content/lessons/note-helpers"
 import type { Lesson, Question, VocabItem } from "@/lib/types"
 
@@ -167,6 +167,7 @@ export const UNIT_1_LESSONS: Lesson[] = [
       notedLine(LESSON_1_2_LINE_NOTES, "B", "真有条理，好像用写的比用手机更能提醒自己。我也去买一本好了。", "So organized. Writing it down seems more of a reminder than a phone. I’ll go buy one too."),
     ],
     coreVocabulary: LESSON_1_2_CORE_VOCAB,
+    grammarFocus: LESSON_1_2_GRAMMAR_FOCUS,
     vocabulary: [
       v("守时", "punctual"),
       v("夜猫子", "night owl"),
@@ -244,6 +245,7 @@ export const UNIT_1_LESSONS: Lesson[] = [
       notedLine(LESSON_1_3_LINE_NOTES, "B", "我希望有机器人包办所有的家务！", "I wish a robot would take over all the housework!"),
     ],
     coreVocabulary: LESSON_1_3_CORE_VOCAB,
+    grammarFocus: LESSON_1_3_GRAMMAR_FOCUS,
     vocabulary: [
       v("家务", "housework"),
       v("职责", "duty / responsibility"),
@@ -327,6 +329,7 @@ export const UNIT_1_LESSONS: Lesson[] = [
       notedLine(LESSON_1_4_LINE_NOTES, "A", "周六上午11点我去你家接你。", "Saturday at 11 a.m. I’ll pick you up at your place."),
     ],
     coreVocabulary: LESSON_1_4_CORE_VOCAB,
+    grammarFocus: LESSON_1_4_GRAMMAR_FOCUS,
     vocabulary: [
       v("婆媳问题", "mother-in-law / daughter-in-law conflict"),
       v("配偶", "spouse"),
@@ -406,6 +409,7 @@ export const UNIT_1_LESSONS: Lesson[] = [
       notedLine(LESSON_1_5_LINE_NOTES, "A", "好耶！我不曾这么近距离地看魔术，小孩们一定超兴奋的！", "Yes! I’ve never seen magic that close. The kids will be thrilled!"),
     ],
     coreVocabulary: LESSON_1_5_CORE_VOCAB,
+    grammarFocus: LESSON_1_5_GRAMMAR_FOCUS,
     notes: [
       {
         hanzi: "沙拉又称色拉、沙律，凉拌菜的意思。",

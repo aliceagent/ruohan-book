@@ -37,7 +37,14 @@ export function ml(
  * bare `{ speaker, hanzi, en }` helper. Keys must match the line 汉字 EXACTLY,
  * including punctuation (？！，。) and textbook notes like 〔吸烟〕 / 〔单反相机〕.
  * This throws at module load if a key is missing, so a lesson cannot ship without notes.
+ *
+ * RULE: every lesson also needs five priority grammar cards (五个优先句型).
+ * Export LESSON_X_Y_GRAMMAR_FOCUS with at least five MiniLesson items (title,
+ * titleEn, pattern, body, examples) and set lesson.grammarFocus. content/unit-1.ts
+ * throws if a lesson ships with fewer than five.
  */
+export const GRAMMAR_FOCUS_MIN = 5
+
 export function notedLine(
   notes: Record<string, MiniLesson[]>,
   speaker: DialogueLine["speaker"],

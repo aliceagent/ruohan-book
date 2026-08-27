@@ -2,11 +2,11 @@
  * RULE: every dialogue line is built with notedLine(LESSON_X_Y_LINE_NOTES, …).
  * Do not add a local line() helper that skips mini lessons. Keys must match 汉字 exactly.
  */
-import { LESSON_1_6_CORE_VOCAB, LESSON_1_6_LINE_NOTES } from "@/content/lessons/1-6-notes"
-import { LESSON_1_7_CORE_VOCAB, LESSON_1_7_LINE_NOTES } from "@/content/lessons/1-7-notes"
-import { LESSON_1_8_CORE_VOCAB, LESSON_1_8_LINE_NOTES } from "@/content/lessons/1-8-notes"
-import { LESSON_1_9_CORE_VOCAB, LESSON_1_9_LINE_NOTES } from "@/content/lessons/1-9-notes"
-import { LESSON_1_10_CORE_VOCAB, LESSON_1_10_LINE_NOTES } from "@/content/lessons/1-10-notes"
+import { LESSON_1_6_CORE_VOCAB, LESSON_1_6_GRAMMAR_FOCUS, LESSON_1_6_LINE_NOTES } from "@/content/lessons/1-6-notes"
+import { LESSON_1_7_CORE_VOCAB, LESSON_1_7_GRAMMAR_FOCUS, LESSON_1_7_LINE_NOTES } from "@/content/lessons/1-7-notes"
+import { LESSON_1_8_CORE_VOCAB, LESSON_1_8_GRAMMAR_FOCUS, LESSON_1_8_LINE_NOTES } from "@/content/lessons/1-8-notes"
+import { LESSON_1_9_CORE_VOCAB, LESSON_1_9_GRAMMAR_FOCUS, LESSON_1_9_LINE_NOTES } from "@/content/lessons/1-9-notes"
+import { LESSON_1_10_CORE_VOCAB, LESSON_1_10_GRAMMAR_FOCUS, LESSON_1_10_LINE_NOTES } from "@/content/lessons/1-10-notes"
 import { notedLine } from "@/content/lessons/note-helpers"
 import type { Lesson, Question, VocabItem } from "@/lib/types"
 
@@ -52,6 +52,7 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       notedLine(LESSON_1_6_LINE_NOTES, "A", "对，麻烦你了，谢谢！我先走了。", "Yes. Thanks so much — I’m heading out."),
     ],
     coreVocabulary: LESSON_1_6_CORE_VOCAB,
+    grammarFocus: LESSON_1_6_GRAMMAR_FOCUS,
     vocabulary: [
       v("育儿", "child-rearing"),
       v("出生率", "birth rate"),
@@ -130,6 +131,7 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       notedLine(LESSON_1_7_LINE_NOTES, "B", "没问题，我也很高兴多一个助手！", "No problem. I’m glad to have an extra helper!"),
     ],
     coreVocabulary: LESSON_1_7_CORE_VOCAB,
+    grammarFocus: LESSON_1_7_GRAMMAR_FOCUS,
     vocabulary: [
       v("开派对", "throw a party"),
       v("趴", "party (slang)"),
@@ -206,6 +208,7 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       notedLine(LESSON_1_8_LINE_NOTES, "A", "好，谢谢王妈妈！王妈妈再见！", "Okay, thanks Auntie Wang! See you!"),
     ],
     coreVocabulary: LESSON_1_8_CORE_VOCAB,
+    grammarFocus: LESSON_1_8_GRAMMAR_FOCUS,
     vocabulary: [
       v("网购", "shop online"),
       v("讲／杀／砍价", "haggle / bargain down the price"),
@@ -286,6 +289,7 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       notedLine(LESSON_1_9_LINE_NOTES, "A", "太好了！你要出外景的时候记得找我啊！", "Great! When you go shoot on location, remember to take me!"),
     ],
     coreVocabulary: LESSON_1_9_CORE_VOCAB,
+    grammarFocus: LESSON_1_9_GRAMMAR_FOCUS,
     vocabulary: [
       v("兴趣", "interest"),
       v("爱好", "hobby"),
@@ -364,6 +368,7 @@ export const UNIT_1_LESSONS_B: Lesson[] = [
       notedLine(LESSON_1_10_LINE_NOTES, "B", "要不然帮我带一碗芒果冰好了，好热！", "Then bring me a bowl of mango ice. It’s so hot!"),
     ],
     coreVocabulary: LESSON_1_10_CORE_VOCAB,
+    grammarFocus: LESSON_1_10_GRAMMAR_FOCUS,
     vocabulary: [
       v("宵夜", "late-night snack"),
       v("改坏习惯", "change a bad habit"),

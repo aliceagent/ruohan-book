@@ -184,3 +184,72 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
     ),
   ],
 }
+
+export const LESSON_1_3_GRAMMAR_FOCUS: MiniLesson[] = [
+  ml(
+    "轮到 + person + verb",
+    "It’s someone’s turn to…",
+    ["轮到我煮饭 — it’s my turn to cook. Use this for chores, paying, speaking in class, buying coffee."],
+    {
+      pattern: "轮到 + person + V",
+      examples: [
+        ex("今天轮到我洗碗。", "It’s my turn to do the dishes today."),
+        ex("轮到你了。", "It’s your turn."),
+        ex("下个月轮到她开车。", "Next month it’s her turn to drive."),
+      ],
+    },
+  ),
+  ml(
+    "负责 + task",
+    "Be in charge of…",
+    ["负责洗碗和倒垃圾. You can 负责 a chore, a day of the week, or a whole project."],
+    {
+      pattern: "负责 + noun / V",
+      examples: [
+        ex("我负责周末。", "I’m in charge of weekends."),
+        ex("她负责做饭。", "She’s in charge of cooking."),
+        ex("谁负责带饮料？", "Who’s in charge of bringing drinks?"),
+      ],
+    },
+  ),
+  ml(
+    "V + 吧 (suggestion)",
+    "Why not… / how about…",
+    ["买一台洗碗机吧 is a suggestion, not an order. 吧 after a verb or a plan softens it."],
+    {
+      pattern: "V + 吧",
+      examples: [
+        ex("买一台洗碗机吧。", "How about buying a dishwasher."),
+        ex("我们回家吧。", "Let’s go home."),
+        ex("先吃饭吧。", "Let’s eat first."),
+      ],
+    },
+  ),
+  ml(
+    "要是…就好了",
+    "If only there were…",
+    ["Wish. Same idea as 如果…就好了 in 1-2, but 要是 is very spoken. 要是有个机器人就好了。"],
+    {
+      pattern: "要是 + situation + 就好了",
+      examples: [
+        ex("要是有个机器人就好了。", "If only we had a robot."),
+        ex("要是今天下雨就好了。", "If only it would rain today."),
+        ex("要是你会做饭就好了。", "If only you could cook."),
+      ],
+    },
+  ),
+  ml(
+    "最 + adjective",
+    "The most…",
+    ["熨衣服是最没有意思的家务. 最 + adj (or 没有意思) makes a superlative. 最累, 最方便, 最麻烦。"],
+    {
+      pattern: "最 + Adj",
+      examples: [
+        ex("熨衣服最没有意思。", "Ironing is the most boring."),
+        ex("洗碗最麻烦。", "Doing dishes is the most annoying."),
+        ex("这是最方便的办法。", "This is the most convenient way."),
+      ],
+    },
+  ),
+]
+

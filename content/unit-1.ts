@@ -1,12 +1,15 @@
 import type { Lesson, VocabItem } from "@/lib/types"
 import { UNIT_1_LESSONS } from "@/content/unit-1-part-a"
 import { UNIT_1_LESSONS_B } from "@/content/unit-1-part-b"
+import { GRAMMAR_FOCUS_MIN } from "@/content/lessons/note-helpers"
 
 /**
  * RULE: every dialogue line in every lesson must have mini lessons.
+ * RULE: every lesson must have grammarFocus with at least five priority patterns
+ * (五个优先句型) — export LESSON_X_Y_GRAMMAR_FOCUS and set lesson.grammarFocus.
  * Assemble lines with notedLine(LESSON_X_Y_LINE_NOTES, speaker, hanzi, en).
  * Keys are the exact 汉字, including punctuation and textbook 〔〕 notes.
- * This loop throws at import time so a lesson cannot ship without notes.
+ * This loop throws at import time so a lesson cannot ship without notes or grammar cards.
  */
 export const UNIT_1: Lesson[] = [...UNIT_1_LESSONS, ...UNIT_1_LESSONS_B]
 
@@ -17,6 +20,11 @@ for (const lesson of UNIT_1) {
         `Lesson ${lesson.id} is missing mini lessons for: ${line.hanzi}`,
       )
     }
+  }
+  if ((lesson.grammarFocus?.length ?? 0) < GRAMMAR_FOCUS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${GRAMMAR_FOCUS_MIN} grammar-focus cards (五个优先句型), got ${lesson.grammarFocus?.length ?? 0}`,
+    )
   }
 }
 
