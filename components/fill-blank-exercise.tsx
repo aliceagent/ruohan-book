@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Check, Eye, RotateCcw } from "lucide-react"
+import { Check, Eye, RotateCcw, X } from "lucide-react"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { Button } from "@/components/ui/button"
@@ -32,51 +32,33 @@ function shuffle<T>(items: T[], seed: string) {
 export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
   const [values, setValues] = useState<Record<string, string>>({})
   const [revealed, setRevealed] = useState(false)
-  const [checked, setChecked] = useState(false)
 
   const choiceLists = useMemo(
     () => Object.fromEntries(items.map((item) => [item.id, shuffle(item.choices, item.id)])),
     [items],
   )
 
-  const results = useMemo(
-    () =>
-      items.map((item) => ({
-        id: item.id,
-        correct: (values[item.id] ?? "") === item.answer,
-        filled: Boolean(values[item.id]),
-      })),
-    [items, values],
-  )
-
-  const score = results.filter((item) => item.correct).length
-  const showMarks = checked || revealed
+  const answered = items.filter((item) => Boolean(values[item.id])).length
+  const score = items.filter((item) => values[item.id] === item.answer).length
 
   function reset() {
     setValues({})
     setRevealed(false)
-    setChecked(false)
   }
 
   function pick(item: FillBlankItem, choice: string) {
-    if (showMarks) return
+    if (revealed || values[item.id]) return
     setValues((current) => ({ ...current, [item.id]: choice }))
   }
 
   return (
-    <form
-      className="space-y-4"
-      onSubmit={(event) => {
-        event.preventDefault()
-        setChecked(true)
-        setRevealed(false)
-      }}
-    >
+    <div className="space-y-4">
       <ol className="space-y-3">
         {items.map((item, index) => {
-          const result = results[index]
           const picked = values[item.id] ?? ""
-          const shown = revealed ? item.answer : picked
+          const locked = Boolean(picked) || revealed
+          const correct = picked === item.answer
+          const shown = revealed && !picked ? item.answer : picked
           return (
             <li key={item.id} className="rounded-2xl border bg-card p-4">
               <p className="mb-2 text-sm text-muted-foreground">
@@ -92,9 +74,9 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                   className={cn(
                     "inline-flex min-h-10 min-w-[4.5rem] items-center justify-center rounded-lg border px-2.5 text-center text-lg font-medium",
                     !shown && "border-dashed text-muted-foreground",
-                    shown && !showMarks && "border-rose-300 bg-rose-50/70 dark:bg-rose-950/20",
-                    showMarks && (result.correct || revealed) && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
-                    showMarks && !result.correct && !revealed && "border-destructive/60 bg-destructive/10",
+                    shown && !locked && "border-rose-300 bg-rose-50/70 dark:bg-rose-950/20",
+                    locked && (correct || (revealed && !picked)) && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
+                    locked && picked && !correct && "border-destructive/60 bg-destructive/10",
                   )}
                   aria-hidden="true"
                 >
@@ -104,14 +86,6 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                   <span className="font-medium">
                     <MixedHanzi text={item.suffix} />
                   </span>
-                ) : null}
-                {showMarks && !result.correct ? (
-                  <span className="text-sm text-muted-foreground">
-                    Answer: <MixedHanzi text={item.answer} />
-                  </span>
-                ) : null}
-                {showMarks && result.correct ? (
-                  <Check className="size-4 text-emerald-700 dark:text-emerald-400" />
                 ) : null}
               </div>
               <div
@@ -128,14 +102,13 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                       type="button"
                       role="radio"
                       aria-checked={isPicked}
-                      disabled={showMarks}
+                      disabled={locked}
                       onClick={() => pick(item, choice)}
                       className={cn(
                         "rounded-xl border bg-background px-3 py-1.5 text-base font-medium transition-colors",
-                        !showMarks && "hover:border-rose-400 hover:bg-rose-50/60 dark:hover:bg-rose-950/20",
-                        !showMarks && isPicked && "border-rose-400 bg-rose-50/80 dark:bg-rose-950/30",
-                        showMarks && isAnswer && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
-                        showMarks && isPicked && !isAnswer && "border-destructive bg-destructive/10",
+                        !locked && "hover:border-rose-400 hover:bg-rose-50/60 dark:hover:bg-rose-950/20",
+                        locked && isAnswer && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30",
+                        locked && isPicked && !isAnswer && "border-destructive bg-destructive/10",
                       )}
                     >
                       <MixedHanzi text={choice} />
@@ -143,33 +116,55 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                   )
                 })}
               </div>
+              {picked ? (
+                <p
+                  className={cn(
+                    "mt-2 flex items-center gap-1.5 text-sm",
+                    correct ? "text-emerald-700 dark:text-emerald-400" : "text-muted-foreground",
+                  )}
+                  aria-live="polite"
+                >
+                  {correct ? (
+                    <>
+                      <Check className="size-4" />
+                      Correct.
+                    </>
+                  ) : (
+                    <>
+                      <X className="size-4 text-destructive" />
+                      Not quite — the answer is <MixedHanzi text={item.answer} />.
+                    </>
+                  )}
+                </p>
+              ) : revealed ? (
+                <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">
+                  Answer: <MixedHanzi text={item.answer} />
+                </p>
+              ) : null}
             </li>
           )
         })}
       </ol>
       <div className="flex flex-wrap items-center gap-2">
-        <Button type="submit">Check answers</Button>
         <Button
           type="button"
           variant="outline"
-          onClick={() => {
-            setRevealed(true)
-            setChecked(false)
-          }}
+          onClick={() => setRevealed(true)}
+          disabled={revealed || answered === items.length}
         >
           <Eye className="size-4" />
-          Show answers
+          Show remaining answers
         </Button>
         <Button type="button" variant="ghost" onClick={reset}>
           <RotateCcw className="size-4" />
           Reset
         </Button>
-        {showMarks ? (
+        {answered > 0 || revealed ? (
           <p className="text-sm text-muted-foreground">
             {score} / {items.length} correct
           </p>
         ) : null}
       </div>
-    </form>
+    </div>
   )
 }
