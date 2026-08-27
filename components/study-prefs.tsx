@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react"
 
+import { parsePlaybackRate, type PlaybackRate } from "@/lib/playback-rate"
+
 export type TextSize = "sm" | "md" | "lg"
 
 export type StudyPrefs = {
@@ -10,6 +12,7 @@ export type StudyPrefs = {
   ruby: boolean
   textSize: TextSize
   questionSize: TextSize
+  playbackRate: PlaybackRate
 }
 
 const DEFAULTS: StudyPrefs = {
@@ -18,6 +21,7 @@ const DEFAULTS: StudyPrefs = {
   ruby: true,
   textSize: "sm",
   questionSize: "sm",
+  playbackRate: 1,
 }
 
 const STORAGE_KEY = "ruohan-study-prefs"
@@ -56,7 +60,8 @@ export function StudyPrefsProvider({ children }: { children: React.ReactNode }) 
       const parsed = JSON.parse(raw) as Partial<StudyPrefs>
       const textSize = parseTextSize(parsed.textSize)
       const questionSize = parseTextSize(parsed.questionSize)
-      return { ...DEFAULTS, ...parsed, textSize, questionSize }
+      const playbackRate = parsePlaybackRate(parsed.playbackRate)
+      return { ...DEFAULTS, ...parsed, textSize, questionSize, playbackRate }
     } catch {
       return DEFAULTS
     }

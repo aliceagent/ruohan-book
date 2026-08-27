@@ -1,9 +1,10 @@
 "use client"
 
-import { useSyncExternalStore } from "react"
+import { useEffect, useSyncExternalStore } from "react"
 import { Loader2, Square, Volume2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { useStudyPrefs } from "@/components/study-prefs"
 import { speakBrowserChinese } from "@/lib/browser-speech"
 import { speakableHanzi } from "@/lib/speakable"
 
@@ -32,7 +33,7 @@ function stopAll() {
   emit()
 }
 
-async function playNeural(text: string, requestId: number) {
+async function playNeural(text: string, requestId: number, playbackRate: number) {
   let url = blobCache.get(text)
   if (!url) {
     const response = await fetch(`/api/speak?text=${encodeURIComponent(text)}`)
@@ -47,6 +48,7 @@ async function playNeural(text: string, requestId: number) {
   if (requestId !== generation) return false
   currentAudio?.pause()
   const audio = new Audio(url)
+  audio.playbackRate = playbackRate
   currentAudio = audio
   playingKey = text
   emit()
@@ -75,6 +77,7 @@ export function SpeakButton({
   text: string
   label?: string
 }) {
+  const { prefs } = useStudyPrefs()
   const cleaned = speakableHanzi(text)
   const snapshot = useSyncExternalStore(
     subscribe,
@@ -83,6 +86,10 @@ export function SpeakButton({
   )
   const playing = snapshot === cleaned && Boolean(cleaned)
   const loading = snapshot === `loading:${cleaned}`
+
+  useEffect(() => {
+    if (currentAudio) currentAudio.playbackRate = prefs.playbackRate
+  }, [prefs.playbackRate])
 
   async function toggle() {
     if (!cleaned) return
@@ -95,18 +102,18 @@ export function SpeakButton({
     playingKey = `loading:${cleaned}`
     emit()
     try {
-      const ok = await playNeural(cleaned, requestId)
+      const ok = await playNeural(cleaned, requestId, prefs.playbackRate)
       if (requestId !== generation) return
       if (!ok) {
         playingKey = ""
         emit()
-        await speakBrowserChinese(cleaned)
+        await speakBrowserChinese(cleaned, prefs.playbackRate)
       }
     } catch {
       if (requestId !== generation) return
       playingKey = ""
       emit()
-      await speakBrowserChinese(cleaned)
+      await speakBrowserChinese(cleaned, prefs.playbackRate)
     }
   }
 

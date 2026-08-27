@@ -32,7 +32,7 @@ function waitForVoices() {
   })
 }
 
-export async function speakBrowserChinese(text: string) {
+export async function speakBrowserChinese(text: string, playbackRate = 1) {
   if (typeof window === "undefined" || !window.speechSynthesis) return
   const cleaned = speakableHanzi(text)
   if (!cleaned) return
@@ -40,7 +40,7 @@ export async function speakBrowserChinese(text: string) {
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(cleaned)
   utterance.lang = "zh-CN"
-  utterance.rate = 0.88
+  utterance.rate = playbackRate
   const voice = pickChineseVoice()
   if (voice && voiceScore(voice) > 0) {
     utterance.voice = voice

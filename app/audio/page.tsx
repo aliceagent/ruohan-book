@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
+import { LessonAudio, PlaybackSpeedControl } from "@/components/playback-speed"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BOOK } from "@/content/catalog"
@@ -19,7 +20,8 @@ export default function AudioPage() {
         <h1 className="font-serif text-4xl">Unit 1 audio</h1>
         <p className="max-w-2xl text-muted-foreground">
           The ten official dialogue tracks for Unit 1 are on every lesson page and here as a
-          playlist. Narrators: {BOOK.narrators.join(" and ")}.
+          playlist. Narrators: {BOOK.narrators.join(" and ")}. Slow a track to 0.7× or 0.5× when you
+          want to catch every syllable.
         </p>
       </div>
 
@@ -29,6 +31,7 @@ export default function AudioPage() {
           <CardDescription>
             Files are stored as 01-01.mp3 … 01-10.mp3, matching the headphone numbers in the book.
           </CardDescription>
+          <PlaybackSpeedControl className="pt-1" />
         </CardHeader>
         <CardContent className="grid gap-4">
           {UNIT_1.map((lesson) => (
@@ -45,9 +48,7 @@ export default function AudioPage() {
                   {lessonAudioFileName(lesson.audioId)}
                 </code>
               </div>
-              <audio controls className="w-full" src={lessonAudioSrc(lesson.audioId)} preload="none">
-                Your browser does not support audio.
-              </audio>
+              <LessonAudio src={lessonAudioSrc(lesson.audioId)} preload="none" />
             </div>
           ))}
         </CardContent>

@@ -3,6 +3,7 @@
 import { Headphones } from "lucide-react"
 
 import { SpeakButton } from "@/components/hanzi-text"
+import { LessonAudio, PlaybackSpeedControl } from "@/components/playback-speed"
 import { lessonAudioSrc } from "@/lib/audio"
 import { cn } from "@/lib/utils"
 
@@ -29,11 +30,12 @@ export function AudioBar({
           <Headphones className="size-4 text-rose-700" />
           Lesson audio {audioId}
         </div>
-        <SpeakButton text={speakText} label="Read aloud" />
+        <div className="flex flex-wrap items-center gap-2">
+          <PlaybackSpeedControl />
+          <SpeakButton text={speakText} label="Read aloud" />
+        </div>
       </div>
-      <audio controls className="w-full" src={src} preload="metadata">
-        Your browser does not support audio.
-      </audio>
+      <LessonAudio src={src} preload="metadata" />
     </div>
   )
 }
