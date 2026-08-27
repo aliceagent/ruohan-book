@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { LessonIllustration } from "@/components/lesson-illustration"
 import { getUnit } from "@/content/catalog"
 import { UNIT_1 } from "@/content/unit-1"
 
@@ -56,32 +57,44 @@ export default async function UnitPage({
           return (
             <Card key={topic.id} className={href ? "transition-colors hover:border-rose-400" : ""}>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <Badge variant={href ? "default" : "outline"}>{topic.id}</Badge>
+                <div className="flex items-start gap-4">
                   {lesson ? (
-                    <span className="text-xs text-muted-foreground">
-                      {lesson.questions.length} prompts · {lesson.vocabulary.length} words
-                    </span>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">Coming later</span>
-                  )}
+                    <Link href={href!} className="shrink-0">
+                      <LessonIllustration
+                        lessonId={lesson.id}
+                        alt={`${topic.title} · ${topic.titleEn}`}
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="min-w-0 flex-1 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <Badge variant={href ? "default" : "outline"}>{topic.id}</Badge>
+                      {lesson ? (
+                        <span className="text-xs text-muted-foreground">
+                          {lesson.questions.length} prompts · {lesson.vocabulary.length} words
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">Coming later</span>
+                      )}
+                    </div>
+                    {href ? (
+                      <>
+                        <Link href={href} className="block">
+                          <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
+                          <CardDescription>{topic.titleEn}</CardDescription>
+                        </Link>
+                        <Link href={`/quiz/${topic.id}`} className="text-sm text-rose-800 hover:underline">
+                          Lesson quiz
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
+                        <CardDescription>{topic.titleEn}</CardDescription>
+                      </>
+                    )}
+                  </div>
                 </div>
-                {href ? (
-                  <>
-                    <Link href={href} className="block">
-                      <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
-                      <CardDescription>{topic.titleEn}</CardDescription>
-                    </Link>
-                    <Link href={`/quiz/${topic.id}`} className="text-sm text-rose-800 hover:underline">
-                      Lesson quiz
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <CardTitle className="font-serif text-2xl">{topic.title}</CardTitle>
-                    <CardDescription>{topic.titleEn}</CardDescription>
-                  </>
-                )}
               </CardHeader>
             </Card>
           )

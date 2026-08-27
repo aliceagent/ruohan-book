@@ -13,6 +13,7 @@ import {
 import { AudioBar } from "@/components/audio-bar"
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
+import { LessonIllustration } from "@/components/lesson-illustration"
 import { QuizPlayer } from "@/components/quiz-player"
 import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
 import { useStudyPrefs } from "@/components/study-prefs"
@@ -39,29 +40,36 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
-          <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">
-            Unit {lesson.unitId} · Lesson {lesson.id}
-          </p>
-          <HanziText
-            hanzi={lesson.title}
-            english={lesson.titleEn}
-            showPinyin={prefs.pinyin}
-            showEnglish={prefs.english}
-            ruby={prefs.ruby}
-            size="xl"
-          />
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <DisplayToggles compact />
-          <Button
-            variant={done ? "secondary" : "default"}
-            onClick={() => toggleLesson(lesson.id)}
-          >
-            <Check className="size-4" />
-            {done ? "Completed" : "Mark complete"}
-          </Button>
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+        <LessonIllustration
+          lessonId={lesson.id}
+          alt={`${lesson.title} · ${lesson.titleEn}`}
+          variant="hero"
+        />
+        <div className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="space-y-2">
+            <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">
+              Unit {lesson.unitId} · Lesson {lesson.id}
+            </p>
+            <HanziText
+              hanzi={lesson.title}
+              english={lesson.titleEn}
+              showPinyin={prefs.pinyin}
+              showEnglish={prefs.english}
+              ruby={prefs.ruby}
+              size="xl"
+            />
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <DisplayToggles compact />
+            <Button
+              variant={done ? "secondary" : "default"}
+              onClick={() => toggleLesson(lesson.id)}
+            >
+              <Check className="size-4" />
+              {done ? "Completed" : "Mark complete"}
+            </Button>
+          </div>
         </div>
       </div>
 

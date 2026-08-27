@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { LessonIllustration } from "@/components/lesson-illustration"
 import { UNIT_1 } from "@/content/unit-1"
 import { allLessonQuizzes } from "@/lib/quiz"
 
@@ -34,19 +35,31 @@ export default function QuizIndexPage() {
           return (
             <Card key={quiz.id} className="transition-colors hover:border-rose-400">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <Badge variant="outline">{quiz.items.length} questions</Badge>
-                  <span className="text-xs text-muted-foreground">{lesson?.audioId}</span>
+                <div className="flex items-start gap-4">
+                  {lesson ? (
+                    <Link href={`/quiz/${quiz.id}`} className="shrink-0">
+                      <LessonIllustration
+                        lessonId={lesson.id}
+                        alt={`${quiz.title} · ${quiz.titleEn}`}
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="min-w-0 flex-1 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <Badge variant="outline">{quiz.items.length} questions</Badge>
+                      <span className="text-xs text-muted-foreground">{lesson?.audioId}</span>
+                    </div>
+                    <Link href={`/quiz/${quiz.id}`} className="block">
+                      <CardTitle className="font-serif text-2xl">{quiz.title}</CardTitle>
+                      <CardDescription>{quiz.titleEn}</CardDescription>
+                    </Link>
+                    {lesson ? (
+                      <Link href={`/units/1/${lesson.id}#quiz`} className="text-sm text-rose-800 hover:underline">
+                        Open in the lesson
+                      </Link>
+                    ) : null}
+                  </div>
                 </div>
-                <Link href={`/quiz/${quiz.id}`} className="block">
-                  <CardTitle className="font-serif text-2xl">{quiz.title}</CardTitle>
-                  <CardDescription>{quiz.titleEn}</CardDescription>
-                </Link>
-                {lesson ? (
-                  <Link href={`/units/1/${lesson.id}#quiz`} className="text-sm text-rose-800 hover:underline">
-                    Open in the lesson
-                  </Link>
-                ) : null}
               </CardHeader>
             </Card>
           )
