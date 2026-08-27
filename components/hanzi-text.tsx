@@ -1,46 +1,10 @@
 "use client"
 
-import { Volume2 } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
+import { SpeakButton } from "@/components/speak-button"
 import { rubyTokens } from "@/lib/pinyin"
 import { cn } from "@/lib/utils"
 
-export function speakChinese(text: string) {
-  if (typeof window === "undefined" || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  utterance.lang = "zh-CN"
-  utterance.rate = 0.92
-  const voices = window.speechSynthesis.getVoices()
-  const chinese =
-    voices.find((voice) => voice.lang.startsWith("zh") && /CN|TW|HK/i.test(voice.lang)) ||
-    voices.find((voice) => voice.lang.startsWith("zh"))
-  if (chinese) utterance.voice = chinese
-  window.speechSynthesis.speak(utterance)
-}
-
-export function SpeakButton({
-  text,
-  label = "Listen",
-}: {
-  text: string
-  label?: string
-}) {
-  return (
-    <Button
-      type="button"
-      size="sm"
-      variant="ghost"
-      className="h-8 gap-1.5 px-2 text-muted-foreground"
-      onClick={() => speakChinese(text.replace(/[〔〕【】\[\]（）()]/g, ""))}
-      aria-label={label}
-    >
-      <Volume2 className="size-3.5" />
-      <span className="sr-only sm:not-sr-only sm:text-xs">{label}</span>
-    </Button>
-  )
-}
+export { SpeakButton }
 
 export function HanziText({
   hanzi,
