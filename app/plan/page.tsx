@@ -23,7 +23,7 @@ export default function PlanPage() {
           The book is 120 situations and about 3,600 prompts. Each situation already has a scene
           (time, place, people, topic), a model dialogue, stretch vocabulary, and a long Q&A list.
           The website adds what the print page cannot: pinyin over every character, English, a
-          listen button, flashcards, search, and a place to drop the official MP3s.
+          listen button, flashcards, search, and the official lesson recordings.
         </p>
       </section>
 
@@ -33,11 +33,9 @@ export default function PlanPage() {
           <li>All 22 units catalogued so the map of the book is visible.</li>
           <li>Unit 1 家庭生活: 10 lessons, dialogues, notes, vocabulary, and every 互动问答 item.</li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
-          <li>Browser speech as a stand-in until purchased audio is added.</li>
+          <li>Official Unit 1 MP3s (01-01 … 01-10) on every lesson and the audio playlist.</li>
           <li>Study desk: search, flashcards, glossary, local progress.</li>
-          <li>
-            Audio research page with track ids 1-1…1-10 and the legal way to attach MP3s.
-          </li>
+          <li>Browser speech as a line-by-line fallback.</li>
         </ul>
       </section>
 
@@ -65,9 +63,9 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Audio plan</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Official files stay off GitHub. Locally or via private object storage (for example Vercel
-          Blob, private), map <code>1-n.mp3</code> onto each lesson. Until then, Web Speech API
-          zh-CN is the fallback. Details live on the <Link href="/audio">audio page</Link>.
+          Official Unit 1 files are in the repo as <code>01-01.mp3</code>…<code>01-10.mp3</code> and
+          play on each lesson. Later units follow the same naming. Browser speech remains as a
+          line-by-line fallback. Details live on the <Link href="/audio">audio page</Link>.
         </p>
       </section>
 

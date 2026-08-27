@@ -1,14 +1,5 @@
 # Audio files
 
-Official lesson MP3s are not included in this repository.
+Unit 1 dialogue tracks live here as `01-01.mp3` … `01-10.mp3`.
 
-When you have the publisher tracks, name them with the headphone ids from the book:
-
-```
-public/audio/unit-1/1-1.mp3
-public/audio/unit-1/1-2.mp3
-...
-public/audio/unit-1/1-10.mp3
-```
-
-The lesson page will detect a 200 from that path and show an audio player.
+Later units: `public/audio/unit-2/02-01.mp3`, and so on.

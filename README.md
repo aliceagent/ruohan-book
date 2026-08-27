@@ -9,7 +9,7 @@ Unit 1 家庭生活 is live: every scene, dialogue, stretch-vocabulary list, and
 - Lesson pages at `/units/1/1-1` … `/units/1/1-10`
 - Catalog of all 22 units (later units listed, not yet transcribed)
 - Study desk: search, flashcards, glossary, local progress
-- [Audio notes](/audio): official MP3s exist, but they are not public. Drop purchased files in `public/audio/unit-1/1-n.mp3`
+- Unit 1 official dialogue MP3s on each lesson and at `/audio`
 - [Website plan](/plan)
 
 This is a learner companion, not a scan of the PDF.

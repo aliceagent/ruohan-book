@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Headphones } from "lucide-react"
 
 import { SpeakButton } from "@/components/hanzi-text"
+import { lessonAudioSrc } from "@/lib/audio"
 import { cn } from "@/lib/utils"
 
 export function AudioBar({
@@ -15,27 +15,12 @@ export function AudioBar({
   speakText: string
   className?: string
 }) {
-  const src = `/audio/unit-1/${audioId}.mp3`
-  const [available, setAvailable] = useState<boolean | null>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    fetch(src, { method: "HEAD" })
-      .then((response) => {
-        if (!cancelled) setAvailable(response.ok)
-      })
-      .catch(() => {
-        if (!cancelled) setAvailable(false)
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [src])
+  const src = lessonAudioSrc(audioId)
 
   return (
     <div
       className={cn(
-        "flex flex-col gap-3 rounded-2xl border border-dashed border-rose-300/80 bg-rose-50/70 p-4 dark:border-rose-900 dark:bg-rose-950/30",
+        "flex flex-col gap-3 rounded-2xl border border-rose-300/80 bg-rose-50/70 p-4 dark:border-rose-900 dark:bg-rose-950/30",
         className,
       )}
     >
@@ -46,21 +31,9 @@ export function AudioBar({
         </div>
         <SpeakButton text={speakText} label="Browser voice" />
       </div>
-      {available ? (
-        <audio controls className="w-full" src={src} preload="metadata">
-          Your browser does not support audio.
-        </audio>
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          Official MP3s are not bundled. Drop a file at{" "}
-          <code className="rounded bg-background px-1 py-0.5 text-xs">{src}</code> or use the
-          browser voice. See the{" "}
-          <a className="underline underline-offset-2" href="/audio">
-            audio page
-          </a>
-          .
-        </p>
-      )}
+      <audio controls className="w-full" src={src} preload="metadata">
+        Your browser does not support audio.
+      </audio>
     </div>
   )
 }

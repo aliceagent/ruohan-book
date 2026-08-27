@@ -28,7 +28,7 @@ export default function HomePage() {
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
             A study companion for Shelley Hsieh&apos;s conversation-topic book: every prompt with
-            pinyin, English, speaking practice, and room for the official lesson audio. Unit 1
+            pinyin, English, speaking practice, and the official lesson audio. Unit 1
             家庭生活 is complete. The other 21 units are mapped and waiting.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -38,7 +38,7 @@ export default function HomePage() {
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/audio">Find the MP3s</Link>
+              <Link href="/audio">Listen to Unit 1</Link>
             </Button>
             <Button variant="ghost" asChild>
               <Link href="/plan">Website plan</Link>
@@ -74,8 +74,8 @@ export default function HomePage() {
         />
         <Feature
           icon={<Headphones className="size-5" />}
-          title="Audio when you have it"
-          body="Official tracks were recorded by 欧喜强 and 胡砚涵. We looked for public MP3s and did not find a legal dump. Drop your files in, or use browser speech in the meantime."
+          title="Official dialogue audio"
+          body="Unit 1 tracks 01-01 through 01-10, recorded by 欧喜强 and 胡砚涵, play on every lesson. Browser speech is still there for single lines."
         />
       </section>
 
