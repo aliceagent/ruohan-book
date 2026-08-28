@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_9_CORE_VOCAB: VocabItem[] = [
   v("剪纸", "paper cutting"),
@@ -16,6 +16,57 @@ export const LESSON_1_9_CORE_VOCAB: VocabItem[] = [
   v("摄影", "photography"),
   v("单眼相机〔单反相机〕", "SLR / DSLR camera"),
   v("出外景", "to shoot on location"),
+]
+
+export const LESSON_1_9_CHUNKS: VocabItem[] = [
+  v("你在做什么？", "what are you doing?"),
+  v("剪纸", "paper cutting"),
+  v("你什么时候开始有这个爱好的？", "when did you start this hobby?"),
+  v("今年年初才开始的", "only at the beginning of this year"),
+  v("很有意思", "really interesting"),
+  v("好漂亮", "so pretty"),
+  v("拼贴画", "collage"),
+  v("好厉害", "amazing"),
+  v("随便弄的", "I just threw them together"),
+  v("一直没行动", "I never actually start"),
+  v("培养爱好", "take up a hobby"),
+  v("迷上了摄影", "got hooked on photography"),
+  v("出外景", "shoot on location"),
+  v("记得找我", "remember to take me"),
+]
+
+export const LESSON_1_9_FAMILY: VocabItem[] = [
+  v("爱好", "hobby"),
+  v("才开始", "only just started"),
+  v("很有意思", "really interesting"),
+  v("好漂亮", "so pretty"),
+  v("好厉害", "amazing"),
+  v("迷上了", "got hooked on"),
+  v("一直没行动", "never actually start"),
+  v("培养爱好", "cultivate a hobby"),
+  v("记得找我", "remember to take me"),
+]
+
+export const LESSON_1_9_PRACTICE: MiniLessonExample[] = [
+  ex("你什么时候开始有这个爱好的？我怎么不知道！", "When did you start this hobby? How did I not know!"),
+  ex("今年年初才开始的，很有意思。", "Only at the beginning of this year. It’s really interesting."),
+  ex("在我的拼贴画上贴你的剪纸，应该不错。", "Sticking your paper cuts on my collage would look good."),
+  ex("这些都是你拼贴的吗？好厉害！", "You collaged all of these? Amazing!"),
+  ex("其实我最想学的是油画，可是一直没行动。", "What I really want to learn is oil painting, but I never act."),
+  ex("如果可以培养任何爱好，你还想要有什么兴趣爱好？", "If you could take up any hobby, what else would you want?"),
+  ex("我最近迷上了摄影，想换单眼相机。", "I’ve gotten into photography lately. I want to switch to an SLR."),
+  ex("你要出外景的时候记得找我啊！", "When you go shoot on location, remember to take me!"),
+]
+
+export const LESSON_1_9_FILL_BLANKS = [
+  fb("1", "When did you start this hobby?", "你什么时候开始有这个爱好", "？", "的", ["了", "吗", "呢"]),
+  fb("2", "I only started at the beginning of this year.", "今年年初", "开始的。", "才", ["就", "都", "还"]),
+  fb("3", "Stick the paper cutting onto the collage.", "把剪纸", "拼贴画上。", "贴在", ["放在", "写在", "画在"]),
+  fb("4", "I’ve gotten hooked on photography lately.", "我最近", "摄影。", "迷上了", ["开始了", "学会了", "买到了"]),
+  fb("5", "Remember to take me when you go shoot.", "你要出外景的时候", "找我啊！", "记得", ["忘记", "马上", "一起"]),
+  fb("6", "I never actually start.", "我最想学油画，可是一直没", "。", "行动", ["爱好", "意思", "材料"]),
+  fb("7", "It’s really interesting.", "剪纸很", "。", "有意思", ["有条理", "有空", "有名"]),
+  fb("8", "What are you doing?", "你在做", "？", "什么", ["怎么", "为什么", "哪儿"]),
 ]
 
 export const LESSON_1_9_LINE_NOTES: Record<string, MiniLesson[]> = {

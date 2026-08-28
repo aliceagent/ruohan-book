@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_3_CORE_VOCAB: VocabItem[] = [
   v("下班后", "after work"),
@@ -15,6 +15,57 @@ export const LESSON_1_3_CORE_VOCAB: VocabItem[] = [
   v("熨衣服", "to iron clothes"),
   v("机器人", "robot"),
   v("包办", "to take care of everything"),
+]
+
+export const LESSON_1_3_CHUNKS: VocabItem[] = [
+  v("下班后去喝一杯吧？", "want to grab a drink after work?"),
+  v("今天轮到我煮饭", "it’s my turn to cook today"),
+  v("用轮的", "we take turns"),
+  v("帮忙家务", "help with housework"),
+  v("负责洗碗", "be in charge of the dishes"),
+  v("倒垃圾", "take out the trash"),
+  v("不爱洗碗", "hate washing dishes"),
+  v("买一台洗碗机吧", "how about buying a dishwasher"),
+  v("很方便", "very convenient"),
+  v("熨衣服", "iron clothes"),
+  v("最没有意思的家务", "the most boring chore"),
+  v("要是有个机器人就好了", "if only we had a robot"),
+  v("扫地机器人", "robot vacuum"),
+  v("包办所有的家务", "take over all the housework"),
+]
+
+export const LESSON_1_3_FAMILY: VocabItem[] = [
+  v("煮饭", "cook a meal"),
+  v("洗碗", "wash dishes"),
+  v("倒垃圾", "take out the trash"),
+  v("熨衣服", "iron clothes"),
+  v("扫地", "sweep the floor"),
+  v("负责", "be in charge of"),
+  v("轮到", "it’s someone’s turn"),
+  v("帮忙家务", "help with housework"),
+  v("包办", "handle everything"),
+]
+
+export const LESSON_1_3_PRACTICE: MiniLessonExample[] = [
+  ex("不好意思，今天轮到我煮饭，不能去喝一杯。", "Sorry — it’s my turn to cook today, so I can’t go for a drink."),
+  ex("我家用轮的，周末轮到我做家务。", "We take turns at home. Weekends are my housework days."),
+  ex("我负责洗碗和倒垃圾，太太喜欢煮饭。", "I do the dishes and take out the trash. My wife likes cooking."),
+  ex("她喜欢煮饭，可是不爱洗碗。", "She likes cooking but hates washing dishes."),
+  ex("买一台洗碗机吧，很方便。", "Buy a dishwasher. It’s convenient."),
+  ex("熨衣服是最没有意思的家务。", "Ironing is the most boring chore."),
+  ex("要是有个机器人就好了！", "If only we had a robot!"),
+  ex("我希望有机器人包办所有的家务。", "I wish a robot would take over all the housework."),
+]
+
+export const LESSON_1_3_FILL_BLANKS = [
+  fb("1", "It’s my turn to cook today.", "今天", "我煮饭。", "轮到", ["等到", "找到", "拿到"]),
+  fb("2", "I am in charge of the dishes.", "我", "洗碗。", "负责", ["喜欢", "帮忙", "轮到"]),
+  fb("3", "Do you help with housework?", "你", "家务吗？", "帮忙", ["负责", "包办", "轮到"]),
+  fb("4", "How about buying a dishwasher?", "买一台洗碗机", "。", "吧", ["吗", "呢", "啊"]),
+  fb("5", "If only we had a robot.", "要是有个机器人", "！", "就好了", ["才好了", "还好了", "也好了"]),
+  fb("6", "Ironing is the most boring chore.", "熨衣服是", "没有意思的家务。", "最", ["很", "太", "更"]),
+  fb("7", "I wish a robot would take over all the housework.", "我希望有机器人", "所有的家务。", "包办", ["帮忙", "负责", "轮到"]),
+  fb("8", "Neither of us likes ironing.", "我们都", "熨衣服。", "不喜欢", ["很喜欢", "负责", "轮到"]),
 ]
 
 export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {

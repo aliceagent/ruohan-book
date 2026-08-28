@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_6_CORE_VOCAB: VocabItem[] = [
   v("刚刚", "just now / a moment ago"),
@@ -21,6 +21,60 @@ export const LESSON_1_6_CORE_VOCAB: VocabItem[] = [
   v("指望", "to count on; to rely on"),
   v("孝顺", "filial; to be filial"),
   v("佩服", "to admire"),
+]
+
+export const LESSON_1_6_CHUNKS: VocabItem[] = [
+  v("不好意思", "sorry / excuse me"),
+  v("提早下班", "leave work early"),
+  v("可以麻烦你帮我……吗？", "could I trouble you to help me…?"),
+  v("没问题", "no problem"),
+  v("要紧吗？", "is it serious?"),
+  v("带去看医生", "take them to the doctor"),
+  v("有小孩真累", "kids are exhausting"),
+  v("怪不得", "no wonder"),
+  v("出生率越来越低", "the birth rate keeps falling"),
+  v("还好啦", "it’s alright"),
+  v("大部分时间都很快乐", "most of the time it’s joyful"),
+  v("没想那么多", "I don’t think that far"),
+  v("健康快乐地长大就好了", "growing up healthy and happy is enough"),
+  v("真佩服", "I really admire (you)"),
+  v("麻烦你了", "thanks for the trouble"),
+  v("我先走了", "I’m heading out"),
+]
+
+export const LESSON_1_6_FAMILY: VocabItem[] = [
+  v("不好意思", "sorry / excuse me"),
+  v("麻烦你帮我", "could I trouble you to help"),
+  v("没问题", "no problem"),
+  v("提早下班", "leave work early"),
+  v("不要紧", "not serious"),
+  v("怪不得", "no wonder"),
+  v("越来越…", "more and more…"),
+  v("只希望…就好了", "I only hope that…"),
+  v("麻烦你了", "thanks so much"),
+  v("我先走了", "I’m heading out"),
+]
+
+export const LESSON_1_6_PRACTICE: MiniLessonExample[] = [
+  ex("不好意思，我要提早下班，可以麻烦你帮我打印这些资料吗？", "Sorry — I need to leave early. Could you print these for me?"),
+  ex("没问题。生病了？要紧吗？", "No problem. Sick? Is it serious?"),
+  ex("我等一下带小孩去看医生。", "I’ll take the kid to the doctor in a bit."),
+  ex("有小孩真累，怪不得出生率越来越低。", "Kids are exhausting. No wonder the birth rate keeps falling."),
+  ex("还好啦，大部分时间都很快乐。", "It’s alright. Most of the time it’s joyful."),
+  ex("我没想那么多，现在只希望他们健康快乐地长大就好了。", "I don’t think that far. Right now I just hope they grow up healthy and happy."),
+  ex("真佩服你们这些爸爸妈妈。", "I really admire you moms and dads."),
+  ex("麻烦你了，谢谢！我先走了。", "Thanks so much — I’m heading out."),
+]
+
+export const LESSON_1_6_FILL_BLANKS = [
+  fb("1", "Could I trouble you to print these for me?", "可以", "你帮我打印这些资料吗？", "麻烦", ["负责", "邀请", "交给"]),
+  fb("2", "No problem.", "", "。要紧吗？", "没问题", ["不好意思", "还好啦", "怪不得"]),
+  fb("3", "No wonder the birth rate keeps falling.", "", "出生率越来越低。", "怪不得", ["还好啦", "没问题", "对不起"]),
+  fb("4", "The birth rate is getting lower and lower.", "出生率", "低。", "越来越", ["非常", "有点", "不太"]),
+  fb("5", "I only hope they grow up healthy and happy.", "现在只希望他们健康快乐地长大", "。", "就好了", ["才好了", "还好了", "也好了"]),
+  fb("6", "I need to leave work early.", "我要", "下班。", "提早", ["按时", "一起", "马上"]),
+  fb("7", "Thanks for the trouble — I’m heading out.", "麻烦你了，谢谢！我", "。", "先走了", ["先来了", "先看了", "先吃了"]),
+  fb("8", "Is it serious?", "生病了？", "吗？", "要紧", ["有空", "有意思", "有条理"]),
 ]
 
 export const LESSON_1_6_LINE_NOTES: Record<string, MiniLesson[]> = {

@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_2_CORE_VOCAB: VocabItem[] = [
   v("交", "to hand in; to submit"),
@@ -16,6 +16,59 @@ export const LESSON_1_2_CORE_VOCAB: VocabItem[] = [
   v("记事手册", "planner; notebook"),
   v("手写", "to write by hand"),
   v("有条理", "organized; methodical"),
+]
+
+export const LESSON_1_2_CHUNKS: VocabItem[] = [
+  v("交报告了吗？", "have you turned in the report?"),
+  v("还没", "not yet"),
+  v("坏习惯", "bad habit"),
+  v("拖到最后一刻", "put it off until the last minute"),
+  v("按时完成", "finish on time"),
+  v("不早一点做完不安心", "not at ease unless I finish a bit early"),
+  v("如果……就好了", "if only…"),
+  v("结果……还是……", "and in the end, still…"),
+  v("向你学习学习", "I should learn a bit from you"),
+  v("规划时间", "plan one’s time"),
+  v("时间不够用", "there isn’t enough time"),
+  v("记事手册", "paper planner"),
+  v("手写", "write by hand"),
+  v("真有条理", "so organized"),
+  v("用写的比用手机更能提醒自己", "writing it down reminds me more than a phone"),
+  v("我也去买一本好了", "I might as well go buy one too"),
+]
+
+export const LESSON_1_2_FAMILY: VocabItem[] = [
+  v("交了", "already handed it in"),
+  v("还没（有）", "not yet"),
+  v("拖到最后一刻", "leave it until the last minute"),
+  v("按时完成", "finish on time"),
+  v("早一点做完", "finish a bit early"),
+  v("不安心", "uneasy; not at peace"),
+  v("时间不够用", "not enough time"),
+  v("规划时间", "plan one’s time"),
+  v("向你学习学习", "pick up a few things from you"),
+]
+
+export const LESSON_1_2_PRACTICE: MiniLessonExample[] = [
+  ex("报告还没交，我又拖到最后一刻了。", "I still haven’t turned in the report — I put it off until the last minute again."),
+  ex("我都是按时完成的，不早一点做完不安心。", "I always finish on time. I don’t feel at ease unless I finish a bit early."),
+  ex("如果一天有25个小时就好了。", "If only a day had 25 hours."),
+  ex("我得向你学习学习，你都怎么规划时间的？", "I should learn from you. How do you plan your time?"),
+  ex("我总觉得时间不够用。", "I always feel there isn’t enough time."),
+  ex("我习惯用记事手册手写。", "I’m used to writing things by hand in a planner."),
+  ex("好像用写的比用手机更能提醒自己。", "Writing it down seems more of a reminder than a phone."),
+  ex("结果电影看了，报告还是最后一刻才完成。", "I watched the movie, and the report still got finished at the last minute."),
+]
+
+export const LESSON_1_2_FILL_BLANKS = [
+  fb("1", "Not yet.", "报告", "交。", "还没", ["已经", "刚刚", "马上"]),
+  fb("2", "I put it off until the last minute.", "我总是拖到", "。", "最后一刻", ["明天早上", "下个月", "一年前"]),
+  fb("3", "I always finish on time.", "我都是", "完成的。", "按时", ["随便", "慢慢", "一起"]),
+  fb("4", "If only a day had 25 hours.", "如果一天有25个小时", "。", "就好了", ["才好了", "也好了", "还好了"]),
+  fb("5", "I should learn a bit from you.", "我得向你", "。", "学习学习", ["休息休息", "吃饭吃饭", "看看看"]),
+  fb("6", "There isn’t enough time.", "我总觉得时间", "。", "不够用", ["不好用", "不用", "没用"]),
+  fb("7", "Writing seems more of a reminder than a phone.", "好像用写的比用手机更能", "自己。", "提醒", ["忘记", "麻烦", "睡觉"]),
+  fb("8", "I don’t feel at ease if I don’t finish early.", "不早一点做完我", "。", "不安心", ["不好意思", "不舒服", "不满意"]),
 ]
 
 export const LESSON_1_2_LINE_NOTES: Record<string, MiniLesson[]> = {

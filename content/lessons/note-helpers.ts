@@ -72,9 +72,18 @@ export function ml(
  * titleEn, pattern, body, examples) and set lesson.grammarFocus. content/unit-1.ts
  * throws if a lesson ships with fewer than five.
  *
+ * RULE: every lesson also needs the four 1-1 extras:
+ *   chunks (值得整句记的), expressionFamily (一套说法), practiceSentences (练习句子),
+ *   fillBlanks (填空练习, via fb()). content/unit-1.ts throws if any are missing
+ *   or too short.
+ *
  * RULE: fill-in items are multiple choice, never typed. Build them with fb().
  */
 export const GRAMMAR_FOCUS_MIN = 5
+export const CHUNKS_MIN = 8
+export const FAMILY_MIN = 6
+export const PRACTICE_MIN = 6
+export const FILL_BLANKS_MIN = 6
 
 export function notedLine(
   notes: Record<string, MiniLesson[]>,

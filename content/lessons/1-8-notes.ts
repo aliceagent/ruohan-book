@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_8_CORE_VOCAB: VocabItem[] = [
   v("王妈妈", "Auntie Wang (neighbor / elder)"),
@@ -17,6 +17,58 @@ export const LESSON_1_8_CORE_VOCAB: VocabItem[] = [
   v("合买", "to buy together / split a bulk pack"),
   v("大包装", "large pack / bulk size"),
   v("出发", "to set off; to leave"),
+]
+
+export const LESSON_1_8_CHUNKS: VocabItem[] = [
+  v("去买东西啊？", "going shopping?"),
+  v("去超市", "go to the supermarket"),
+  v("怎么不去大菜市？", "why not the wet market?"),
+  v("又新鲜又便宜", "both fresher and cheaper"),
+  v("有定价比较安心", "set prices feel safer"),
+  v("下次去看看", "I’ll try it next time"),
+  v("在打折", "on sale"),
+  v("周年庆", "anniversary sale"),
+  v("限定的东西", "limited items"),
+  v("忙着上班", "busy with work"),
+  v("要不要一起去？", "want to go together?"),
+  v("我们可以合买", "we can split a bulk pack"),
+  v("吃不完用不完", "can’t finish eating or using it"),
+  v("在楼下门口等我", "wait for me at the downstairs entrance"),
+]
+
+export const LESSON_1_8_FAMILY: VocabItem[] = [
+  v("买东西", "go shopping"),
+  v("超市", "supermarket"),
+  v("传统市场", "traditional / wet market"),
+  v("又新鲜又便宜", "fresh and cheap"),
+  v("有定价", "has set prices"),
+  v("打折", "on sale"),
+  v("合买", "buy together / split bulk"),
+  v("吃不完", "can’t finish eating it"),
+  v("用不完", "can’t use it all"),
+  v("要不要一起去", "want to go together?"),
+]
+
+export const LESSON_1_8_PRACTICE: MiniLessonExample[] = [
+  ex("怎么不去大菜市？传统市场东西多，又新鲜又便宜。", "Why not the wet market? Traditional markets have more, and it’s fresher and cheaper."),
+  ex("超市有定价，我感觉比较安心。", "Supermarkets have set prices, so I feel safer."),
+  ex("下次去大菜市看看。", "I’ll try the wet market next time."),
+  ex("春天百货在打折，还有很多限定的东西。", "Spring Department Store is on sale, with lots of limited items."),
+  ex("我每天忙着上班都不知道。", "I’ve been so busy with work I had no idea."),
+  ex("明天要去量贩店，要不要一起去？", "I’m going to the warehouse store tomorrow. Want to come?"),
+  ex("我们可以合买，大包装一个人吃不完用不完。", "We can split bulk packs. Alone, the big packs never get finished."),
+  ex("明天早上9点出发，在楼下门口等我。", "We leave at 9 tomorrow. Wait for me downstairs."),
+]
+
+export const LESSON_1_8_FILL_BLANKS = [
+  fb("1", "Why not go to the wet market?", "怎么不", "大菜市？", "去", ["买", "看", "等"]),
+  fb("2", "It’s both fresher and cheaper.", "", "新鲜又便宜。", "又", ["也", "还", "都"]),
+  fb("3", "By the way, the department store is on sale.", "", "，春天百货在打折你知道吗？", "对了", ["还没", "要不", "怪不得"]),
+  fb("4", "The big pack never gets finished.", "大包装吃", "用不完。", "不完", ["不到", "不了", "不起"]),
+  fb("5", "Want to go together?", "要不要", "去？", "一起", ["自己", "马上", "已经"]),
+  fb("6", "We can buy it together and split it.", "我们可以", "。", "合买", ["打折", "出发", "限定"]),
+  fb("7", "Set prices make me feel safer.", "超市有定价我感觉比较", "。", "安心", ["不安心", "有意思", "有条理"]),
+  fb("8", "Wait for me at the downstairs entrance.", "在楼下门口", "我。", "等", ["接", "送", "找"]),
 ]
 
 export const LESSON_1_8_LINE_NOTES: Record<string, MiniLesson[]> = {

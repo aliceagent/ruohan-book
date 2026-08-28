@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_4_CORE_VOCAB: VocabItem[] = [
   v("女朋友", "girlfriend"),
@@ -16,6 +16,60 @@ export const LESSON_1_4_CORE_VOCAB: VocabItem[] = [
   v("不够格", "not qualified; not up to standard"),
   v("缘分", "fate (in relationships)"),
   v("势利眼", "snobbish; status-obsessed"),
+]
+
+export const LESSON_1_4_CHUNKS: VocabItem[] = [
+  v("你现在有女朋友吗？", "do you have a girlfriend now?"),
+  v("未婚联谊", "singles mixer"),
+  v("要不要一起去？", "want to go together?"),
+  v("听起来挺好玩的", "sounds pretty fun"),
+  v("我还不想结婚", "I don’t want to get married yet"),
+  v("不一定要急着结婚", "you don’t have to rush into marriage"),
+  v("先交个朋友", "make a friend first"),
+  v("找到另一半", "find a partner"),
+  v("理想伴侣的条件", "conditions for an ideal partner"),
+  v("温柔体贴", "gentle and considerate"),
+  v("个性好就好了", "a good personality is enough"),
+  v("高富帅", "tall, rich, and handsome"),
+  v("不够格", "not up to standard"),
+  v("缘分吧", "it’s fate"),
+  v("势利眼", "snobbish"),
+  v("一起去看看吧", "let’s go take a look"),
+  v("我去你家接你", "I’ll pick you up at your place"),
+]
+
+export const LESSON_1_4_FAMILY: VocabItem[] = [
+  v("交朋友", "make friends"),
+  v("谈恋爱", "be in a relationship"),
+  v("找另一半", "look for a partner"),
+  v("结婚", "get married"),
+  v("还不想结婚", "don’t want to marry yet"),
+  v("理想伴侣", "ideal partner"),
+  v("条件", "criteria"),
+  v("缘分", "fate (in love)"),
+  v("接你", "pick you up"),
+]
+
+export const LESSON_1_4_PRACTICE: MiniLessonExample[] = [
+  ex("这周末有个未婚联谊，要不要一起去？", "There’s a singles mixer this weekend — want to go together?"),
+  ex("听起来挺好玩的，可是我还不想结婚。", "Sounds fun, but I don’t want to get married yet."),
+  ex("不一定要急着结婚，先交个朋友也不错。", "You don’t have to rush into marriage. Making friends is fine too."),
+  ex("我想看看能不能在35岁前找到另一半。", "I want to see if I can find a partner before 35."),
+  ex("温柔体贴、个性好就好了。", "Gentle, considerate, a good personality — that’s enough."),
+  ex("我们可能都不够格。", "We might not qualify."),
+  ex("缘分吧，不是每一个人都那么势利眼的。", "It’s fate. Not everyone is that snobbish."),
+  ex("周六上午11点我去你家接你。", "Saturday at 11 a.m. I’ll pick you up at your place."),
+]
+
+export const LESSON_1_4_FILL_BLANKS = [
+  fb("1", "Want to go together?", "这周末要不要", "去？", "一起", ["自己", "马上", "已经"]),
+  fb("2", "It sounds pretty fun.", "听起来", "好玩的。", "挺", ["太", "最", "更"]),
+  fb("3", "You don’t necessarily have to rush into marriage.", "", "要急着结婚。", "不一定", ["一定", "必须", "只好"]),
+  fb("4", "A good personality is enough.", "个性好", "。", "就好了", ["才好了", "还好了", "也好了"]),
+  fb("5", "I’ll pick you up at your place.", "我去你家", "你。", "接", ["送", "找", "等"]),
+  fb("6", "I don’t want to get married yet.", "我还", "结婚。", "不想", ["不要", "不会", "不是"]),
+  fb("7", "What are your conditions for an ideal partner?", "你理想伴侣的", "是什么？", "条件", ["习惯", "兴趣", "工作"]),
+  fb("8", "We might not qualify.", "我们可能都", "。", "不够格", ["不好意思", "不安心", "不舒服"]),
 ]
 
 export const LESSON_1_4_LINE_NOTES: Record<string, MiniLesson[]> = {

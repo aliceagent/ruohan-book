@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_5_CORE_VOCAB: VocabItem[] = [
   v("喂", "hello (on the phone)"),
@@ -17,6 +17,57 @@ export const LESSON_1_5_CORE_VOCAB: VocabItem[] = [
   v("积木", "building blocks"),
   v("幼教", "preschool education"),
   v("变魔术", "to do magic tricks"),
+]
+
+export const LESSON_1_5_CHUNKS: VocabItem[] = [
+  v("下周末有空吗？", "free next weekend?"),
+  v("带小孩来我家玩吧", "bring the kids over"),
+  v("怎么这么好", "that’s so nice of you"),
+  v("在庭院烤肉", "barbecue in the yard"),
+  v("人多热闹", "the more people, the livelier"),
+  v("你不用太麻烦", "don’t go to too much trouble"),
+  v("我带两道菜过去", "I’ll bring two dishes"),
+  v("你负责……就好", "just take care of…"),
+  v("其他我弄", "I’ll handle the rest"),
+  v("最好别打游戏", "better not video games"),
+  v("活动就交给你啦", "I’ll leave the activities to you"),
+  v("要不也邀请他来？", "how about inviting him too?"),
+  v("一定超兴奋的", "they’ll definitely be thrilled"),
+  v("近距离地看魔术", "see magic up close"),
+]
+
+export const LESSON_1_5_FAMILY: VocabItem[] = [
+  v("带小孩来玩", "bring the kids over"),
+  v("烤肉", "barbecue"),
+  v("热闹", "lively"),
+  v("太麻烦", "too much trouble"),
+  v("带菜", "bring a dish"),
+  v("负责……就好", "just handle this part"),
+  v("其他我弄", "I’ll do the rest"),
+  v("交给你", "leave it to you"),
+  v("邀请", "invite"),
+]
+
+export const LESSON_1_5_PRACTICE: MiniLessonExample[] = [
+  ex("下周末有空吗？带小孩来我家玩吧！", "Free next weekend? Bring the kids over!"),
+  ex("我们在庭院烤肉，人多热闹。", "We’ll barbecue in the yard. The more people, the livelier."),
+  ex("你不用太麻烦，我带两道菜过去。", "Don’t go to too much trouble. I’ll bring two dishes."),
+  ex("你负责沙拉就好，其他我弄。", "Just take the salad. I’ll handle the rest."),
+  ex("最好别打游戏，我想一些创意活动。", "Better not video games. Let me think of some creative activities."),
+  ex("你是老师，活动就交给你啦。", "You’re a teacher — I’ll leave the activities to you."),
+  ex("要不也邀请他来教魔术？", "How about inviting him too, to teach magic?"),
+  ex("小孩们一定超兴奋的！", "The kids will definitely be thrilled!"),
+]
+
+export const LESSON_1_5_FILL_BLANKS = [
+  fb("1", "Bring the kids over to my place.", "带小孩", "我家玩吧！", "来", ["去", "在", "到"]),
+  fb("2", "The more people, the livelier.", "人多", "！", "热闹", ["安静", "麻烦", "无聊"]),
+  fb("3", "Don’t go to too much trouble.", "你不用太", "。", "麻烦", ["高兴", "客气", "兴奋"]),
+  fb("4", "Just take the salad; I’ll handle the rest.", "你负责沙拉就好，其他我", "。", "弄", ["看", "玩", "请"]),
+  fb("5", "Better not play video games.", "", "别打游戏。", "最好", ["已经", "还是", "一起"]),
+  fb("6", "I’ll leave the activities to you.", "活动就", "你啦。", "交给", ["送给", "带到", "请到"]),
+  fb("7", "How about inviting him too?", "", "也邀请他来？", "要不", ["还没", "已经", "一定"]),
+  fb("8", "Free next weekend?", "下周末", "吗？", "有空", ["有名", "有钱", "有事"]),
 ]
 
 export const LESSON_1_5_LINE_NOTES: Record<string, MiniLesson[]> = {

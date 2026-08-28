@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_10_CORE_VOCAB: VocabItem[] = [
   v("宵夜", "late-night snack"),
@@ -15,6 +15,58 @@ export const LESSON_1_10_CORE_VOCAB: VocabItem[] = [
   v("不知不觉", "without noticing"),
   v("要不然", "otherwise / in that case"),
   v("芒果冰", "mango ice (shaved ice)"),
+]
+
+export const LESSON_1_10_CHUNKS: VocabItem[] = [
+  v("要不要吃宵夜？", "want a late-night snack?"),
+  v("我不吃宵夜", "I don’t eat late-night snacks"),
+  v("不好消化", "hard to digest"),
+  v("我不吃早餐", "I don’t eat breakfast"),
+  v("坏习惯不少", "quite a few bad habits"),
+  v("又抽烟又喝酒", "smoking and drinking"),
+  v("想戒烟", "want to quit smoking"),
+  v("戒不掉", "can’t quit"),
+  v("交个女朋友吧", "get a girlfriend"),
+  v("立刻改掉坏习惯", "drop the bad habits overnight"),
+  v("改这改那", "change this and that"),
+  v("晚睡", "stay up late"),
+  v("一上网就……", "as soon as I get online…"),
+  v("不知不觉", "without noticing"),
+  v("要不然帮我带……", "then bring me…"),
+]
+
+export const LESSON_1_10_FAMILY: VocabItem[] = [
+  v("坏习惯", "bad habit"),
+  v("戒烟", "quit smoking"),
+  v("戒不掉", "can’t quit it"),
+  v("改掉", "get rid of (a habit)"),
+  v("改不了", "can’t change it"),
+  v("总是", "always"),
+  v("不知不觉", "without noticing"),
+  v("一……就……", "as soon as… then…"),
+  v("要不然", "in that case / otherwise"),
+]
+
+export const LESSON_1_10_PRACTICE: MiniLessonExample[] = [
+  ex("你要不要吃宵夜？我要去买生煎包。", "Want a late-night snack? I’m going to buy pan-fried buns."),
+  ex("我不吃宵夜。要睡觉了，不好消化。", "I don’t eat late-night snacks. We’re about to sleep — hard to digest."),
+  ex("你好像坏习惯不少，又抽烟又喝酒。", "You seem to have quite a few bad habits — smoking and drinking."),
+  ex("想戒烟啊！戒不掉，太难了。", "I want to quit smoking! I can’t. It’s too hard."),
+  ex("交个女朋友吧，说不定立刻改掉坏习惯。", "Get a girlfriend. Maybe you’d drop the bad habits overnight."),
+  ex("要是女友要我改这改那的也很烦。", "It’d also be annoying if a girlfriend made me change this and that."),
+  ex("我每次都想早点睡，一上网，不知不觉就半夜1点了。", "I always mean to sleep early, get online, and it’s 1 a.m. before I notice."),
+  ex("要不然帮我带一碗芒果冰好了，好热！", "Then bring me a bowl of mango ice. It’s so hot!"),
+]
+
+export const LESSON_1_10_FILL_BLANKS = [
+  fb("1", "Want a late-night snack?", "你", "吃宵夜？", "要不要", ["好不好", "是不是", "能不能"]),
+  fb("2", "I can’t quit smoking.", "想戒烟啊！戒", "，太难了。", "不掉", ["不了", "不到", "不完"]),
+  fb("3", "Smoking and drinking.", "你又抽烟", "喝酒。", "又", ["也", "还", "都"]),
+  fb("4", "As soon as I get online, it’s 1 a.m.", "", "上网，不知不觉就半夜1点了。", "一", ["才", "就", "都"]),
+  fb("5", "In that case, bring me a mango ice.", "", "帮我带一碗芒果冰好了。", "要不然", ["还没", "怪不得", "没关系"]),
+  fb("6", "Maybe you’d drop the bad habits overnight.", "说不定立刻", "坏习惯。", "改掉", ["戒掉", "吃掉", "买掉"]),
+  fb("7", "I don’t eat late-night snacks.", "我", "宵夜。", "不吃", ["不买", "不要", "不是"]),
+  fb("8", "Without noticing, it was already 1 a.m.", "一上网，", "就半夜1点了。", "不知不觉", ["不好意思", "不一定", "不要紧"]),
 ]
 
 export const LESSON_1_10_LINE_NOTES: Record<string, MiniLesson[]> = {

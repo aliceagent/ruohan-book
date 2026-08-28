@@ -1,5 +1,5 @@
-import type { MiniLesson, VocabItem } from "@/lib/types"
-import { ex, ml, v } from "./note-helpers"
+import type { MiniLesson, MiniLessonExample, VocabItem } from "@/lib/types"
+import { ex, fb, ml, v } from "./note-helpers"
 
 export const LESSON_1_7_CORE_VOCAB: VocabItem[] = [
   v("老师好", "hello, teacher"),
@@ -16,6 +16,59 @@ export const LESSON_1_7_CORE_VOCAB: VocabItem[] = [
   v("炒米粉", "fried rice noodles"),
   v("贡丸汤", "pork-ball soup"),
   v("助手", "helper / assistant"),
+]
+
+export const LESSON_1_7_CHUNKS: VocabItem[] = [
+  v("老师好！", "hello, teacher!"),
+  v("有派对哦！", "there’s a party!"),
+  v("台湾美食派对", "Taiwanese food party"),
+  v("你喜欢派对吗？", "do you like parties?"),
+  v("我不喝酒", "I don’t drink"),
+  v("不太会跟别人聊天", "not great at chatting with people"),
+  v("没关系", "that’s okay"),
+  v("唱歌跳舞", "sing and dance"),
+  v("唱歌跳舞都不行", "no good at singing or dancing"),
+  v("听别人唱歌", "listen to others sing"),
+  v("看别人跳舞", "watch others dance"),
+  v("要不你帮忙做菜好了", "how about you help cook then"),
+  v("都是我爱吃的", "those are all my favorites"),
+  v("老师教我做", "teacher, show me how"),
+  v("多一个助手", "an extra helper"),
+]
+
+export const LESSON_1_7_FAMILY: VocabItem[] = [
+  v("有派对", "there’s a party"),
+  v("喜欢派对", "like parties"),
+  v("不太会聊天", "not great at chatting"),
+  v("没关系", "that’s okay"),
+  v("唱歌跳舞都不行", "no good at singing or dancing"),
+  v("听别人唱", "listen to others sing"),
+  v("看别人跳", "watch others dance"),
+  v("帮忙做菜", "help cook"),
+  v("教我做", "show me how"),
+  v("没问题", "no problem"),
+]
+
+export const LESSON_1_7_PRACTICE: MiniLessonExample[] = [
+  ex("我喜欢吃，可是我不喝酒，也不太会跟别人聊天。", "I like eating, but I don’t drink, and I’m not great at chatting with people."),
+  ex("没关系，还可以唱歌跳舞。", "That’s okay. You can also sing and dance."),
+  ex("我唱歌跳舞都不行。", "I’m no good at singing or dancing."),
+  ex("我喜欢听别人唱歌、看别人跳舞。", "I like listening to others sing and watching them dance."),
+  ex("要不你帮忙做菜好了！", "How about you help cook then!"),
+  ex("刈包、珍珠奶茶都是我爱吃的。", "Gua bao and bubble tea are all my favorites."),
+  ex("太好了！老师教我做！", "Perfect! Teacher, show me how!"),
+  ex("没问题，我也很高兴多一个助手。", "No problem. I’m glad to have an extra helper."),
+]
+
+export const LESSON_1_7_FILL_BLANKS = [
+  fb("1", "I’m not great at chatting with people.", "我不太会跟别人", "。", "聊天", ["唱歌", "跳舞", "做菜"]),
+  fb("2", "I’m no good at singing or dancing.", "我唱歌跳舞都", "。", "不行", ["可以", "喜欢", "爱吃"]),
+  fb("3", "I like listening to other people sing.", "我喜欢听别人", "。", "唱歌", ["聊天", "做菜", "喝酒"]),
+  fb("4", "How about you help cook then?", "要不你帮忙做菜", "！", "好了", ["就好了", "才好了", "还好了"]),
+  fb("5", "Teacher, show me how to make it.", "老师", "做！", "教我", ["帮我", "给我", "让我"]),
+  fb("6", "That’s okay.", "", "，还可以唱歌跳舞。", "没关系", ["没问题", "不好意思", "怪不得"]),
+  fb("7", "I don’t drink.", "我", "。", "不喝酒", ["不吃饭", "不睡觉", "不唱歌"]),
+  fb("8", "I’m glad to have an extra helper.", "我也很高兴多一个", "！", "助手", ["老师", "派对", "爱好"]),
 ]
 
 export const LESSON_1_7_LINE_NOTES: Record<string, MiniLesson[]> = {

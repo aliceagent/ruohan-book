@@ -1,13 +1,14 @@
 import type { Lesson, VocabItem } from "@/lib/types"
 import { UNIT_1_LESSONS } from "@/content/unit-1-part-a"
 import { UNIT_1_LESSONS_B } from "@/content/unit-1-part-b"
-import { GRAMMAR_FOCUS_MIN } from "@/content/lessons/note-helpers"
+import { CHUNKS_MIN, FAMILY_MIN, FILL_BLANKS_MIN, GRAMMAR_FOCUS_MIN, PRACTICE_MIN } from "@/content/lessons/note-helpers"
 
 /**
  * RULE: every dialogue line in every lesson must have mini lessons.
  * RULE: every lesson must have grammarFocus with at least five priority patterns
  * (五个优先句型) — export LESSON_X_Y_GRAMMAR_FOCUS and set lesson.grammarFocus.
- * Assemble lines with notedLine(LESSON_X_Y_LINE_NOTES, speaker, hanzi, en).
+ * RULE: every lesson must also ship chunks, expressionFamily, practiceSentences,
+ * and fillBlanks (the 1-1 extras). Assemble lines with notedLine(...).
  * Keys are the exact 汉字, including punctuation and textbook 〔〕 notes.
  * This loop throws at import time so a lesson cannot ship without notes or grammar cards.
  * Fill-in items, if present, must be multiple choice (fb()), never a typed blank.
@@ -25,6 +26,26 @@ for (const lesson of UNIT_1) {
   if ((lesson.grammarFocus?.length ?? 0) < GRAMMAR_FOCUS_MIN) {
     throw new Error(
       `Lesson ${lesson.id} needs ${GRAMMAR_FOCUS_MIN} grammar-focus cards (五个优先句型), got ${lesson.grammarFocus?.length ?? 0}`,
+    )
+  }
+  if ((lesson.chunks?.length ?? 0) < CHUNKS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${CHUNKS_MIN} chunks (值得整句记的), got ${lesson.chunks?.length ?? 0}`,
+    )
+  }
+  if (!lesson.expressionFamily?.title || (lesson.expressionFamily.items?.length ?? 0) < FAMILY_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs an expressionFamily with ${FAMILY_MIN}+ items (一套说法)`,
+    )
+  }
+  if ((lesson.practiceSentences?.length ?? 0) < PRACTICE_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${PRACTICE_MIN} practice sentences (练习句子), got ${lesson.practiceSentences?.length ?? 0}`,
+    )
+  }
+  if ((lesson.fillBlanks?.length ?? 0) < FILL_BLANKS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${FILL_BLANKS_MIN} fill-blanks (填空练习), got ${lesson.fillBlanks?.length ?? 0}`,
     )
   }
   for (const blank of lesson.fillBlanks ?? []) {
