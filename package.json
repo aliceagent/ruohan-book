@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:glosses": "npx tsx scripts/build-glosses.mts"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^4.0.67",

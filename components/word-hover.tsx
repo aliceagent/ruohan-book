@@ -45,11 +45,7 @@ function WordCard({ token, pinyin }: { token: GlossToken; pinyin: string }) {
       </div>
       {token.en ? (
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{token.en}</p>
-      ) : (
-        <p className="mt-2 text-xs text-muted-foreground">
-          {Array.from(token.hanzi).length > 1 ? "Word" : "Character"} in this sentence
-        </p>
-      )}
+      ) : null}
     </>
   )
 }

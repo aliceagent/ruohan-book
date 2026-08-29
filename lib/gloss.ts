@@ -286,6 +286,11 @@ export const COMMON_GLOSSES: VocabItem[] = [
   { hanzi: "晒", en: "to expose to the sun" },
   { hanzi: "怎么了", en: "what happened?" },
   { hanzi: "为什么", en: "why" },
+  { hanzi: "敲", en: "to knock; to strike" },
+  { hanzi: "敲门", en: "to knock on a door" },
+  { hanzi: "外面", en: "outside" },
+  { hanzi: "回家", en: "to go home" },
+  { hanzi: "出门", en: "to go out" },
 ]
 
 function isCleanWord(hanzi: string) {
@@ -334,6 +339,29 @@ export type GlossToken = {
   kind: "word" | "text"
   hanzi: string
   en?: string
+}
+
+export function inspectableHanzi(lesson: Lesson) {
+  const texts: string[] = [
+    lesson.scenario.time,
+    lesson.scenario.location,
+    lesson.scenario.participants,
+    lesson.scenario.topic,
+  ]
+  for (const line of lesson.dialogue) {
+    texts.push(line.hanzi)
+    for (const mini of line.miniLessons ?? []) {
+      texts.push(...(mini.examples ?? []).map((item) => item.hanzi))
+      texts.push(...(mini.compare ?? []).map((item) => item.hanzi))
+    }
+  }
+  for (const mini of lesson.grammarFocus ?? []) {
+    texts.push(...(mini.examples ?? []).map((item) => item.hanzi))
+    texts.push(...(mini.compare ?? []).map((item) => item.hanzi))
+  }
+  for (const item of lesson.practiceSentences ?? []) texts.push(item.hanzi)
+  for (const item of lesson.questions) texts.push(item.hanzi)
+  return texts
 }
 
 export function tokenizeHanzi(text: string, glossary: Map<string, string>): GlossToken[] {

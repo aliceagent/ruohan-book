@@ -1,12 +1,38 @@
 import { UNIT_1 } from "@/content/unit-1"
-import { COMMON_GLOSSES, collectLessonGlosses, mergeGlosses } from "@/lib/gloss"
+import { GENERATED_GLOSSES } from "@/lib/generated-glosses"
+import {
+  COMMON_GLOSSES,
+  collectLessonGlosses,
+  inspectableHanzi,
+  mergeGlosses,
+  tokenizeHanzi,
+} from "@/lib/gloss"
 import type { VocabItem } from "@/lib/types"
 
 let cached: Map<string, string> | null = null
 
+function assertEveryTapHasAGloss(glossary: Map<string, string>) {
+  for (const lesson of UNIT_1) {
+    for (const hanzi of inspectableHanzi(lesson)) {
+      for (const token of tokenizeHanzi(hanzi, glossary)) {
+        if (token.kind === "word" && !token.en) {
+          throw new Error(
+            `Lesson ${lesson.id} is missing a tap translation for ${token.hanzi} in: ${hanzi}`,
+          )
+        }
+      }
+    }
+  }
+}
+
 export function unitGlossary() {
   if (!cached) {
-    cached = mergeGlosses([COMMON_GLOSSES, UNIT_1.flatMap(collectLessonGlosses)])
+    cached = mergeGlosses([
+      COMMON_GLOSSES,
+      UNIT_1.flatMap(collectLessonGlosses),
+      GENERATED_GLOSSES,
+    ])
+    assertEveryTapHasAGloss(cached)
   }
   return cached
 }
