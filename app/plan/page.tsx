@@ -14,7 +14,7 @@ export default function PlanPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Roadmap</p>
         <h1 className="font-serif text-4xl font-semibold">Website plan</h1>
         <p className="text-lg text-muted-foreground">
-          <MixedHanzi text="A conversation gym for 《聊天聊不完》, not a PDF viewer. Unit 1 is the template every later unit will copy." />
+          <MixedHanzi text="A conversation gym for 《聊天聊不完》, not a PDF viewer. Units 1 and 2 are the template every later unit will copy." />
         </p>
       </div>
 
@@ -35,11 +35,14 @@ export default function PlanPage() {
           <li>
             <MixedHanzi text="Unit 1 家庭生活: 10 lessons, dialogues, notes, vocabulary, and every 互动问答 item." />
           </li>
+          <li>
+            <MixedHanzi text="Unit 2 学校生活: 6 lessons — 老师同学, 作业, 课外活动, 上学, 便当和营养午餐, 外语学习 — with the same extras." />
+          </li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
-          <li>Official Unit 1 MP3s (01-01 … 01-10) on every lesson and the audio playlist.</li>
+          <li>Official Unit 1 and Unit 2 MP3s on every lesson and the audio playlist.</li>
           <li>Study desk: search, spaced-repetition flashcards, glossary, local progress.</li>
           <li>
-            Multiple-choice quizzes on each Unit 1 lesson, plus a mixed unit quiz. Each attempt
+            Multiple-choice quizzes on each live lesson, plus a mixed quiz per unit. Each attempt
             draws 10 questions at random from the bank so you can retake.
           </li>
           <li>Browser speech as a line-by-line fallback.</li>
@@ -49,7 +52,7 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Next units</h2>
         <p className="leading-relaxed text-muted-foreground">
-          <MixedHanzi text="Same data shape, one unit at a time: 学校生活, 职场, 自我认识, then the rest of the 22. Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays generated so we do not maintain two spellings." />
+          <MixedHanzi text="Same data shape, one unit at a time: 职场, 自我认识, then the rest of the 22. Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays generated so we do not maintain two spellings." />
         </p>
       </section>
 
@@ -67,9 +70,10 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Audio plan</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Official Unit 1 files are in the repo as <code>01-01.mp3</code>…<code>01-10.mp3</code> and
-          play on each lesson. Later units follow the same naming. Browser speech remains as a
-          line-by-line fallback. Details live on the <Link href="/audio">audio page</Link>.
+          Official Unit 1 and Unit 2 files are in the repo as <code>01-01.mp3</code>…<code>01-10.mp3</code>{" "}
+          and <code>02-01.mp3</code>…<code>02-06.mp3</code> and play on each lesson. Later units
+          follow the same naming. Browser speech remains as a line-by-line fallback. Details live
+          on the <Link href="/audio">audio page</Link>.
         </p>
       </section>
 

@@ -85,6 +85,47 @@ export const FAMILY_MIN = 6
 export const PRACTICE_MIN = 6
 export const FILL_BLANKS_MIN = 6
 
+export function assertLessonReady(lesson: import("@/lib/types").Lesson) {
+  for (const line of lesson.dialogue) {
+    if (!line.miniLessons?.length) {
+      throw new Error(`Lesson ${lesson.id} is missing mini lessons for: ${line.hanzi}`)
+    }
+  }
+  if ((lesson.grammarFocus?.length ?? 0) < GRAMMAR_FOCUS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${GRAMMAR_FOCUS_MIN} grammar-focus cards (五个优先句型), got ${lesson.grammarFocus?.length ?? 0}`,
+    )
+  }
+  if ((lesson.chunks?.length ?? 0) < CHUNKS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${CHUNKS_MIN} chunks (值得整句记的), got ${lesson.chunks?.length ?? 0}`,
+    )
+  }
+  if (!lesson.expressionFamily?.title || (lesson.expressionFamily.items?.length ?? 0) < FAMILY_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs an expressionFamily with ${FAMILY_MIN}+ items (一套说法)`,
+    )
+  }
+  if ((lesson.practiceSentences?.length ?? 0) < PRACTICE_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${PRACTICE_MIN} practice sentences (练习句子), got ${lesson.practiceSentences?.length ?? 0}`,
+    )
+  }
+  if ((lesson.fillBlanks?.length ?? 0) < FILL_BLANKS_MIN) {
+    throw new Error(
+      `Lesson ${lesson.id} needs ${FILL_BLANKS_MIN} fill-blanks (填空练习), got ${lesson.fillBlanks?.length ?? 0}`,
+    )
+  }
+  for (const blank of lesson.fillBlanks ?? []) {
+    const unique = new Set(blank.choices)
+    if (unique.size < 3 || !unique.has(blank.answer)) {
+      throw new Error(
+        `Lesson ${lesson.id} fill-blank ${blank.id} must be multiple choice (3+ options including the answer)`,
+      )
+    }
+  }
+}
+
 export function notedLine(
   notes: Record<string, MiniLesson[]>,
   speaker: DialogueLine["speaker"],

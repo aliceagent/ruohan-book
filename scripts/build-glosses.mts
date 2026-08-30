@@ -9,7 +9,7 @@
 import { writeFileSync } from "node:fs"
 import { resolve } from "node:path"
 
-import { UNIT_1 } from "../content/unit-1"
+import { ALL_LESSONS } from "../content/lessons"
 import type { Lesson, MiniLesson } from "../lib/types"
 
 const HANZI_RE = /\p{Script=Han}/u
@@ -122,7 +122,7 @@ for (const line of source.split("\n")) {
   }
 }
 
-const texts = UNIT_1.flatMap(lessonHanzi)
+const texts = ALL_LESSONS.flatMap(lessonHanzi)
 const characters = new Set<string>()
 const wanted = new Set<string>()
 
@@ -160,7 +160,7 @@ const file = `import type { VocabItem } from "@/lib/types"
 
 /**
  * Learner glosses for every character and every 2–4-character word that
- * appears in Unit 1. Generated from CC-CEDICT
+ * appears in shipped lessons. Generated from CC-CEDICT
  * (https://www.mdbg.net/chinese/dictionary?page=cc-cedict),
  * licensed CC BY-SA 4.0.
  *

@@ -1,4 +1,5 @@
-import { UNIT_1 } from "@/content/unit-1"
+import { ALL_LESSONS, getLesson, lessonsForUnit } from "@/content/lessons"
+import { getUnit } from "@/content/catalog"
 import type { DialogueLine, Lesson, VocabItem } from "@/lib/types"
 
 export type QuizKind = "vocab-en" | "vocab-zh" | "line-en" | "line-zh" | "scene"
@@ -211,7 +212,7 @@ function sceneItem(
   )
 }
 
-export function buildLessonBank(lesson: Lesson, allLessons: Lesson[] = UNIT_1): QuizItem[] {
+export function buildLessonBank(lesson: Lesson, allLessons: Lesson[] = ALL_LESSONS): QuizItem[] {
   const localVocab = lessonQuizVocab(lesson)
   const unitVocab = vocabPool(allLessons)
   const localLines = spokenLines(lesson)
@@ -242,7 +243,7 @@ export function buildLessonBank(lesson: Lesson, allLessons: Lesson[] = UNIT_1): 
   return uniqueBy([...vocabEn, ...vocabZh, ...lineEn, ...lineZh, ...sceneItems], (item) => item.id)
 }
 
-export function buildUnitBank(allLessons: Lesson[] = UNIT_1): QuizItem[] {
+export function buildUnitBank(allLessons: Lesson[] = ALL_LESSONS): QuizItem[] {
   return uniqueBy(
     allLessons.flatMap((lesson) => buildLessonBank(lesson, allLessons)),
     (item) => item.id,
@@ -271,7 +272,7 @@ const quizCache = new Map<string, QuizSet>()
 export function getLessonQuiz(lessonId: string): QuizSet | undefined {
   const cached = quizCache.get(lessonId)
   if (cached) return cached
-  const lesson = UNIT_1.find((item) => item.id === lessonId)
+  const lesson = getLesson(lessonId)
   if (!lesson) return undefined
   const quiz = toQuizSet(
     lesson.id,
@@ -284,21 +285,34 @@ export function getLessonQuiz(lessonId: string): QuizSet | undefined {
   return quiz
 }
 
-export function getUnitQuiz(): QuizSet {
-  const cached = quizCache.get("unit-1")
+export function getUnitQuiz(unitId = 1): QuizSet {
+  const id = `unit-${unitId}`
+  const cached = quizCache.get(id)
   if (cached) return cached
-  const quiz = toQuizSet("unit-1", "第一单元 综合测验", "Unit 1 mixed quiz", buildUnitBank())
-  quizCache.set("unit-1", quiz)
+  const unit = getUnit(unitId)
+  const lessons = lessonsForUnit(unitId)
+  const quiz = toQuizSet(
+    id,
+    `第${unitId}单元 综合测验`,
+    unit ? `Unit ${unitId} mixed quiz` : `Unit ${unitId} mixed quiz`,
+    buildUnitBank(lessons),
+  )
+  quizCache.set(id, quiz)
   return quiz
 }
 
 export function getQuiz(quizId: string): QuizSet | undefined {
-  if (quizId === "unit-1") return getUnitQuiz()
+  const unitMatch = /^unit-(\d+)$/.exec(quizId)
+  if (unitMatch) return getUnitQuiz(Number(unitMatch[1]))
   return getLessonQuiz(quizId)
 }
 
 export function allLessonQuizzes() {
-  return UNIT_1.map((lesson) => getLessonQuiz(lesson.id)!).filter(Boolean)
+  return ALL_LESSONS.map((lesson) => getLessonQuiz(lesson.id)!).filter(Boolean)
+}
+
+export function builtUnitIds() {
+  return [...new Set(ALL_LESSONS.map((lesson) => lesson.unitId))].sort((a, b) => a - b)
 }
 
 export function shuffleInPlace<T>(items: T[]) {

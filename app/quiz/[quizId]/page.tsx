@@ -4,11 +4,14 @@ import { notFound } from "next/navigation"
 
 import { QuizPlayer } from "@/components/quiz-player"
 import { Button } from "@/components/ui/button"
-import { UNIT_1 } from "@/content/unit-1"
-import { getQuiz } from "@/lib/quiz"
+import { ALL_LESSONS, getLesson } from "@/content/lessons"
+import { builtUnitIds, getQuiz } from "@/lib/quiz"
 
 export function generateStaticParams() {
-  return [{ quizId: "unit-1" }, ...UNIT_1.map((lesson) => ({ quizId: lesson.id }))]
+  return [
+    ...builtUnitIds().map((unitId) => ({ quizId: `unit-${unitId}` })),
+    ...ALL_LESSONS.map((lesson) => ({ quizId: lesson.id })),
+  ]
 }
 
 export async function generateMetadata({
@@ -39,7 +42,9 @@ export default async function QuizPage({
         </Button>
         {quiz.lessonId ? (
           <Button variant="ghost" asChild>
-            <Link href={`/units/1/${quiz.lessonId}`}>Back to lesson</Link>
+            <Link href={`/units/${getLesson(quiz.lessonId)?.unitId ?? 1}/${quiz.lessonId}`}>
+              Back to lesson
+            </Link>
           </Button>
         ) : null}
       </div>

@@ -2,10 +2,10 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { LessonView } from "@/components/lesson-view"
-import { UNIT_1, getLesson } from "@/content/unit-1"
+import { ALL_LESSONS, getLesson } from "@/content/lessons"
 
 export function generateStaticParams() {
-  return UNIT_1.map((lesson) => ({
+  return ALL_LESSONS.map((lesson) => ({
     unitId: String(lesson.unitId),
     lessonId: lesson.id,
   }))

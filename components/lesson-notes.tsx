@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Check, Download, Eraser, NotebookPen, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { getLesson } from "@/content/unit-1"
+import { getLesson } from "@/content/lessons"
 import { useLessonNotes } from "@/hooks/use-lesson-notes"
 import { formatLessonNoteExport, lessonNoteFilename } from "@/lib/lesson-notes"
 import { mixedRuns } from "@/lib/pinyin"

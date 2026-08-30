@@ -7,7 +7,7 @@ import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { UNIT_1, allVocabulary } from "@/content/unit-1"
+import { ALL_LESSONS, allVocabulary } from "@/content/lessons"
 import { useProgress, vocabKey } from "@/hooks/use-progress"
 import {
   GRADES,
@@ -120,8 +120,8 @@ export function Flashcards() {
               setSkipKey(null)
             }}
           >
-            <option value="all">All Unit 1</option>
-            {UNIT_1.map((lesson) => (
+            <option value="all">All lessons</option>
+            {ALL_LESSONS.map((lesson) => (
               <option key={lesson.id} value={lesson.id}>
                 {lesson.id} {lesson.title}
               </option>

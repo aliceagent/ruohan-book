@@ -1,3 +1,4 @@
 export function lessonIllustrationSrc(lessonId: string) {
-  return `/illustrations/unit-1/${lessonId}.jpg`
+  const unit = lessonId.split("-")[0]
+  return `/illustrations/unit-${unit}/${lessonId}.jpg`
 }

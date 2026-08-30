@@ -4,5 +4,6 @@ export function lessonAudioFileName(audioId: string) {
 }
 
 export function lessonAudioSrc(audioId: string) {
-  return `/audio/unit-1/${lessonAudioFileName(audioId)}`
+  const unit = audioId.split("-")[0]
+  return `/audio/unit-${unit}/${lessonAudioFileName(audioId)}`
 }

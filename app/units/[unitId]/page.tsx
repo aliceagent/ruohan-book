@@ -7,10 +7,11 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
 import { getUnit } from "@/content/catalog"
-import { UNIT_1, lessonVocabulary } from "@/content/unit-1"
+import { lessonVocabulary } from "@/content/unit-1"
+import { lessonsForUnit } from "@/content/lessons"
 
 export async function generateStaticParams() {
-  return [{ unitId: "1" }]
+  return [{ unitId: "1" }, { unitId: "2" }]
 }
 
 export async function generateMetadata({
@@ -33,7 +34,7 @@ export default async function UnitPage({
   const unit = getUnit(Number(unitId))
   if (!unit) notFound()
 
-  const lessons = unit.id === 1 ? UNIT_1 : []
+  const lessons = lessonsForUnit(unit.id)
 
   return (
     <div className="space-y-8">
@@ -46,7 +47,7 @@ export default async function UnitPage({
         </h1>
         <p className="text-lg text-muted-foreground">{unit.titleEn}</p>
         <p className="max-w-2xl text-muted-foreground">
-          <MixedHanzi text="Each lesson has a real-world scene, a model dialogue with audio, related words, a 10-question quiz drawn from a larger bank, and 20+ questions meant to be asked and answered — not just translated. On 休息睡觉, tap a dialogue line to open a mini lesson on that sentence." />
+          <MixedHanzi text="Each lesson has a real-world scene, a model dialogue with audio, related words, a 10-question quiz drawn from a larger bank, and 20+ questions meant to be asked and answered — not just translated. Tap a dialogue line to open a mini lesson on that sentence." />
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">

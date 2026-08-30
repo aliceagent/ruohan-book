@@ -6,11 +6,13 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BOOK, UNITS, totalTopics } from "@/content/catalog"
-import { unitStats } from "@/content/unit-1"
+import { unitStats } from "@/content/lessons"
 
 export default function HomePage() {
-  const stats = unitStats()
+  const stats = unitStats(1)
+  const unit2Stats = unitStats(2)
   const unit1 = UNITS[0]
+  const unit2 = UNITS[1]
 
   return (
     <div className="space-y-14">
@@ -32,7 +34,7 @@ export default function HomePage() {
             </p>
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-            <MixedHanzi text="A study companion for Shelley Hsieh's conversation-topic book: every prompt with pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson audio. Unit 1 家庭生活 is complete. The other 21 units are mapped and waiting." />
+            <MixedHanzi text="A study companion for Shelley Hsieh's conversation-topic book: every prompt with pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson audio. Units 1 and 2 are complete. The other 20 units are mapped and waiting." />
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild>
@@ -40,31 +42,52 @@ export default function HomePage() {
                 Start Unit 1 <ArrowRight />
               </Link>
             </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/units/2">
+                Open Unit 2 <ArrowRight />
+              </Link>
+            </Button>
             <Button variant="outline" asChild>
               <Link href="/quiz">Take a quiz</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/audio">Listen to Unit 1</Link>
+              <Link href="/audio">Listen to the audio</Link>
             </Button>
             <Button variant="ghost" asChild>
               <Link href="/plan">Website plan</Link>
             </Button>
           </div>
         </div>
-        <Card className="bg-rose-50/70 dark:bg-rose-950/20">
-          <CardHeader>
-            <CardTitle>Unit 1 is ready</CardTitle>
-            <CardDescription>
-              <MixedHanzi text={unit1.title} /> · {unit1.titleEn}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4 text-sm">
-            <Stat label="Lessons" value={String(stats.lessons)} />
-            <Stat label="Dialogue lines" value={String(stats.dialogueLines)} />
-            <Stat label="Vocabulary" value={String(stats.vocabulary)} />
-            <Stat label="Questions" value={String(stats.questions)} />
-          </CardContent>
-        </Card>
+        <div className="grid gap-4">
+          <Card className="bg-rose-50/70 dark:bg-rose-950/20">
+            <CardHeader>
+              <CardTitle>Unit 1 is ready</CardTitle>
+              <CardDescription>
+                <MixedHanzi text={unit1.title} /> · {unit1.titleEn}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4 text-sm">
+              <Stat label="Lessons" value={String(stats.lessons)} />
+              <Stat label="Dialogue lines" value={String(stats.dialogueLines)} />
+              <Stat label="Vocabulary" value={String(stats.vocabulary)} />
+              <Stat label="Questions" value={String(stats.questions)} />
+            </CardContent>
+          </Card>
+          <Card className="bg-rose-50/70 dark:bg-rose-950/20">
+            <CardHeader>
+              <CardTitle>Unit 2 is ready</CardTitle>
+              <CardDescription>
+                <MixedHanzi text={unit2.title} /> · {unit2.titleEn}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4 text-sm">
+              <Stat label="Lessons" value={String(unit2Stats.lessons)} />
+              <Stat label="Dialogue lines" value={String(unit2Stats.dialogueLines)} />
+              <Stat label="Vocabulary" value={String(unit2Stats.vocabulary)} />
+              <Stat label="Questions" value={String(unit2Stats.questions)} />
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -86,7 +109,7 @@ export default function HomePage() {
         <Feature
           icon={<Headphones className="size-5" />}
           title="Official dialogue audio"
-          body="Unit 1 tracks 01-01 through 01-10, recorded by 欧喜强 and 胡砚涵, play on every lesson. Browser speech is still there for single lines."
+          body="Official tracks play on every live lesson — Unit 1 as 01-01…01-10, Unit 2 as 02-01…02-06, recorded by 欧喜强 and 胡砚涵. Browser speech is still there for single lines."
         />
       </section>
 
