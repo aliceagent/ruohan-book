@@ -40,7 +40,10 @@ export default function PlanPage() {
           </li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
           <li>Official Unit 1 and Unit 2 MP3s on every lesson and the audio playlist.</li>
-          <li>Study desk: search, spaced-repetition flashcards, glossary, local progress.</li>
+          <li>
+            Study: due-card review for the last unit you opened, a searchable word list, and short
+            flashcard piles. Progress stays in this browser.
+          </li>
           <li>
             Multiple-choice quizzes on each live lesson, plus a mixed quiz per unit. Each attempt
             draws 10 questions at random from the bank so you can retake.
