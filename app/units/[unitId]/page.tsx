@@ -7,12 +7,14 @@ import { RememberUnitLink } from "@/components/remember-unit-link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
-import { getUnit } from "@/content/catalog"
+import { UNITS, getUnit } from "@/content/catalog"
 import { lessonVocabulary } from "@/content/unit-1"
 import { lessonsForUnit } from "@/content/lessons"
 
 export async function generateStaticParams() {
-  return [{ unitId: "1" }, { unitId: "2" }]
+  return UNITS.filter((unit) => unit.status === "ready").map((unit) => ({
+    unitId: String(unit.id),
+  }))
 }
 
 export async function generateMetadata({

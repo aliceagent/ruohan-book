@@ -53,7 +53,7 @@ export const UNITS: UnitSummary[] = [
     id: 3,
     title: "职场",
     titleEn: "The workplace",
-    status: "planned",
+    status: "ready",
     lessonCount: 3,
     topics: [
       { id: "3-1", title: "工作", titleEn: "Work" },

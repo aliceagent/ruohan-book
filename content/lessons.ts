@@ -1,8 +1,9 @@
 import { UNIT_1, lessonVocabulary } from "@/content/unit-1"
 import { UNIT_2 } from "@/content/unit-2"
+import { UNIT_3 } from "@/content/unit-3"
 import type { Lesson } from "@/lib/types"
 
-export const ALL_LESSONS: Lesson[] = [...UNIT_1, ...UNIT_2]
+export const ALL_LESSONS: Lesson[] = [...UNIT_1, ...UNIT_2, ...UNIT_3]
 
 export function lessonsForUnit(unitId: number) {
   return ALL_LESSONS.filter((lesson) => lesson.unitId === unitId)

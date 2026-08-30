@@ -25,7 +25,7 @@ export function StudyStudio() {
           <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Practice</p>
           <h1 className="font-serif text-4xl">Study desk</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Search Units 1 and 2, drill vocabulary with spaced repetition, or skim every question. Mark
+            Search Units 1–3, drill vocabulary with spaced repetition, or skim every question. Mark
             words you know — progress stays in this browser.
           </p>
         </div>
