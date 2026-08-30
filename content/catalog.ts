@@ -81,7 +81,7 @@ export const UNITS: UnitSummary[] = [
     id: 5,
     title: "饮食文化",
     titleEn: "Food culture",
-    status: "planned",
+    status: "ready",
     lessonCount: 5,
     topics: [
       { id: "5-1", title: "饮食习惯", titleEn: "Eating habits" },
