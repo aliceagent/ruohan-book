@@ -19,7 +19,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { BOOK } from "@/content/catalog"
-import { useLastUnit, useRememberLastUnit } from "@/hooks/use-last-unit"
+import { useLastUnit } from "@/hooks/use-last-unit"
 import { cn } from "@/lib/utils"
 
 const STATIC_LINKS = [
@@ -87,7 +87,6 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname()
   const showToggles = useShowDisplayTogglesInHeader()
   const lastUnitId = useLastUnit()
-  useRememberLastUnit()
   const links = navLinks(lastUnitId)
 
   return (
@@ -116,6 +115,7 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
             <Link
               key={link.href}
               href={link.href}
+              data-nav-unit={/^\/units\/\d+$/.test(link.href) ? lastUnitId : undefined}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-accent",
                 linkIsActive(link.href, pathname)
@@ -157,6 +157,7 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
                   <Link
                     key={link.href}
                     href={link.href}
+                    data-nav-unit={/^\/units\/\d+$/.test(link.href) ? lastUnitId : undefined}
                     className="rounded-lg px-3 py-2 text-base hover:bg-accent"
                   >
                     {link.label}

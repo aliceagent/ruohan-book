@@ -1,59 +1,63 @@
 "use client"
 
-import { useCallback, useEffect, useSyncExternalStore } from "react"
 import { usePathname } from "next/navigation"
+import { useEffect, useSyncExternalStore } from "react"
 
 import { getUnit } from "@/content/catalog"
 
 const STORAGE_KEY = "ruohan-last-unit"
-const EVENT = "ruohan-last-unit"
+const CHANGE_EVENT = "ruohan-last-unit"
 const DEFAULT_UNIT = 1
 
-function parseUnitId(raw: string | null) {
-  const id = Number(raw)
-  return getUnit(id) ? id : DEFAULT_UNIT
+function parseUnitId(raw: string | null): number {
+  const id = Number.parseInt(raw ?? "", 10)
+  return Number.isInteger(id) && getUnit(id) ? id : DEFAULT_UNIT
 }
 
-function readRaw() {
+function readStoredUnit(): number {
+  if (typeof window === "undefined") return DEFAULT_UNIT
   try {
-    return localStorage.getItem(STORAGE_KEY) ?? String(DEFAULT_UNIT)
+    return parseUnitId(window.localStorage.getItem(STORAGE_KEY))
   } catch {
-    return String(DEFAULT_UNIT)
+    return DEFAULT_UNIT
   }
 }
 
-function subscribe(onChange: () => void) {
-  window.addEventListener("storage", onChange)
-  window.addEventListener(EVENT, onChange)
-  return () => {
-    window.removeEventListener("storage", onChange)
-    window.removeEventListener(EVENT, onChange)
-  }
-}
-
-function writeUnit(unitId: number) {
-  if (!getUnit(unitId)) return
+function writeUnit(id: number) {
+  if (typeof window === "undefined" || !getUnit(id)) return
+  if (readStoredUnit() === id) return
   try {
-    if (localStorage.getItem(STORAGE_KEY) === String(unitId)) return
-    localStorage.setItem(STORAGE_KEY, String(unitId))
+    window.localStorage.setItem(STORAGE_KEY, String(id))
   } catch {
     return
   }
-  window.dispatchEvent(new Event(EVENT))
+  window.dispatchEvent(new Event(CHANGE_EVENT))
+}
+
+function subscribe(onStoreChange: () => void) {
+  window.addEventListener("storage", onStoreChange)
+  window.addEventListener(CHANGE_EVENT, onStoreChange)
+  return () => {
+    window.removeEventListener("storage", onStoreChange)
+    window.removeEventListener(CHANGE_EVENT, onStoreChange)
+  }
+}
+
+function unitFromPath(pathname: string): number | null {
+  const match = pathname.match(/^\/units\/(\d+)(?:\/|$)/)
+  if (!match) return null
+  const id = Number.parseInt(match[1], 10)
+  return Number.isInteger(id) && getUnit(id) ? id : null
 }
 
 export function useLastUnit() {
-  const raw = useSyncExternalStore(subscribe, readRaw, () => String(DEFAULT_UNIT))
-  return parseUnitId(raw)
-}
-
-export function useRememberLastUnit() {
   const pathname = usePathname()
-  const setLastUnit = useCallback((unitId: number) => writeUnit(unitId), [])
+  const stored = useSyncExternalStore(subscribe, readStoredUnit, () => DEFAULT_UNIT)
+  const fromPath = unitFromPath(pathname)
 
   useEffect(() => {
-    const match = pathname.match(/^\/units\/(\d+)(?:\/|$)/)
-    if (!match) return
-    setLastUnit(Number(match[1]))
-  }, [pathname, setLastUnit])
+    if (fromPath) writeUnit(fromPath)
+  }, [fromPath])
+
+  return fromPath ?? stored
 }
