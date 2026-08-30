@@ -65,7 +65,7 @@ export const UNITS: UnitSummary[] = [
     id: 4,
     title: "自我认识",
     titleEn: "Knowing yourself",
-    status: "planned",
+    status: "ready",
     lessonCount: 7,
     topics: [
       { id: "4-1", title: "自我介绍", titleEn: "Self-introduction" },
