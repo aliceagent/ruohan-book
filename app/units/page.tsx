@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
+import { RememberUnitLink } from "@/components/remember-unit-link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { UNITS } from "@/content/catalog"
@@ -52,9 +52,9 @@ export default function UnitsPage() {
             </Card>
           )
           return href ? (
-            <Link key={unit.id} href={href}>
+            <RememberUnitLink key={unit.id} href={href} unitId={unit.id}>
               {inner}
-            </Link>
+            </RememberUnitLink>
           ) : (
             <div key={unit.id}>{inner}</div>
           )

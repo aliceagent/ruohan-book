@@ -3,6 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
+import { RememberUnitLink } from "@/components/remember-unit-link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { LessonIllustration } from "@/components/lesson-illustration"
@@ -59,12 +60,12 @@ export default async function UnitPage({
               <CardHeader>
                 <div className="flex items-start gap-4">
                   {lesson ? (
-                    <Link href={href!} className="shrink-0">
+                    <RememberUnitLink href={href!} unitId={unit.id} className="shrink-0">
                       <LessonIllustration
                         lessonId={lesson.id}
                         alt={`${topic.title} · ${topic.titleEn}`}
                       />
-                    </Link>
+                    </RememberUnitLink>
                   ) : null}
                   <div className="min-w-0 flex-1 space-y-2">
                     <div className="flex items-center justify-between gap-2">
@@ -79,12 +80,12 @@ export default async function UnitPage({
                     </div>
                     {href ? (
                       <>
-                        <Link href={href} className="block">
+                        <RememberUnitLink href={href} unitId={unit.id} className="block">
                           <CardTitle className="font-serif text-2xl">
                             <MixedHanzi text={topic.title} />
                           </CardTitle>
                           <CardDescription>{topic.titleEn}</CardDescription>
-                        </Link>
+                        </RememberUnitLink>
                         <Link href={`/quiz/${topic.id}`} className="text-sm text-rose-800 hover:underline">
                           Lesson quiz
                         </Link>

@@ -6,7 +6,7 @@ import { useEffect, useSyncExternalStore } from "react"
 import { getUnit } from "@/content/catalog"
 
 const STORAGE_KEY = "ruohan-last-unit"
-const CHANGE_EVENT = "ruohan-last-unit"
+const EVENT = "ruohan-last-unit"
 const DEFAULT_UNIT = 1
 
 function parseUnitId(raw: string | null): number {
@@ -14,33 +14,32 @@ function parseUnitId(raw: string | null): number {
   return Number.isInteger(id) && getUnit(id) ? id : DEFAULT_UNIT
 }
 
-function readStoredUnit(): number {
-  if (typeof window === "undefined") return DEFAULT_UNIT
+function readRaw() {
   try {
-    return parseUnitId(window.localStorage.getItem(STORAGE_KEY))
+    return localStorage.getItem(STORAGE_KEY) ?? String(DEFAULT_UNIT)
   } catch {
-    return DEFAULT_UNIT
+    return String(DEFAULT_UNIT)
   }
 }
 
-function writeUnit(id: number) {
-  if (typeof window === "undefined" || !getUnit(id)) return
-  if (readStoredUnit() === id) return
+function subscribe(onChange: () => void) {
+  window.addEventListener("storage", onChange)
+  window.addEventListener(EVENT, onChange)
+  return () => {
+    window.removeEventListener("storage", onChange)
+    window.removeEventListener(EVENT, onChange)
+  }
+}
+
+export function rememberLastUnit(unitId: number) {
+  if (!getUnit(unitId)) return
   try {
-    window.localStorage.setItem(STORAGE_KEY, String(id))
+    if (localStorage.getItem(STORAGE_KEY) === String(unitId)) return
+    localStorage.setItem(STORAGE_KEY, String(unitId))
   } catch {
     return
   }
-  window.dispatchEvent(new Event(CHANGE_EVENT))
-}
-
-function subscribe(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange)
-  window.addEventListener(CHANGE_EVENT, onStoreChange)
-  return () => {
-    window.removeEventListener("storage", onStoreChange)
-    window.removeEventListener(CHANGE_EVENT, onStoreChange)
-  }
+  window.dispatchEvent(new Event(EVENT))
 }
 
 function unitFromPath(pathname: string): number | null {
@@ -52,11 +51,12 @@ function unitFromPath(pathname: string): number | null {
 
 export function useLastUnit() {
   const pathname = usePathname()
-  const stored = useSyncExternalStore(subscribe, readStoredUnit, () => DEFAULT_UNIT)
+  const raw = useSyncExternalStore(subscribe, readRaw, () => String(DEFAULT_UNIT))
+  const stored = parseUnitId(raw)
   const fromPath = unitFromPath(pathname)
 
   useEffect(() => {
-    if (fromPath) writeUnit(fromPath)
+    if (fromPath) rememberLastUnit(fromPath)
   }, [fromPath])
 
   return fromPath ?? stored

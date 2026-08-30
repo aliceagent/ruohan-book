@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ArrowRight, CircleHelp, Headphones, Languages, Sparkles } from "lucide-react"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
+import { RememberUnitLink } from "@/components/remember-unit-link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -38,14 +39,14 @@ export default function HomePage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild>
-              <Link href="/units/1">
+              <RememberUnitLink href="/units/1" unitId={1}>
                 Start Unit 1 <ArrowRight />
-              </Link>
+              </RememberUnitLink>
             </Button>
             <Button variant="secondary" asChild>
-              <Link href="/units/2">
+              <RememberUnitLink href="/units/2" unitId={2}>
                 Open Unit 2 <ArrowRight />
-              </Link>
+              </RememberUnitLink>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/quiz">Take a quiz</Link>
@@ -125,7 +126,11 @@ export default function HomePage() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {UNITS.slice(0, 6).map((unit) => (
-            <Link key={unit.id} href={unit.status === "ready" ? `/units/${unit.id}` : "/units"}>
+            <RememberUnitLink
+              key={unit.id}
+              href={unit.status === "ready" ? `/units/${unit.id}` : "/units"}
+              unitId={unit.id}
+            >
               <Card className="h-full transition-colors hover:border-rose-400">
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -140,7 +145,7 @@ export default function HomePage() {
                   <CardDescription>{unit.titleEn}</CardDescription>
                 </CardHeader>
               </Card>
-            </Link>
+            </RememberUnitLink>
           ))}
         </div>
       </section>
