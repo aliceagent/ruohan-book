@@ -8,7 +8,7 @@ Unit 1 家庭生活 is live: every scene, dialogue, stretch-vocabulary list, and
 
 - Lesson pages at `/units/1/1-1` … `/units/1/1-10`
 - Catalog of all 22 units (later units listed, not yet transcribed)
-- Study desk: search, flashcards, glossary, local progress
+- Study: due-card review, searchable words, short flashcard piles, local progress
 - Unit 1 official dialogue MP3s on each lesson and at `/audio`
 - [Website plan](/plan)
 

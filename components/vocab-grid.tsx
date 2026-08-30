@@ -6,6 +6,7 @@ import { useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { vocabKey, useProgress } from "@/hooks/use-progress"
+import { wordStatus } from "@/lib/study"
 import type { VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -40,7 +41,8 @@ export function VocabGrid({
       >
         {items.map((item) => {
           const key = vocabKey(lessonId, item.hanzi)
-          const known = progress.knownVocab.includes(key)
+          const state = wordStatus(progress.srs, progress.knownVocab, key, Date.now())
+          const known = state === "known"
           return (
             <Card key={item.hanzi} className={cn("overflow-visible", known && "border-rose-400")}>
               <CardContent className="flex items-start justify-between gap-2 pt-5">
@@ -54,8 +56,11 @@ export function VocabGrid({
                 />
                 <div className="flex flex-col items-end gap-1">
                   <SpeakButton text={item.hanzi} />
+                  <span className="text-[0.65rem] tracking-wide text-muted-foreground uppercase">
+                    {state === "known" ? "Known" : state === "due" ? "Due" : state === "learning" ? "Learning" : "New"}
+                  </span>
                   <Button size="xs" variant={known ? "secondary" : "ghost"} onClick={() => toggleVocab(key)}>
-                    {known ? "Known" : "Learn"}
+                    {known ? "Reset" : "I know this"}
                   </Button>
                 </div>
               </CardContent>

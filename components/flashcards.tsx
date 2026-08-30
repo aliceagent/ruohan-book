@@ -7,8 +7,8 @@ import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ALL_LESSONS, allVocabulary } from "@/content/lessons"
-import { useProgress, vocabKey } from "@/hooks/use-progress"
+import { getUnit } from "@/content/catalog"
+import { useProgress } from "@/hooks/use-progress"
 import {
   GRADES,
   NEW_PER_DAY,
@@ -19,9 +19,14 @@ import {
   queueFor,
   type SrsGrade,
 } from "@/lib/srs"
+import {
+  LIVE_UNIT_IDS,
+  STUDY_WORDS,
+  lessonsForFilter,
+  type SessionSize,
+  type UnitFilter,
+} from "@/lib/study"
 import { cn } from "@/lib/utils"
-
-const VOCAB = allVocabulary()
 
 const KIND_LABEL: Record<string, string> = {
   new: "New",
@@ -29,10 +34,23 @@ const KIND_LABEL: Record<string, string> = {
   review: "Review",
 }
 
-export function Flashcards() {
+export function Flashcards({
+  unit,
+  lessonId,
+  session,
+  onUnit,
+  onLesson,
+  onSession,
+}: {
+  unit: UnitFilter
+  lessonId: string
+  session: SessionSize
+  onUnit: (unit: UnitFilter) => void
+  onLesson: (lessonId: string) => void
+  onSession: (session: SessionSize) => void
+}) {
   const { prefs } = useStudyPrefs()
   const { progress, hydrateSrs, reviewSrs } = useProgress()
-  const [lessonId, setLessonId] = useState("all")
   const [revealed, setRevealed] = useState(false)
   const [extraNew, setExtraNew] = useState(0)
   const [sessionCount, setSessionCount] = useState(0)
@@ -43,24 +61,35 @@ export function Flashcards() {
     hydrateSrs()
   }, [hydrateSrs])
 
-  const deck = useMemo(() => {
-    const scoped = lessonId === "all" ? VOCAB : VOCAB.filter((item) => item.lessonId === lessonId)
-    return scoped.map((item) => ({
-      ...item,
-      key: vocabKey(item.lessonId, item.hanzi),
-    }))
-  }, [lessonId])
+  useEffect(() => {
+    setSessionCount(0)
+    setSkipKey(null)
+    setRevealed(false)
+    setExtraNew(0)
+  }, [unit, lessonId, session])
 
+  const deck = useMemo(() => {
+    return STUDY_WORDS.filter((item) => {
+      if (unit !== "all" && item.unitId !== unit) return false
+      if (lessonId !== "all" && item.lessonId !== lessonId) return false
+      return true
+    })
+  }, [lessonId, unit])
+
+  const newCap = session === 0 ? NEW_PER_DAY + extraNew : Math.max(session, extraNew)
   const { cards, counts } = useMemo(
-    () => queueFor(deck, progress.srs, now, NEW_PER_DAY + extraNew),
-    [deck, extraNew, now, progress.srs],
+    () => queueFor(deck, progress.srs, now, newCap),
+    [deck, newCap, now, progress.srs],
   )
 
-  const card = cards.find((item) => item.key !== skipKey) ?? cards[0]
+  const sessionLimit = session === 0 ? Number.POSITIVE_INFINITY : session
+  const sessionDone = sessionCount >= sessionLimit
+  const card = sessionDone ? undefined : (cards.find((item) => item.key !== skipKey) ?? cards[0])
   const srsCard = card ? progress.srs[card.key] : undefined
   const kind = kindOf(srsCard)
   const keys = useMemo(() => new Set(deck.map((item) => item.key)), [deck])
-  const upcoming = nextDueAt(progress.srs, lessonId === "all" ? null : keys, now)
+  const upcoming = nextDueAt(progress.srs, unit === "all" && lessonId === "all" ? null : keys, now)
+  const lessons = lessonsForFilter(unit)
 
   const cardRef = useRef(card)
   const revealedRef = useRef(revealed)
@@ -106,26 +135,61 @@ export function Flashcards() {
     <div className="mx-auto max-w-xl space-y-4 pt-4">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <p className="text-sm text-muted-foreground">
-          {counts.due} due · {counts.learn} learning · {counts.newLeft} new left today
-          {sessionCount ? ` · ${sessionCount} this session` : ""}
+          {counts.due} due · {counts.learn} learning · {counts.newLeft} new left
+          {sessionCount ? ` · ${sessionCount}${session ? `/${session}` : ""} this session` : ""}
         </p>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-2 text-sm">
-          <span className="text-muted-foreground">Deck</span>
+          <span className="text-muted-foreground">Unit</span>
+          <select
+            className="h-8 rounded-lg border bg-background px-2 text-sm"
+            value={unit === "all" ? "all" : String(unit)}
+            onChange={(event) => {
+              const value = event.target.value
+              onUnit(value === "all" ? "all" : Number(value))
+            }}
+          >
+            <option value="all">All units</option>
+            {LIVE_UNIT_IDS.map((id) => {
+              const meta = getUnit(id)
+              return (
+                <option key={id} value={id}>
+                  Unit {id}
+                  {meta ? ` ${meta.title}` : ""}
+                </option>
+              )
+            })}
+          </select>
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-muted-foreground">Lesson</span>
           <select
             className="h-8 rounded-lg border bg-background px-2 text-sm"
             value={lessonId}
-            onChange={(event) => {
-              setLessonId(event.target.value)
-              setRevealed(false)
-              setSkipKey(null)
-            }}
+            onChange={(event) => onLesson(event.target.value)}
           >
             <option value="all">All lessons</option>
-            {ALL_LESSONS.map((lesson) => (
+            {lessons.map((lesson) => (
               <option key={lesson.id} value={lesson.id}>
                 {lesson.id} {lesson.title}
               </option>
             ))}
+          </select>
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-muted-foreground">Pile</span>
+          <select
+            className="h-8 rounded-lg border bg-background px-2 text-sm"
+            value={session === 0 ? "all" : String(session)}
+            onChange={(event) => {
+              const value = event.target.value
+              onSession(value === "all" ? 0 : value === "20" ? 20 : 10)
+            }}
+          >
+            <option value="10">10 cards</option>
+            <option value="20">20 cards</option>
+            <option value="all">No cap</option>
           </select>
         </label>
       </div>
@@ -133,15 +197,27 @@ export function Flashcards() {
       {!card ? (
         <Card>
           <CardContent className="space-y-3 py-10 text-center">
-            <p className="font-serif text-2xl">You’re caught up</p>
+            <p className="font-serif text-2xl">{sessionDone ? "Pile finished" : "You’re caught up"}</p>
             <p className="text-sm text-muted-foreground">
-              {upcoming
-                ? `Next review in ${formatDueIn(upcoming, now)}.`
-                : counts.unseen === 0
-                  ? "Every word in this deck is scheduled."
-                  : `${counts.unseen} new cards are waiting behind today’s cap of ${NEW_PER_DAY}.`}
+              {sessionDone
+                ? `${sessionCount} cards this sit. Start another pile or browse the words.`
+                : upcoming
+                  ? `Next review in ${formatDueIn(upcoming, now)}.`
+                  : counts.unseen === 0
+                    ? "Every word in this deck is scheduled."
+                    : `${counts.unseen} new cards are waiting behind today’s cap.`}
             </p>
-            {counts.unseen > 0 ? (
+            {sessionDone ? (
+              <Button
+                onClick={() => {
+                  setSessionCount(0)
+                  setSkipKey(null)
+                  setNow(Date.now())
+                }}
+              >
+                Study another {session || 10}
+              </Button>
+            ) : counts.unseen > 0 ? (
               <Button
                 onClick={() => {
                   setExtraNew((value) => value + 10)

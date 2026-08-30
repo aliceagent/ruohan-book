@@ -107,6 +107,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             title="对话词汇"
             en="Words from this dialogue — tap a sentence above for the mini lesson"
           />
+          <LessonStudyLinks unitId={lesson.unitId} lessonId={lesson.id} />
           <VocabGrid lessonId={lesson.id} items={lesson.coreVocabulary} />
         </section>
       ) : null}
@@ -179,6 +180,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <section className="space-y-4">
         <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
+        <LessonStudyLinks unitId={lesson.unitId} lessonId={lesson.id} />
         <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} />
       </section>
 
@@ -273,6 +275,19 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         )}
       </nav>
     </div>
+  )
+}
+
+function LessonStudyLinks({ unitId, lessonId }: { unitId: number; lessonId: string }) {
+  return (
+    <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+      <Link href={`/study?tab=words&unit=${unitId}&lesson=${lessonId}`} className="text-rose-800 hover:underline">
+        Review these words
+      </Link>
+      <Link href={`/study?tab=cards&unit=${unitId}&lesson=${lessonId}&session=10`} className="text-rose-800 hover:underline">
+        Drill 10 cards
+      </Link>
+    </p>
   )
 }
 
