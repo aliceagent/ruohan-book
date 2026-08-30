@@ -19,17 +19,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { BOOK } from "@/content/catalog"
+import { useLastUnit, useRememberLastUnit } from "@/hooks/use-last-unit"
 import { cn } from "@/lib/utils"
 
-const LINKS = [
+const STATIC_LINKS = [
   { href: "/", label: "Home" },
   { href: "/units", label: "Units" },
-  { href: "/units/1", label: "Unit 1" },
   { href: "/study", label: "Study" },
   { href: "/quiz", label: "Quiz" },
   { href: "/audio", label: "Audio" },
   { href: "/plan", label: "Plan" },
-]
+] as const
+
+function navLinks(lastUnitId: number) {
+  return [
+    STATIC_LINKS[0],
+    STATIC_LINKS[1],
+    { href: `/units/${lastUnitId}`, label: `Unit ${lastUnitId}` },
+    ...STATIC_LINKS.slice(2),
+  ]
+}
+
+function linkIsActive(href: string, pathname: string) {
+  if (href === "/") return pathname === "/"
+  if (href === "/units") return pathname === "/units"
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export function AppShell({ children }: { children: ReactNode }) {
   const notesOpen = useNotesOpen()
@@ -71,6 +86,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 export function SiteHeader({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname()
   const showToggles = useShowDisplayTogglesInHeader()
+  const lastUnitId = useLastUnit()
+  useRememberLastUnit()
+  const links = navLinks(lastUnitId)
 
   return (
     <header className="sticky top-0 z-40 shrink-0 border-b bg-background/85 backdrop-blur">
@@ -94,13 +112,13 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
           </span>
         </Link>
         <nav className={cn("hidden items-center gap-1", showToggles ? "xl:flex" : "md:flex")}>
-          {LINKS.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-accent",
-                pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
+                linkIsActive(link.href, pathname)
                   ? "bg-rose-700 text-white hover:bg-rose-700"
                   : "text-muted-foreground",
               )}
@@ -135,7 +153,7 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
               </SheetTitle>
               </SheetHeader>
               <div className="mt-6 grid gap-2">
-                {LINKS.map((link) => (
+                {links.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
