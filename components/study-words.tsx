@@ -92,6 +92,18 @@ export function StudyWords({
     [lessonId, now, progress.knownVocab, progress.srs, query, status, unit],
   )
   const groups = useMemo(() => groupWordsByLesson(words), [words])
+  const outsideHits = useMemo(() => {
+    if (!query.trim() || words.length > 0) return []
+    return filterStudyWords(STUDY_WORDS, {
+      unit: "all",
+      lessonId: "all",
+      status,
+      query,
+      srs: progress.srs,
+      knownVocab: progress.knownVocab,
+      now,
+    })
+  }, [now, progress.knownVocab, progress.srs, query, status, words.length])
   const lessons = lessonsForFilter(unit)
   const selected = words.find((item) => item.key === openKey) ?? null
   const example = selected ? exampleLineFor(selected) : undefined
@@ -165,7 +177,18 @@ export function StudyWords({
       </p>
 
       {groups.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Nothing matches. Clear a filter or try another spelling.</p>
+        <div className="space-y-2">
+          <p className="text-sm text-muted-foreground">
+            {outsideHits.length > 0
+              ? `Nothing in this unit. ${outsideHits.length} ${outsideHits.length === 1 ? "match" : "matches"} in other units.`
+              : "Nothing matches. Clear a filter or try another spelling."}
+          </p>
+          {outsideHits.length > 0 ? (
+            <Button size="sm" variant="outline" onClick={() => onUnit("all")}>
+              Show all units
+            </Button>
+          ) : null}
+        </div>
       ) : (
         <div className="space-y-6">
           {groups.map((group) => (
