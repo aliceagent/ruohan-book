@@ -268,7 +268,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           </Button>
         ) : (
           <Button asChild>
-            <Link href="/units/1">Back to Unit 1</Link>
+            <Link href={`/units/${lesson.unitId}`}>Back to Unit {lesson.unitId}</Link>
           </Button>
         )}
       </nav>
