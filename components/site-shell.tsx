@@ -6,6 +6,7 @@ import { BookOpen, Menu, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { DisplayToggles } from "@/components/display-toggles"
+import { LessonNotesHeaderButton } from "@/components/lesson-notes"
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useShowDisplayTogglesInHeader } from "@/components/sticky-display"
 import { Button } from "@/components/ui/button"
@@ -66,6 +67,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-2">
+          <LessonNotesHeaderButton />
           {showToggles ? (
             <div className="shrink-0">
               <DisplayToggles compact placement="header" />

@@ -15,7 +15,6 @@ import { DisplayToggles } from "@/components/display-toggles"
 import { ExpandableDialogue } from "@/components/expandable-dialogue"
 import { FillBlankExercise } from "@/components/fill-blank-exercise"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
-import { LessonNotes } from "@/components/lesson-notes"
 import { LessonIllustration } from "@/components/lesson-illustration"
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { MiniLessonCard } from "@/components/mini-lesson"
@@ -69,7 +68,6 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <DisplayToggles compact />
-            <LessonNotes lessonId={lesson.id} title={lesson.title} titleEn={lesson.titleEn} />
             <Button
               variant={done ? "secondary" : "default"}
               onClick={() => toggleLesson(lesson.id)}

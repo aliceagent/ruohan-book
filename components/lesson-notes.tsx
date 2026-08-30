@@ -1,46 +1,46 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Check, Download, NotebookPen, X } from "lucide-react"
+import { createContext, useContext, useRef, useState, type ReactNode } from "react"
+import { usePathname } from "next/navigation"
+import { Check, Download, Eraser, NotebookPen, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
+import { getLesson } from "@/content/unit-1"
 import { useLessonNotes } from "@/hooks/use-lesson-notes"
 import { formatLessonNoteExport, lessonNoteFilename } from "@/lib/lesson-notes"
 import { mixedRuns } from "@/lib/pinyin"
+import type { Lesson } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-function useWideScreen() {
-  const [wide, setWide] = useState(false)
-
-  useEffect(() => {
-    const media = window.matchMedia("(min-width: 640px)")
-    const update = () => setWide(media.matches)
-    update()
-    media.addEventListener("change", update)
-    return () => media.removeEventListener("change", update)
-  }, [])
-
-  return wide
+type NotesChrome = {
+  lesson: Lesson
+  note: string
+  setNote: (value: string) => void
+  clearNote: () => void
+  saveNote: () => void
+  hasNote: boolean
+  open: boolean
+  setOpen: (open: boolean) => void
 }
 
-function NotePinyinPreview({ text }: { text: string }) {
-  if (!text.trim()) {
-    return <p className="text-muted-foreground">Pinyin appears here as you write Chinese.</p>
-  }
+const NotesChromeContext = createContext<NotesChrome | null>(null)
 
+function lessonFromPath(pathname: string) {
+  const match = pathname.match(/^\/units\/\d+\/([^/]+)$/)
+  return match ? getLesson(match[1]) : undefined
+}
+
+const editorType = cn(
+  "font-serif text-2xl leading-[2.15] break-words whitespace-pre-wrap",
+)
+
+function NoteRuby({ text }: { text: string }) {
   const lines = text.split("\n")
   return (
-    <div className="font-serif text-2xl leading-[2.15] whitespace-pre-wrap">
+    <>
       {lines.map((line, lineIndex) => (
-        <p key={`line-${lineIndex}`} className={line ? undefined : "min-h-[1em]"}>
+        <span key={`line-${lineIndex}`}>
+          {lineIndex > 0 ? "\n" : null}
           {mixedRuns(line).map((run, index) => {
             if (run.kind !== "zh") {
               return <span key={`text-${lineIndex}-${index}`}>{run.text}</span>
@@ -56,9 +56,9 @@ function NotePinyinPreview({ text }: { text: string }) {
               </span>
             )
           })}
-        </p>
+        </span>
       ))}
-    </div>
+    </>
   )
 }
 
@@ -74,27 +74,83 @@ function downloadText(filename: string, text: string) {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-export function LessonNotes({
+function NoteEditor({
   lessonId,
-  title,
-  titleEn,
+  value,
+  onChange,
 }: {
   lessonId: string
-  title: string
-  titleEn: string
+  value: string
+  onChange: (value: string) => void
 }) {
-  const { note, setNote, hasNote } = useLessonNotes(lessonId)
-  const [open, setOpen] = useState(false)
+  const areaRef = useRef<HTMLTextAreaElement>(null)
+  const layerRef = useRef<HTMLDivElement>(null)
+
+  function syncScroll() {
+    if (!areaRef.current || !layerRef.current) return
+    layerRef.current.scrollTop = areaRef.current.scrollTop
+    layerRef.current.scrollLeft = areaRef.current.scrollLeft
+  }
+
+  return (
+    <div className="relative min-h-48 flex-1">
+      <div
+        ref={layerRef}
+        aria-hidden
+        data-note-preview
+        className={cn(
+          "pointer-events-none absolute inset-0 overflow-hidden rounded-xl px-3 py-3",
+          editorType,
+        )}
+      >
+        {value ? (
+          <NoteRuby text={value} />
+        ) : (
+          <span className="text-muted-foreground">写中文或英文…… Write Chinese or English…</span>
+        )}
+      </div>
+      <textarea
+        ref={areaRef}
+        id={`lesson-note-${lessonId}`}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        onScroll={syncScroll}
+        spellCheck
+        className={cn(
+          "absolute inset-0 z-10 size-full resize-none rounded-xl border border-input bg-transparent px-3 py-3",
+          editorType,
+          "text-transparent caret-foreground [-webkit-text-fill-color:transparent]",
+          "outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+        )}
+      />
+    </div>
+  )
+}
+
+function LessonNotesPanel() {
+  const chrome = useContext(NotesChromeContext)
   const [exported, setExported] = useState(false)
-  const wide = useWideScreen()
+  if (!chrome) return null
+
+  const { lesson, note, setNote, clearNote, saveNote, hasNote, open, setOpen } = chrome
+
+  function close() {
+    saveNote()
+    setOpen(false)
+  }
 
   async function exportNote() {
-    const text = formatLessonNoteExport({ lessonId, title, titleEn, body: note })
-    const filename = lessonNoteFilename(lessonId)
+    const text = formatLessonNoteExport({
+      lessonId: lesson.id,
+      title: lesson.title,
+      titleEn: lesson.titleEn,
+      body: note,
+    })
+    const filename = lessonNoteFilename(lesson.id)
 
     try {
       if (navigator.share && (!navigator.canShare || navigator.canShare({ text }))) {
-        await navigator.share({ title: `${title} notes`, text })
+        await navigator.share({ title: `${lesson.title} notes`, text })
         setExported(true)
         window.setTimeout(() => setExported(false), 2000)
         return
@@ -114,103 +170,99 @@ export function LessonNotes({
   }
 
   return (
-    <>
-      <Button
-        type="button"
-        variant={hasNote ? "secondary" : "outline"}
-        onClick={() => setOpen(true)}
-        aria-haspopup="dialog"
-        aria-expanded={open}
-      >
-        <NotebookPen className="size-4" />
-        Notes
-      </Button>
+    <aside
+      id="lesson-notes-panel"
+      role="complementary"
+      aria-label="Lesson notes"
+      aria-hidden={!open}
+      className={cn(
+        "pointer-events-none fixed z-30 flex flex-col border bg-card shadow-lg transition-transform duration-200 ease-out",
+        "inset-x-0 bottom-0 h-[min(46dvh,28rem)] rounded-t-2xl",
+        "sm:inset-y-16 sm:right-0 sm:left-auto sm:h-auto sm:w-[min(26rem,42vw)] sm:rounded-none sm:border-t-0",
+        open
+          ? "pointer-events-auto translate-y-0 sm:translate-x-0"
+          : "translate-y-full sm:translate-x-full sm:translate-y-0",
+      )}
+    >
+      <div className="flex items-start justify-between gap-3 border-b px-4 py-3">
+        <div className="min-w-0">
+          <p className="font-serif text-xl">课堂笔记</p>
+          <p className="text-sm text-muted-foreground">
+            {lesson.title} · {lesson.titleEn}
+          </p>
+        </div>
+        <Button type="button" variant="ghost" size="icon" aria-label="Close notes" onClick={close}>
+          <X className="size-4" />
+        </Button>
+      </div>
 
-      <button
-        type="button"
-        className={cn(
-          "fixed right-4 bottom-5 z-40 inline-flex size-12 items-center justify-center rounded-full border bg-card shadow-lg",
-          "text-rose-800 hover:bg-rose-50 dark:text-rose-200 dark:hover:bg-rose-950/60",
-          open && "hidden",
-        )}
-        aria-label="Open lesson notes"
-        onClick={() => setOpen(true)}
-      >
-        <NotebookPen className="size-5" />
-      </button>
+      <div className="flex min-h-0 flex-1 flex-col px-4 py-3">
+        <label className="sr-only" htmlFor={`lesson-note-${lesson.id}`}>
+          Lesson notes
+        </label>
+        <NoteEditor lessonId={lesson.id} value={note} onChange={setNote} />
+      </div>
 
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent
-          side={wide ? "right" : "bottom"}
-          showCloseButton={false}
-          className={cn(
-            "gap-0 overflow-hidden bg-card p-0",
-            wide
-              ? "w-full sm:max-w-xl"
-              : "h-[min(88dvh,44rem)] max-h-[88dvh] rounded-t-2xl border-x",
-          )}
-        >
-          <SheetHeader className="border-b px-4 py-3">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <SheetTitle className="font-serif text-xl">课堂笔记</SheetTitle>
-                <SheetDescription>
-                  {title} · {titleEn}. Write in Chinese or English. Pinyin is added for you.
-                </SheetDescription>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label="Dismiss notes"
-                onClick={() => setOpen(false)}
-              >
-                <X className="size-4" />
-              </Button>
-            </div>
-          </SheetHeader>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t px-4 py-3">
+        <Button type="button" variant="outline" onClick={clearNote} disabled={!hasNote}>
+          <Eraser className="size-4" />
+          Clear
+        </Button>
+        <div className="flex items-center gap-2">
+          <Button type="button" variant="outline" onClick={close}>
+            Close
+          </Button>
+          <Button type="button" onClick={exportNote} disabled={!hasNote}>
+            {exported ? <Check className="size-4" /> : <Download className="size-4" />}
+            {exported ? "Exported" : "Export"}
+          </Button>
+        </div>
+      </div>
+    </aside>
+  )
+}
 
-          <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-auto px-4 py-3">
-            <label className="sr-only" htmlFor={`lesson-note-${lessonId}`}>
-              Lesson notes
-            </label>
-            <textarea
-              id={`lesson-note-${lessonId}`}
-              value={note}
-              onChange={(event) => setNote(event.target.value)}
-              placeholder="写中文或英文…… Write Chinese or English…"
-              spellCheck
-              className={cn(
-                "min-h-40 w-full flex-1 resize-y rounded-xl border border-input bg-background px-3 py-3",
-                "font-serif text-2xl leading-relaxed",
-                "outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-              )}
-            />
-            <div
-              data-note-preview
-              className="rounded-xl border border-dashed bg-muted/40 px-3 py-3"
-            >
-              <p className="mb-2 text-xs tracking-wide text-muted-foreground uppercase">
-                With pinyin
-              </p>
-              <NotePinyinPreview text={note} />
-            </div>
-          </div>
+export function LessonNotesProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname()
+  const lesson = lessonFromPath(pathname)
+  const notes = useLessonNotes(lesson?.id ?? "")
+  const [open, setOpen] = useState(false)
 
-          <SheetFooter className="flex-row flex-wrap items-center justify-between gap-2 border-t">
-            <p className="text-xs text-muted-foreground">Saved on this device for this lesson.</p>
-            <div className="flex items-center gap-2">
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-                Dismiss
-              </Button>
-              <Button type="button" onClick={exportNote} disabled={!hasNote}>
-                {exported ? <Check className="size-4" /> : <Download className="size-4" />}
-                {exported ? "Exported" : "Export"}
-              </Button>
-            </div>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-    </>
+  const value = lesson
+    ? {
+        lesson,
+        ...notes,
+        open,
+        setOpen: (next: boolean) => {
+          if (!next) notes.saveNote()
+          setOpen(next)
+        },
+      }
+    : null
+
+  return (
+    <NotesChromeContext.Provider value={value}>
+      {children}
+      {lesson ? <LessonNotesPanel /> : null}
+    </NotesChromeContext.Provider>
+  )
+}
+
+export function LessonNotesHeaderButton() {
+  const chrome = useContext(NotesChromeContext)
+  if (!chrome) return null
+
+  return (
+    <Button
+      type="button"
+      variant={chrome.open || chrome.hasNote ? "secondary" : "outline"}
+      size="sm"
+      aria-expanded={chrome.open}
+      aria-controls="lesson-notes-panel"
+      onClick={() => chrome.setOpen(!chrome.open)}
+    >
+      <NotebookPen className="size-4" />
+      Notes
+    </Button>
   )
 }

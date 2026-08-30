@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react"
 
 const STORAGE_KEY = "ruohan-lesson-notes"
 const EVENT = "ruohan-lesson-notes"
@@ -38,37 +38,60 @@ function writeMap(next: NotesMap) {
   window.dispatchEvent(new Event(EVENT))
 }
 
+function persist(lessonId: string, draft: string) {
+  if (!lessonId) return
+  const current = parse(readRaw())
+  const previous = current[lessonId] ?? ""
+  if (draft === previous) return
+  if (!draft) {
+    if (!(lessonId in current)) return
+    const { [lessonId]: _removed, ...rest } = current
+    writeMap(rest)
+    return
+  }
+  writeMap({ ...current, [lessonId]: draft })
+}
+
 export function useLessonNotes(lessonId: string) {
   const raw = useSyncExternalStore(subscribe, readRaw, () => "{}")
-  const stored = useMemo(() => parse(raw)[lessonId] ?? "", [raw, lessonId])
+  const stored = useMemo(() => (lessonId ? parse(raw)[lessonId] ?? "" : ""), [raw, lessonId])
   const [draft, setDraft] = useState(stored)
+  const draftRef = useRef(draft)
+  draftRef.current = draft
 
   useEffect(() => {
     setDraft(stored)
   }, [stored, lessonId])
 
   useEffect(() => {
-    const handle = window.setTimeout(() => {
-      if (draft === stored) return
-      const current = parse(readRaw())
-      if (!draft.trim()) {
-        if (!(lessonId in current)) return
-        const { [lessonId]: _removed, ...rest } = current
-        writeMap(rest)
-        return
-      }
-      writeMap({ ...current, [lessonId]: draft })
-    }, 250)
+    if (!lessonId) return
+    const handle = window.setTimeout(() => persist(lessonId, draft), 250)
     return () => window.clearTimeout(handle)
-  }, [draft, lessonId, stored])
+  }, [draft, lessonId])
+
+  useEffect(() => {
+    if (!lessonId) return
+    return () => persist(lessonId, draftRef.current)
+  }, [lessonId])
 
   const setNote = useCallback((value: string) => {
     setDraft(value)
   }, [])
 
+  const clearNote = useCallback(() => {
+    setDraft("")
+    persist(lessonId, "")
+  }, [lessonId])
+
+  const saveNote = useCallback(() => {
+    persist(lessonId, draftRef.current)
+  }, [lessonId])
+
   return {
     note: draft,
     setNote,
+    clearNote,
+    saveNote,
     hasNote: Boolean(draft.trim()),
   }
 }

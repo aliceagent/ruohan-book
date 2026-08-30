@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Noto_Sans, Noto_Sans_SC, Noto_Serif, Noto_Serif_SC } from "next/font/google"
 
+import { LessonNotesProvider } from "@/components/lesson-notes"
 import { SiteFooter, SiteHeader } from "@/components/site-shell"
 import { StickyDisplayProvider } from "@/components/sticky-display"
 import { StudyPrefsProvider } from "@/components/study-prefs"
@@ -69,11 +70,13 @@ export default function RootLayout({
           <TooltipProvider>
             <StudyPrefsProvider>
               <StickyDisplayProvider>
-                <div className="flex min-h-svh flex-col">
-                  <SiteHeader />
-                  <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
-                  <SiteFooter />
-                </div>
+                <LessonNotesProvider>
+                  <div className="flex min-h-svh flex-col">
+                    <SiteHeader />
+                    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+                    <SiteFooter />
+                  </div>
+                </LessonNotesProvider>
               </StickyDisplayProvider>
             </StudyPrefsProvider>
           </TooltipProvider>
