@@ -212,6 +212,7 @@ export function StudyWords({
                     <button
                       key={item.key}
                       type="button"
+                      aria-label={`${item.hanzi}, ${item.en}`}
                       onClick={() => setOpenKey(item.key)}
                       className={cn(
                         "rounded-xl border bg-card px-3 py-3 text-left transition-colors hover:border-rose-400",
