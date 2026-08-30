@@ -4,9 +4,10 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { BookOpen, Menu, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
+import type { ReactNode } from "react"
 
 import { DisplayToggles } from "@/components/display-toggles"
-import { LessonNotesHeaderButton } from "@/components/lesson-notes"
+import { LessonNotesHeaderButton, LessonNotesPanel, useNotesOpen } from "@/components/lesson-notes"
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useShowDisplayTogglesInHeader } from "@/components/sticky-display"
 import { Button } from "@/components/ui/button"
@@ -30,13 +31,55 @@ const LINKS = [
   { href: "/plan", label: "Plan" },
 ]
 
-export function SiteHeader() {
+export function AppShell({ children }: { children: ReactNode }) {
+  const notesOpen = useNotesOpen()
+
+  return (
+    <div
+      data-notes-open={notesOpen ? "true" : "false"}
+      className={cn("flex flex-col", notesOpen ? "h-svh overflow-hidden" : "min-h-svh")}
+    >
+      <SiteHeader compact={notesOpen} />
+      <div
+        className={cn(
+          "flex min-h-0 flex-1",
+          notesOpen ? "flex-col sm:flex-row" : "flex-col",
+        )}
+      >
+        <div
+          className={cn(
+            "flex min-w-0 flex-1 flex-col",
+            notesOpen && "min-h-0 overflow-y-auto",
+          )}
+        >
+          <main
+            className={cn(
+              "w-full flex-1",
+              notesOpen ? "px-2 py-5 sm:px-3" : "mx-auto max-w-6xl px-4 py-8",
+            )}
+          >
+            {children}
+          </main>
+          <SiteFooter compact={notesOpen} />
+        </div>
+        <LessonNotesPanel />
+      </div>
+    </div>
+  )
+}
+
+export function SiteHeader({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname()
   const showToggles = useShowDisplayTogglesInHeader()
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-      <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-4 py-2">
+    <header className="sticky top-0 z-40 shrink-0 border-b bg-background/85 backdrop-blur">
+      <div
+        className={cn(
+          "mx-auto flex min-h-16 items-center justify-between gap-3 py-2",
+          compact ? "max-w-none px-2 sm:px-3" : "max-w-6xl px-4",
+        )}
+      >
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-rose-700 text-white">
             <BookOpen className="size-4" />
@@ -127,10 +170,15 @@ function ThemeToggle() {
   )
 }
 
-export function SiteFooter() {
+export function SiteFooter({ compact = false }: { compact?: boolean }) {
   return (
-    <footer className="border-t py-8 text-sm text-muted-foreground">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 sm:flex-row sm:items-center sm:justify-between">
+    <footer className={cn("border-t text-sm text-muted-foreground", compact ? "py-5" : "py-8")}>
+      <div
+        className={cn(
+          "mx-auto flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between",
+          compact ? "max-w-none px-2 sm:px-3" : "max-w-6xl px-4",
+        )}
+      >
         <p>
           Study companion for <MixedHanzi text={BOOK.title} /> by <MixedHanzi text={BOOK.author} /> (
           {BOOK.authorEn}). <MixedHanzi text={BOOK.publisher} />, {BOOK.year}.

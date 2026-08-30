@@ -127,7 +127,11 @@ function NoteEditor({
   )
 }
 
-function LessonNotesPanel() {
+export function useNotesOpen() {
+  return useContext(NotesChromeContext)?.open ?? false
+}
+
+export function LessonNotesPanel() {
   const chrome = useContext(NotesChromeContext)
   const [exported, setExported] = useState(false)
   if (!chrome) return null
@@ -176,15 +180,16 @@ function LessonNotesPanel() {
       aria-label="Lesson notes"
       aria-hidden={!open}
       className={cn(
-        "pointer-events-none fixed z-30 flex flex-col border bg-card shadow-lg transition-transform duration-200 ease-out",
-        "inset-x-0 bottom-0 h-[min(46dvh,28rem)] rounded-t-2xl",
-        "sm:inset-y-16 sm:right-0 sm:left-auto sm:h-auto sm:w-[min(26rem,42vw)] sm:rounded-none sm:border-t-0",
+        "flex min-h-0 min-w-0 shrink-0 flex-col overflow-hidden border-border bg-card transition-[width,height] duration-200 ease-out",
+        "max-sm:border-t",
+        "sm:border-l",
         open
-          ? "pointer-events-auto translate-y-0 sm:translate-x-0"
-          : "translate-y-full sm:translate-x-full sm:translate-y-0",
+          ? "h-[min(38dvh,20rem)] sm:h-auto sm:w-[min(20rem,34vw)]"
+          : "pointer-events-none h-0 border-0 sm:h-auto sm:w-0",
       )}
     >
-      <div className="flex items-start justify-between gap-3 border-b px-4 py-3">
+      <div className="flex h-full min-h-0 w-full flex-col sm:w-[min(20rem,34vw)]">
+      <div className="flex items-start justify-between gap-3 border-b px-3 py-3">
         <div className="min-w-0">
           <p className="font-serif text-xl">课堂笔记</p>
           <p className="text-sm text-muted-foreground">
@@ -196,14 +201,14 @@ function LessonNotesPanel() {
         </Button>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col px-4 py-3">
+      <div className="flex min-h-0 flex-1 flex-col px-3 py-3">
         <label className="sr-only" htmlFor={`lesson-note-${lesson.id}`}>
           Lesson notes
         </label>
         <NoteEditor lessonId={lesson.id} value={note} onChange={setNote} />
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-3">
         <Button type="button" variant="outline" onClick={clearNote} disabled={!hasNote}>
           <Eraser className="size-4" />
           Clear
@@ -217,6 +222,7 @@ function LessonNotesPanel() {
             {exported ? "Exported" : "Export"}
           </Button>
         </div>
+      </div>
       </div>
     </aside>
   )
@@ -240,12 +246,7 @@ export function LessonNotesProvider({ children }: { children: ReactNode }) {
       }
     : null
 
-  return (
-    <NotesChromeContext.Provider value={value}>
-      {children}
-      {lesson ? <LessonNotesPanel /> : null}
-    </NotesChromeContext.Provider>
-  )
+  return <NotesChromeContext.Provider value={value}>{children}</NotesChromeContext.Provider>
 }
 
 export function LessonNotesHeaderButton() {
