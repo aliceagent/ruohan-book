@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { cookies } from "next/headers"
 import { Noto_Sans, Noto_Sans_SC, Noto_Serif, Noto_Serif_SC } from "next/font/google"
 
 import { LessonNotesProvider } from "@/components/lesson-notes"
@@ -8,6 +9,7 @@ import { StudyPrefsProvider } from "@/components/study-prefs"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { BOOK } from "@/content/catalog"
+import { LAST_UNIT_KEY, parseLastUnitId } from "@/lib/last-unit"
 import { cn } from "@/lib/utils"
 
 import "./globals.css"
@@ -48,11 +50,14 @@ export const metadata: Metadata = {
   description: `A comprehensive Mandarin conversation study site for ${BOOK.title}: pinyin, English, vocabulary, and speaking practice. Unit 1 is live.`,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const lastUnitId = parseLastUnitId(cookieStore.get(LAST_UNIT_KEY)?.value)
+
   return (
     <html
       lang="zh-Hans"
@@ -71,7 +76,7 @@ export default function RootLayout({
             <StudyPrefsProvider>
               <StickyDisplayProvider>
                 <LessonNotesProvider>
-                  <AppShell>{children}</AppShell>
+                  <AppShell lastUnitId={lastUnitId}>{children}</AppShell>
                 </LessonNotesProvider>
               </StickyDisplayProvider>
             </StudyPrefsProvider>

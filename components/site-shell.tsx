@@ -46,7 +46,13 @@ function linkIsActive(href: string, pathname: string) {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  lastUnitId,
+}: {
+  children: ReactNode
+  lastUnitId?: number
+}) {
   const notesOpen = useNotesOpen()
 
   return (
@@ -54,7 +60,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       data-notes-open={notesOpen ? "true" : "false"}
       className={cn("flex flex-col", notesOpen ? "h-svh overflow-hidden" : "min-h-svh")}
     >
-      <SiteHeader compact={notesOpen} />
+      <SiteHeader compact={notesOpen} initialLastUnit={lastUnitId} />
       <div
         className={cn(
           "flex min-h-0 flex-1",
@@ -83,10 +89,16 @@ export function AppShell({ children }: { children: ReactNode }) {
   )
 }
 
-export function SiteHeader({ compact = false }: { compact?: boolean }) {
+export function SiteHeader({
+  compact = false,
+  initialLastUnit,
+}: {
+  compact?: boolean
+  initialLastUnit?: number
+}) {
   const pathname = usePathname()
   const showToggles = useShowDisplayTogglesInHeader()
-  const lastUnitId = useLastUnit()
+  const lastUnitId = useLastUnit(initialLastUnit)
   const links = navLinks(lastUnitId)
 
   return (

@@ -1,63 +1,79 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { useEffect, useSyncExternalStore } from "react"
+import { useLayoutEffect, useSyncExternalStore } from "react"
 
-import { getUnit } from "@/content/catalog"
+import {
+  DEFAULT_LAST_UNIT,
+  LAST_UNIT_EVENT,
+  LAST_UNIT_KEY,
+  LAST_UNIT_MAX_AGE,
+  parseLastUnitId,
+  unitIdFromPath,
+} from "@/lib/last-unit"
 
-const STORAGE_KEY = "ruohan-last-unit"
-const EVENT = "ruohan-last-unit"
-const DEFAULT_UNIT = 1
+function readCookie(): string | null {
+  if (typeof document === "undefined") return null
+  const parts = document.cookie.split("; ")
+  const row = parts.find((part) => part.startsWith(`${LAST_UNIT_KEY}=`))
+  return row ? decodeURIComponent(row.slice(LAST_UNIT_KEY.length + 1)) : null
+}
 
-function parseUnitId(raw: string | null): number {
-  const id = Number.parseInt(raw ?? "", 10)
-  return Number.isInteger(id) && getUnit(id) ? id : DEFAULT_UNIT
+function writeCookie(unitId: number) {
+  document.cookie = `${LAST_UNIT_KEY}=${unitId}; Path=/; Max-Age=${LAST_UNIT_MAX_AGE}; SameSite=Lax`
 }
 
 function readRaw() {
   try {
-    return localStorage.getItem(STORAGE_KEY) ?? String(DEFAULT_UNIT)
+    const stored = localStorage.getItem(LAST_UNIT_KEY)
+    if (stored) return stored
   } catch {
-    return String(DEFAULT_UNIT)
+    // ignore
   }
+  return readCookie() ?? String(DEFAULT_LAST_UNIT)
 }
 
 function subscribe(onChange: () => void) {
   window.addEventListener("storage", onChange)
-  window.addEventListener(EVENT, onChange)
+  window.addEventListener(LAST_UNIT_EVENT, onChange)
   return () => {
     window.removeEventListener("storage", onChange)
-    window.removeEventListener(EVENT, onChange)
+    window.removeEventListener(LAST_UNIT_EVENT, onChange)
   }
 }
 
 export function rememberLastUnit(unitId: number) {
-  if (!getUnit(unitId)) return
+  const parsed = parseLastUnitId(String(unitId))
+  if (parsed !== unitId) return
+  const value = String(unitId)
+  let changed = false
   try {
-    if (localStorage.getItem(STORAGE_KEY) === String(unitId)) return
-    localStorage.setItem(STORAGE_KEY, String(unitId))
+    if (localStorage.getItem(LAST_UNIT_KEY) !== value) {
+      localStorage.setItem(LAST_UNIT_KEY, value)
+      changed = true
+    }
   } catch {
-    return
+    // ignore
   }
-  window.dispatchEvent(new Event(EVENT))
+  try {
+    if (readCookie() !== value) {
+      writeCookie(unitId)
+      changed = true
+    }
+  } catch {
+    // ignore
+  }
+  if (changed) window.dispatchEvent(new Event(LAST_UNIT_EVENT))
 }
 
-function unitFromPath(pathname: string): number | null {
-  const match = pathname.match(/^\/units\/(\d+)(?:\/|$)/)
-  if (!match) return null
-  const id = Number.parseInt(match[1], 10)
-  return Number.isInteger(id) && getUnit(id) ? id : null
-}
-
-export function useLastUnit() {
+export function useLastUnit(initialLastUnit = DEFAULT_LAST_UNIT) {
   const pathname = usePathname()
-  const raw = useSyncExternalStore(subscribe, readRaw, () => String(DEFAULT_UNIT))
-  const stored = parseUnitId(raw)
-  const fromPath = unitFromPath(pathname)
+  const raw = useSyncExternalStore(subscribe, readRaw, () => String(initialLastUnit))
+  const fromPath = unitIdFromPath(pathname)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (fromPath) rememberLastUnit(fromPath)
   }, [fromPath])
 
-  return fromPath ?? stored
+  return fromPath ?? parseLastUnitId(raw)
 }
