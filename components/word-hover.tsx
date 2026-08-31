@@ -64,6 +64,8 @@ export function WordHover({
 }) {
   const fineHover = useFineHover()
 
+  const [open, setOpen] = useState(false)
+
   if (token.kind !== "word") {
     return <>{children}</>
   }
@@ -72,8 +74,14 @@ export function WordHover({
     <span
       className={triggerClass}
       aria-label={`About ${token.hanzi}`}
-      onClick={(event) => event.stopPropagation()}
-      onPointerDown={(event) => event.stopPropagation()}
+      onClick={(event) => {
+        if (!tap) return
+        event.stopPropagation()
+        if (fineHover) setOpen((current) => !current)
+      }}
+      onPointerDown={(event) => {
+        if (tap) event.stopPropagation()
+      }}
       onContextMenu={(event) => event.preventDefault()}
     >
       {children}
@@ -84,7 +92,12 @@ export function WordHover({
 
   if (fineHover) {
     return (
-      <HoverCardPrimitive.Root openDelay={80} closeDelay={200}>
+      <HoverCardPrimitive.Root
+        open={open}
+        onOpenChange={setOpen}
+        openDelay={80}
+        closeDelay={200}
+      >
         <HoverCardPrimitive.Trigger asChild>{trigger}</HoverCardPrimitive.Trigger>
         <HoverCardPrimitive.Portal>
           <HoverCardPrimitive.Content
