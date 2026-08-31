@@ -19,8 +19,8 @@ import { LessonIllustration } from "@/components/lesson-illustration"
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { MiniLessonCard } from "@/components/mini-lesson"
 import { QuizPlayer } from "@/components/quiz-player"
-import { CONTENT_HANZI_SIZE, TextSizeToggle } from "@/components/text-size-toggle"
-import { useStudyPrefs } from "@/components/study-prefs"
+import { CONTENT_HANZI_SIZE, TextSizeToggle, scaleHanziSize } from "@/components/text-size-toggle"
+import { type TextSize, useSectionSize, useStudyPrefs } from "@/components/study-prefs"
 import { VocabGrid } from "@/components/vocab-grid"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -32,7 +32,18 @@ import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
-  const { prefs, setPrefs } = useStudyPrefs()
+  const { prefs } = useStudyPrefs()
+  const [scenarioSize, setScenarioSize] = useSectionSize("scenario")
+  const [dialogueSize, setDialogueSize] = useSectionSize("dialogue")
+  const [coreVocabSize, setCoreVocabSize] = useSectionSize("coreVocab")
+  const [familySize, setFamilySize] = useSectionSize("family")
+  const [chunksSize, setChunksSize] = useSectionSize("chunks")
+  const [grammarSize, setGrammarSize] = useSectionSize("grammar")
+  const [practiceSize, setPracticeSize] = useSectionSize("practice")
+  const [fillBlankSize, setFillBlankSize] = useSectionSize("fillBlanks")
+  const [stretchVocabSize, setStretchVocabSize] = useSectionSize("stretchVocab")
+  const [quizSize, setQuizSize] = useSectionSize("quiz")
+  const [questionSize, setQuestionSize] = useSectionSize("questions")
   const { progress, toggleLesson, toggleQuestion } = useProgress()
   const { prev, next } = adjacentLessons(lesson.id)
   const quiz = getLessonQuiz(lesson.id)
@@ -81,16 +92,32 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <AudioBar audioId={lesson.audioId} speakText={dialogueText} />
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <ScenarioChip icon={<Clock3 className="size-4" />} label="Time" hanzi={lesson.scenario.time} en={lesson.scenario.timeEn} />
-        <ScenarioChip icon={<MapPin className="size-4" />} label="Place" hanzi={lesson.scenario.location} en={lesson.scenario.locationEn} />
-        <ScenarioChip icon={<Users className="size-4" />} label="People" hanzi={lesson.scenario.participants} en={lesson.scenario.participantsEn} />
-        <ScenarioChip icon={<Hash className="size-4" />} label="Topic" hanzi={lesson.scenario.topic} en={lesson.scenario.topicEn} />
+      <section className="space-y-4">
+        <SectionTitle
+          title="情境"
+          en="Time, place, people, and topic"
+          size={scenarioSize}
+          onSizeChange={setScenarioSize}
+          sizeLabel="Scene text size"
+        />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ScenarioChip icon={<Clock3 className="size-4" />} label="Time" hanzi={lesson.scenario.time} en={lesson.scenario.timeEn} size={scenarioSize} />
+          <ScenarioChip icon={<MapPin className="size-4" />} label="Place" hanzi={lesson.scenario.location} en={lesson.scenario.locationEn} size={scenarioSize} />
+          <ScenarioChip icon={<Users className="size-4" />} label="People" hanzi={lesson.scenario.participants} en={lesson.scenario.participantsEn} size={scenarioSize} />
+          <ScenarioChip icon={<Hash className="size-4" />} label="Topic" hanzi={lesson.scenario.topic} en={lesson.scenario.topicEn} size={scenarioSize} />
+        </div>
       </section>
 
       <section className="space-y-4">
-        <SectionTitle icon={<MessageCircle className="size-4" />} title="情境对话" en="Situational dialogue" />
-        <ExpandableDialogue lines={lesson.dialogue} glossary={glosses} />
+        <SectionTitle
+          icon={<MessageCircle className="size-4" />}
+          title="情境对话"
+          en="Situational dialogue"
+          size={dialogueSize}
+          onSizeChange={setDialogueSize}
+          sizeLabel="Dialogue text size"
+        />
+        <ExpandableDialogue lines={lesson.dialogue} glossary={glosses} size={dialogueSize} />
         {lesson.notes?.map((note) => (
           <p key={note.hanzi} className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">
@@ -106,22 +133,37 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           <SectionTitle
             title="对话词汇"
             en="Words from this dialogue — tap a sentence above for the mini lesson"
+            size={coreVocabSize}
+            onSizeChange={setCoreVocabSize}
+            sizeLabel="Dialogue vocabulary text size"
           />
-          <VocabGrid lessonId={lesson.id} items={lesson.coreVocabulary} />
+          <VocabGrid lessonId={lesson.id} items={lesson.coreVocabulary} size={coreVocabSize} />
         </section>
       ) : null}
 
       {lesson.expressionFamily ? (
         <section className="space-y-4">
-          <SectionTitle title={lesson.expressionFamily.title} en={lesson.expressionFamily.titleEn} />
-          <VocabGrid lessonId={lesson.id} items={lesson.expressionFamily.items} />
+          <SectionTitle
+            title={lesson.expressionFamily.title}
+            en={lesson.expressionFamily.titleEn}
+            size={familySize}
+            onSizeChange={setFamilySize}
+            sizeLabel="Expression family text size"
+          />
+          <VocabGrid lessonId={lesson.id} items={lesson.expressionFamily.items} size={familySize} />
         </section>
       ) : null}
 
       {lesson.chunks && lesson.chunks.length > 0 ? (
         <section className="space-y-4">
-          <SectionTitle title="值得整句记的" en="Memorize these as complete chunks, not as loose words" />
-          <VocabGrid lessonId={lesson.id} items={lesson.chunks} />
+          <SectionTitle
+            title="值得整句记的"
+            en="Memorize these as complete chunks, not as loose words"
+            size={chunksSize}
+            onSizeChange={setChunksSize}
+            sizeLabel="Chunk text size"
+          />
+          <VocabGrid lessonId={lesson.id} items={lesson.chunks} size={chunksSize} />
         </section>
       ) : null}
 
@@ -130,10 +172,13 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           <SectionTitle
             title="五个优先句型"
             en="If you study this dialogue rather than everything, start here"
+            size={grammarSize}
+            onSizeChange={setGrammarSize}
+            sizeLabel="Grammar text size"
           />
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className={grammarSize === "lg" ? "grid gap-3" : "grid gap-3 lg:grid-cols-2"}>
             {lesson.grammarFocus.map((item) => (
-              <MiniLessonCard key={`${item.title}-${item.pattern ?? ""}`} lesson={item} />
+              <MiniLessonCard key={`${item.title}-${item.pattern ?? ""}`} lesson={item} size={grammarSize} />
             ))}
           </div>
         </section>
@@ -144,6 +189,9 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           <SectionTitle
             title="练习句子"
             en="Personalized practice at about HSK 3 — say them out loud"
+            size={practiceSize}
+            onSizeChange={setPracticeSize}
+            sizeLabel="Practice sentence text size"
           />
           <ol className="space-y-3">
             {lesson.practiceSentences.map((item, index) => (
@@ -160,7 +208,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showPinyin={prefs.pinyin}
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
-                  size="md"
+                  size={CONTENT_HANZI_SIZE[practiceSize]}
                   inspectable
                   glossary={glosses}
                 />
@@ -172,46 +220,60 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       {lesson.fillBlanks && lesson.fillBlanks.length > 0 ? (
         <section className="space-y-4">
-          <SectionTitle title="填空练习" en="Tap a choice — you’ll see right away if it’s correct" />
-          <FillBlankExercise items={lesson.fillBlanks} />
+          <SectionTitle
+            title="填空练习"
+            en="Tap a choice — you’ll see right away if it’s correct"
+            size={fillBlankSize}
+            onSizeChange={setFillBlankSize}
+            sizeLabel="Fill-in text size"
+          />
+          <FillBlankExercise items={lesson.fillBlanks} size={fillBlankSize} />
         </section>
       ) : null}
 
       <section className="space-y-4">
-        <SectionTitle title="扩展联想词" en="Related words to stretch the conversation" />
-        <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} />
+        <SectionTitle
+          title="扩展联想词"
+          en="Related words to stretch the conversation"
+          size={stretchVocabSize}
+          onSizeChange={setStretchVocabSize}
+          sizeLabel="Stretch vocabulary text size"
+        />
+        <VocabGrid lessonId={lesson.id} items={lesson.vocabulary} size={stretchVocabSize} />
       </section>
 
       {quiz ? (
         <section id="quiz" className="space-y-4">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <SectionTitle
-              title="测验"
-              en={
-                quiz
-                  ? `Each try draws ${quiz.drawCount} from ${quiz.bank.length} questions on this lesson's words, lines, and scene`
-                  : "Multiple-choice check on this lesson's words, lines, and scene"
-              }
-            />
-            {quizBest ? (
-              <Badge variant="secondary">
-                Best {quizBest.correct}/{quizBest.total}
-              </Badge>
-            ) : null}
-          </div>
-          <QuizPlayer key={quiz.id} quiz={quiz} compact />
+          <SectionTitle
+            title="测验"
+            en={
+              quiz
+                ? `Each try draws ${quiz.drawCount} from ${quiz.bank.length} questions on this lesson's words, lines, and scene`
+                : "Multiple-choice check on this lesson's words, lines, and scene"
+            }
+            size={quizSize}
+            onSizeChange={setQuizSize}
+            sizeLabel="Quiz text size"
+            extra={
+              quizBest ? (
+                <Badge variant="secondary">
+                  Best {quizBest.correct}/{quizBest.total}
+                </Badge>
+              ) : null
+            }
+          />
+          <QuizPlayer key={quiz.id} quiz={quiz} compact size={quizSize} />
         </section>
       ) : null}
 
       <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <SectionTitle title="互动问答" en="Interactive questions — answer out loud" />
-          <TextSizeToggle
-            value={prefs.questionSize}
-            onChange={(questionSize) => setPrefs({ questionSize })}
-            label="Question text size"
-          />
-        </div>
+        <SectionTitle
+          title="互动问答"
+          en="Interactive questions — answer out loud"
+          size={questionSize}
+          onSizeChange={setQuestionSize}
+          sizeLabel="Question text size"
+        />
         <ol className="space-y-3">
           {lesson.questions.map((item) => {
             const key = questionKey(lesson.id, item.n)
@@ -240,7 +302,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                   showPinyin={prefs.pinyin}
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
-                  size={CONTENT_HANZI_SIZE[prefs.questionSize]}
+                  size={CONTENT_HANZI_SIZE[questionSize]}
                   inspectable
                   glossary={glosses}
                 />
@@ -280,18 +342,36 @@ function SectionTitle({
   title,
   en,
   icon,
+  size,
+  onSizeChange,
+  sizeLabel,
+  extra,
 }: {
   title: string
   en: string
   icon?: React.ReactNode
+  size?: TextSize
+  onSizeChange?: (size: TextSize) => void
+  sizeLabel?: string
+  extra?: React.ReactNode
 }) {
   return (
-    <div>
-      <h2 className="flex items-center gap-2 font-serif text-2xl">
-        {icon}
-        <MixedHanzi text={title} />
-      </h2>
-      <p className="text-sm text-muted-foreground">{en}</p>
+    <div className="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 className="flex items-center gap-2 font-serif text-2xl">
+          {icon}
+          <MixedHanzi text={title} />
+        </h2>
+        <p className="text-sm text-muted-foreground">{en}</p>
+      </div>
+      {extra || (size && onSizeChange) ? (
+        <div className="flex flex-wrap items-center gap-2">
+          {extra}
+          {size && onSizeChange ? (
+            <TextSizeToggle value={size} onChange={onSizeChange} label={sizeLabel ?? "Text size"} />
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -301,11 +381,13 @@ function ScenarioChip({
   label,
   hanzi,
   en,
+  size,
 }: {
   icon: React.ReactNode
   label: string
   hanzi: string
   en: string
+  size: TextSize
 }) {
   const { prefs } = useStudyPrefs()
   return (
@@ -323,7 +405,7 @@ function ScenarioChip({
           showPinyin={prefs.pinyin}
           showEnglish={prefs.english}
           ruby={prefs.ruby}
-          size="sm"
+          size={scaleHanziSize("sm", size)}
           inspectable
         />
       </CardContent>

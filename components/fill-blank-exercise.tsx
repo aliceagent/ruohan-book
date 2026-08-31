@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import { Check, Eye, RotateCcw, X } from "lucide-react"
 
 import { MixedHanzi } from "@/components/mixed-hanzi"
-import { useStudyPrefs } from "@/components/study-prefs"
+import { type TextSize, useStudyPrefs } from "@/components/study-prefs"
 import { Button } from "@/components/ui/button"
 import type { FillBlankItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -30,8 +30,16 @@ function shuffle<T>(items: T[], seed: string) {
   return next
 }
 
-export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
+export function FillBlankExercise({
+  items,
+  size = "sm",
+}: {
+  items: FillBlankItem[]
+  size?: TextSize
+}) {
   const { prefs } = useStudyPrefs()
+  const sentenceClass = size === "lg" ? "text-3xl" : size === "md" ? "text-2xl" : "text-lg"
+  const choiceClass = size === "lg" ? "text-2xl" : size === "md" ? "text-lg" : "text-base"
   const [values, setValues] = useState<Record<string, string>>({})
   const [revealed, setRevealed] = useState(false)
 
@@ -66,7 +74,7 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
               <p className="mb-2 text-sm text-muted-foreground">
                 {index + 1}. {item.promptEn}
               </p>
-              <div className="flex flex-wrap items-center gap-1.5 text-lg">
+              <div className={cn("flex flex-wrap items-center gap-1.5", sentenceClass)}>
                 {item.prefix ? (
                   <span className="font-medium">
                     <MixedHanzi text={item.prefix} />
@@ -74,7 +82,8 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                 ) : null}
                 <span
                   className={cn(
-                    "inline-flex min-h-10 min-w-[4.5rem] items-center justify-center rounded-lg border px-2.5 text-center text-lg font-medium",
+                    "inline-flex min-h-10 min-w-[4.5rem] items-center justify-center rounded-lg border px-2.5 text-center font-medium",
+                    sentenceClass,
                     prefs.pinyin && prefs.ruby && "min-h-12 overflow-visible pt-4 leading-[2.15]",
                     prefs.pinyin && !prefs.ruby && "min-h-12 overflow-visible py-2",
                     !shown && "border-dashed text-muted-foreground",
@@ -109,7 +118,8 @@ export function FillBlankExercise({ items }: { items: FillBlankItem[] }) {
                       disabled={locked}
                       onClick={() => pick(item, choice)}
                       className={cn(
-                        "rounded-xl border bg-background px-3 py-1.5 text-base font-medium transition-colors",
+                        "rounded-xl border bg-background px-3 py-1.5 font-medium transition-colors",
+                        choiceClass,
                         prefs.pinyin && prefs.ruby && "overflow-visible pt-4 pb-1.5 leading-[2.15]",
                         prefs.pinyin && !prefs.ruby && "overflow-visible py-2",
                         !locked && "hover:border-rose-400 hover:bg-rose-50/60 dark:hover:bg-rose-950/20",

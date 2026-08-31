@@ -28,7 +28,7 @@ export function HanziText({
   showPinyin: boolean
   showEnglish: boolean
   ruby: boolean
-  size?: "sm" | "md" | "lg" | "xl"
+  size?: "sm" | "md" | "lg" | "xl" | "2xl"
   className?: string
   inspectable?: boolean
   glossary?: VocabItem[]
@@ -38,18 +38,21 @@ export function HanziText({
     md: "text-lg",
     lg: "text-2xl",
     xl: "text-4xl",
+    "2xl": "text-5xl",
   }[size]
   const pinyinClass = {
     sm: "text-xs",
     md: "text-sm",
     lg: "text-base",
     xl: "text-lg",
+    "2xl": "text-xl",
   }[size]
   const englishClass = {
     sm: "text-sm",
     md: "text-sm",
     lg: "text-base",
     xl: "text-lg",
+    "2xl": "text-xl",
   }[size]
 
   const tokens = inspectable ? tokenizeHanzi(hanzi, glossaryFor(glossary)) : null

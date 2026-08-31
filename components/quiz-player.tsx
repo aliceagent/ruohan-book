@@ -6,7 +6,8 @@ import { Check, RotateCcw, X } from "lucide-react"
 import { DisplayToggles } from "@/components/display-toggles"
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { MixedHanzi } from "@/components/mixed-hanzi"
-import { useStudyPrefs } from "@/components/study-prefs"
+import { type TextSize, useSectionSize, useStudyPrefs } from "@/components/study-prefs"
+import { TextSizeToggle, scaleHanziSize } from "@/components/text-size-toggle"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -31,11 +32,15 @@ function clientDeal(quiz: QuizSet, session: string, round: number) {
 export function QuizPlayer({
   quiz,
   compact = false,
+  size,
 }: {
   quiz: QuizSet
   compact?: boolean
+  size?: TextSize
 }) {
   const { prefs } = useStudyPrefs()
+  const [quizSize, setQuizSize] = useSectionSize("quiz")
+  const textSize = size ?? quizSize
   const { recordQuiz } = useProgress()
   const [session] = useState(() => Math.random().toString(36).slice(2))
   const [round, setRound] = useState(0)
@@ -96,7 +101,14 @@ export function QuizPlayer({
               </h2>
               <p className="text-sm text-muted-foreground">{quiz.titleEn}</p>
             </div>
-            <DisplayToggles compact />
+            <div className="flex flex-wrap items-center gap-2">
+              <DisplayToggles compact />
+              <TextSizeToggle
+                value={quizSize}
+                onChange={setQuizSize}
+                label="Quiz text size"
+              />
+            </div>
           </div>
         ) : null}
         <p className="text-sm text-muted-foreground">
@@ -145,7 +157,7 @@ export function QuizPlayer({
                         showPinyin={prefs.pinyin}
                         showEnglish={prefs.english}
                         ruby={prefs.ruby}
-                        size="sm"
+                        size={scaleHanziSize("sm", textSize)}
                       />
                     ) : (
                       <p>{entry.stemEn}</p>
@@ -194,7 +206,14 @@ export function QuizPlayer({
             </h2>
             <p className="text-sm text-muted-foreground">{quiz.titleEn}</p>
           </div>
-          <DisplayToggles compact />
+          <div className="flex flex-wrap items-center gap-2">
+            <DisplayToggles compact />
+            <TextSizeToggle
+              value={quizSize}
+              onChange={setQuizSize}
+              label="Quiz text size"
+            />
+          </div>
         </div>
       ) : null}
 
@@ -228,7 +247,7 @@ export function QuizPlayer({
                 showPinyin={prefs.pinyin}
                 showEnglish={item.kind === "scene" && prefs.english}
                 ruby={prefs.ruby}
-                size="lg"
+                size={scaleHanziSize("lg", textSize)}
               />
             ) : (
               <p className="text-xl font-medium">{item.stemEn}</p>
@@ -270,7 +289,7 @@ export function QuizPlayer({
                     showPinyin={prefs.pinyin}
                     showEnglish={revealed}
                     ruby={prefs.ruby}
-                    size="sm"
+                    size={scaleHanziSize("sm", textSize)}
                   />
                 ) : (
                   <span className="text-sm leading-relaxed">{choice.en}</span>

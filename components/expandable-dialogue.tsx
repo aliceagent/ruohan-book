@@ -5,7 +5,8 @@ import { BookOpen, ChevronDown, ChevronUp } from "lucide-react"
 
 import { HanziText, SpeakButton } from "@/components/hanzi-text"
 import { MiniLessonCard } from "@/components/mini-lesson"
-import { useStudyPrefs } from "@/components/study-prefs"
+import { type TextSize, useStudyPrefs } from "@/components/study-prefs"
+import { scaleHanziSize } from "@/components/text-size-toggle"
 import { Badge } from "@/components/ui/badge"
 import type { DialogueLine, VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -13,9 +14,11 @@ import { cn } from "@/lib/utils"
 export function ExpandableDialogue({
   lines,
   glossary,
+  size = "sm",
 }: {
   lines: DialogueLine[]
   glossary?: VocabItem[]
+  size?: TextSize
 }) {
   const expandableCount = lines.filter((line) => (line.miniLessons?.length ?? 0) > 0).length
 
@@ -28,7 +31,7 @@ export function ExpandableDialogue({
         </p>
       ) : null}
       {lines.map((line, index) => (
-        <DialogueLineCard key={`${line.speaker}-${index}`} line={line} glossary={glossary} />
+        <DialogueLineCard key={`${line.speaker}-${index}`} line={line} glossary={glossary} size={size} />
       ))}
     </div>
   )
@@ -37,9 +40,11 @@ export function ExpandableDialogue({
 function DialogueLineCard({
   line,
   glossary,
+  size,
 }: {
   line: DialogueLine
   glossary?: VocabItem[]
+  size: TextSize
 }) {
   const { prefs } = useStudyPrefs()
   const miniLessons = line.miniLessons ?? []
@@ -106,7 +111,7 @@ function DialogueLineCard({
         showPinyin={prefs.pinyin}
         showEnglish={prefs.english}
         ruby={prefs.ruby}
-        size="lg"
+        size={scaleHanziSize("lg", size)}
         className="not-italic"
         inspectable
         glossary={glossary}
@@ -118,7 +123,7 @@ function DialogueLineCard({
           onKeyDown={(event) => event.stopPropagation()}
         >
           {miniLessons.map((lesson) => (
-            <MiniLessonCard key={lesson.title} lesson={lesson} />
+            <MiniLessonCard key={lesson.title} lesson={lesson} size={size} />
           ))}
         </div>
       ) : null}
