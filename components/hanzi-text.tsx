@@ -2,8 +2,11 @@
 
 import { SpeakButton } from "@/components/speak-button"
 import { InspectableHanzi } from "@/components/inspectable-hanzi"
-import { rubyTokens } from "@/lib/pinyin"
+import { WordHover } from "@/components/word-hover"
+import { tokenizeHanzi } from "@/lib/gloss"
+import { rubyToPhrase, rubyTokens } from "@/lib/pinyin"
 import type { VocabItem } from "@/lib/types"
+import { glossaryFor } from "@/lib/unit-glossary"
 import { cn } from "@/lib/utils"
 
 export { SpeakButton }
@@ -54,9 +57,32 @@ export function HanziText({
   }[size]
 
   const rubyOn = showPinyin && ruby
-  const sentenceRuby = rubyOn || (showPinyin && !ruby) ? rubyTokens(hanzi) : []
+  const sentenceRuby = rubyOn || (showPinyin && !ruby) || inspectable ? rubyTokens(hanzi) : []
+  const wholeWord = inspectable
+    ? tokenizeHanzi(hanzi, glossaryFor(glossary)).find(
+        (token, _, tokens) => tokens.length === 1 && token.kind === "word",
+      )
+    : undefined
 
-  return (
+  const hanziNode =
+    inspectable && !wholeWord ? (
+      <InspectableHanzi hanzi={hanzi} ruby={rubyOn} glossary={glossary} tap={tap} />
+    ) : rubyOn ? (
+      sentenceRuby.map((token, index) =>
+        token.pinyin ? (
+          <ruby key={`${token.hanzi}-${index}`} className="ruby-pair">
+            {token.hanzi}
+            <rt>{token.pinyin}</rt>
+          </ruby>
+        ) : (
+          <span key={`${token.hanzi}-${index}`}>{token.hanzi}</span>
+        ),
+      )
+    ) : (
+      hanzi
+    )
+
+  const body = (
     <div className={cn("space-y-1", className)}>
       <p
         className={cn(
@@ -66,22 +92,7 @@ export function HanziText({
           inspectable && "overflow-visible select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
         )}
       >
-        {inspectable ? (
-          <InspectableHanzi hanzi={hanzi} ruby={rubyOn} glossary={glossary} tap={tap} />
-        ) : rubyOn ? (
-          sentenceRuby.map((token, index) =>
-            token.pinyin ? (
-              <ruby key={`${token.hanzi}-${index}`} className="ruby-pair">
-                {token.hanzi}
-                <rt>{token.pinyin}</rt>
-              </ruby>
-            ) : (
-              <span key={`${token.hanzi}-${index}`}>{token.hanzi}</span>
-            ),
-          )
-        ) : (
-          hanzi
-        )}
+        {hanziNode}
       </p>
       {showPinyin && !ruby ? (
         <p className={cn("text-rose-800/80 dark:text-rose-200/80", pinyinClass)}>
@@ -93,4 +104,14 @@ export function HanziText({
       ) : null}
     </div>
   )
+
+  if (wholeWord) {
+    return (
+      <WordHover token={wholeWord} pinyin={rubyToPhrase(sentenceRuby)} tap={tap} block>
+        {body}
+      </WordHover>
+    )
+  }
+
+  return body
 }

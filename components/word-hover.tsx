@@ -1,11 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 import { HoverCard as HoverCardPrimitive, Popover as PopoverPrimitive } from "radix-ui"
 
 import { SpeakButton } from "@/components/speak-button"
 import type { GlossToken } from "@/lib/gloss"
 import { cn } from "@/lib/utils"
+
+const FINE_HOVER = "(hover: hover) and (pointer: fine)"
 
 const triggerClass = cn(
   "cursor-help rounded-[0.35em] px-[0.08em]",
@@ -19,18 +21,14 @@ const triggerClass = cn(
 const contentClass =
   "z-50 w-64 rounded-xl border bg-card p-3 text-left shadow-lg outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"
 
+function subscribeFineHover(onStoreChange: () => void) {
+  const media = window.matchMedia(FINE_HOVER)
+  media.addEventListener("change", onStoreChange)
+  return () => media.removeEventListener("change", onStoreChange)
+}
+
 function useFineHover() {
-  const [fineHover, setFineHover] = useState(true)
-
-  useEffect(() => {
-    const media = window.matchMedia("(hover: hover) and (pointer: fine)")
-    const update = () => setFineHover(media.matches)
-    update()
-    media.addEventListener("change", update)
-    return () => media.removeEventListener("change", update)
-  }, [])
-
-  return fineHover
+  return useSyncExternalStore(subscribeFineHover, () => window.matchMedia(FINE_HOVER).matches, () => false)
 }
 
 function WordCard({ token, pinyin }: { token: GlossToken; pinyin: string }) {
@@ -55,12 +53,15 @@ export function WordHover({
   pinyin,
   children,
   tap = true,
+  block = false,
 }: {
   token: GlossToken
   pinyin: string
   children: React.ReactNode
   /** On phones, tap opens the gloss. Turn off inside buttons that already use tap. */
   tap?: boolean
+  /** Use a div trigger so the whole vocab card (hanzi + stacked pinyin) is the hit area. */
+  block?: boolean
 }) {
   const fineHover = useFineHover()
 
@@ -70,14 +71,16 @@ export function WordHover({
     return <>{children}</>
   }
 
+  const Trigger = block ? "div" : "span"
+
   const trigger = (
-    <span
-      className={triggerClass}
+    <Trigger
+      className={cn(triggerClass, block && "block min-w-0")}
       aria-label={`About ${token.hanzi}`}
       onClick={(event) => {
         if (!tap) return
         event.stopPropagation()
-        if (fineHover) setOpen((current) => !current)
+        setOpen((current) => !current)
       }}
       onPointerDown={(event) => {
         if (tap) event.stopPropagation()
@@ -85,7 +88,7 @@ export function WordHover({
       onContextMenu={(event) => event.preventDefault()}
     >
       {children}
-    </span>
+    </Trigger>
   )
 
   const card = <WordCard token={token} pinyin={pinyin} />
