@@ -15,11 +15,13 @@ export default function HomePage() {
   const unit3Stats = unitStats(3)
   const unit4Stats = unitStats(4)
   const unit5Stats = unitStats(5)
+  const unit6Stats = unitStats(6)
   const unit1 = UNITS[0]
   const unit2 = UNITS[1]
   const unit3 = UNITS[2]
   const unit4 = UNITS[3]
   const unit5 = UNITS[4]
+  const unit6 = UNITS[5]
 
   return (
     <div className="space-y-14">
@@ -41,7 +43,7 @@ export default function HomePage() {
             </p>
           </div>
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground">
-            <MixedHanzi text="A study companion for Shelley Hsieh's conversation-topic book: every prompt with pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson audio. Units 1–5 are complete. The other 17 units are mapped and waiting." />
+            <MixedHanzi text="A study companion for Shelley Hsieh's conversation-topic book: every prompt with pinyin, English, speaking practice, multiple-choice quizzes, and the official lesson audio. Units 1–6 are complete. The other 16 units are mapped and waiting." />
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild>
@@ -69,6 +71,11 @@ export default function HomePage() {
                 Open Unit 5 <ArrowRight />
               </RememberUnitLink>
             </Button>
+            <Button variant="secondary" asChild>
+              <RememberUnitLink href="/units/6" unitId={6}>
+                Open Unit 6 <ArrowRight />
+              </RememberUnitLink>
+            </Button>
             <Button variant="outline" asChild>
               <Link href="/quiz">Take a quiz</Link>
             </Button>
@@ -80,7 +87,7 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Card className="bg-rose-50/70 dark:bg-rose-950/20">
             <CardHeader>
               <CardTitle>Unit 1 is ready</CardTitle>
@@ -151,6 +158,20 @@ export default function HomePage() {
               <Stat label="Questions" value={String(unit5Stats.questions)} />
             </CardContent>
           </Card>
+          <Card className="bg-rose-50/70 dark:bg-rose-950/20">
+            <CardHeader>
+              <CardTitle>Unit 6 is ready</CardTitle>
+              <CardDescription>
+                <MixedHanzi text={unit6.title} /> · {unit6.titleEn}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4 text-sm">
+              <Stat label="Lessons" value={String(unit6Stats.lessons)} />
+              <Stat label="Dialogue lines" value={String(unit6Stats.dialogueLines)} />
+              <Stat label="Vocabulary" value={String(unit6Stats.vocabulary)} />
+              <Stat label="Questions" value={String(unit6Stats.questions)} />
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -173,7 +194,7 @@ export default function HomePage() {
         <Feature
           icon={<Headphones className="size-5" />}
           title="Official dialogue audio"
-          body="Official tracks play on every live lesson — Unit 1 as 01-01…01-10, Unit 2 as 02-01…02-06, Unit 3 as 03-01…03-03, Unit 4 as 04-01…04-07, Unit 5 as 05-01…05-05, recorded by 欧喜强 and 胡砚涵. Browser speech is still there for single lines."
+          body="Official tracks play on every live lesson — Unit 1 as 01-01…01-10, Unit 2 as 02-01…02-06, Unit 3 as 03-01…03-03, Unit 4 as 04-01…04-07, Unit 5 as 05-01…05-05, Unit 6 as 06-01…06-05, recorded by 欧喜强 and 胡砚涵. Browser speech is still there for single lines."
         />
       </section>
 

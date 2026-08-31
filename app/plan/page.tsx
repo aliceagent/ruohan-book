@@ -14,7 +14,7 @@ export default function PlanPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Roadmap</p>
         <h1 className="font-serif text-4xl font-semibold">Website plan</h1>
         <p className="text-lg text-muted-foreground">
-          <MixedHanzi text="A conversation gym for 《聊天聊不完》, not a PDF viewer. Units 1–5 are the template every later unit will copy." />
+          <MixedHanzi text="A conversation gym for 《聊天聊不完》, not a PDF viewer. Units 1–6 are the template every later unit will copy." />
         </p>
       </div>
 
@@ -47,8 +47,11 @@ export default function PlanPage() {
           <li>
             <MixedHanzi text="Unit 5 饮食文化: 5 lessons — 饮食习惯, 披萨, 茶和咖啡, 摊贩夜市小吃, 素食 — with the same extras." />
           </li>
+          <li>
+            <MixedHanzi text="Unit 6 节日庆典: 5 lessons — 各国节日庆典, 华人的节日, 圣诞节, 新年, 节气 — with the same extras." />
+          </li>
           <li>Toggles for ruby pinyin, inline pinyin, and English.</li>
-          <li>Official Unit 1–5 MP3s on every lesson and the audio playlist.</li>
+          <li>Official Unit 1–6 MP3s on every lesson and the audio playlist.</li>
           <li>Study desk: search, spaced-repetition flashcards, glossary, local progress.</li>
           <li>
             Multiple-choice quizzes on each live lesson, plus a mixed quiz per unit. Each attempt
@@ -61,7 +64,7 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Next units</h2>
         <p className="leading-relaxed text-muted-foreground">
-          <MixedHanzi text="Same data shape, one unit at a time: 节日庆典, then the rest of the 22. Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays generated so we do not maintain two spellings." />
+          <MixedHanzi text="Same data shape, one unit at a time: 跨文化, then the rest of the 22. Each new PDF gets transcribed into typed lesson files (hanzi + English). Pinyin stays generated so we do not maintain two spellings." />
         </p>
       </section>
 
@@ -79,11 +82,12 @@ export default function PlanPage() {
       <section className="space-y-3">
         <h2 className="font-serif text-2xl">Audio plan</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Official Unit 1–5 files are in the repo as <code>01-01.mp3</code>…<code>01-10.mp3</code>,{" "}
+          Official Unit 1–6 files are in the repo as <code>01-01.mp3</code>…<code>01-10.mp3</code>,{" "}
           <code>02-01.mp3</code>…<code>02-06.mp3</code>, <code>03-01.mp3</code>…<code>03-03.mp3</code>,{" "}
-          <code>04-01.mp3</code>…<code>04-07.mp3</code>, and <code>05-01.mp3</code>…<code>05-05.mp3</code>{" "}
-          and play on each lesson. Later units follow the same naming. Browser speech remains as a
-          line-by-line fallback. Details live on the{" "}
+          <code>04-01.mp3</code>…<code>04-07.mp3</code>, <code>05-01.mp3</code>…<code>05-05.mp3</code>,
+          and <code>06-01.mp3</code>…<code>06-05.mp3</code> and play on each lesson. Later units
+          follow the same naming. Browser speech remains as a line-by-line fallback. Details live
+          on the{" "}
           <Link href="/audio">audio page</Link>.
         </p>
       </section>

@@ -17,7 +17,7 @@ export default function UnitsPage() {
         <p className="text-sm tracking-wide text-rose-800 uppercase dark:text-rose-300">Catalog</p>
         <h1 className="font-serif text-4xl">All units</h1>
         <p className="mt-2 max-w-2xl text-muted-foreground">
-          The book has 22 units and 120 situations. Units 1–5 are fully built with pinyin,
+          The book has 22 units and 120 situations. Units 1–6 are fully built with pinyin,
           English, vocabulary, and questions. Later units are listed so the site can grow lesson by
           lesson.
         </p>

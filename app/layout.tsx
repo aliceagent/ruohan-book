@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     default: `${BOOK.title} · ${BOOK.titleEn}`,
     template: `%s · ${BOOK.title}`,
   },
-  description: `A comprehensive Mandarin conversation study site for ${BOOK.title}: pinyin, English, vocabulary, and speaking practice. Unit 1 is live.`,
+  description: `A comprehensive Mandarin conversation study site for ${BOOK.title}: pinyin, English, vocabulary, and speaking practice. Units 1–6 are live.`,
 }
 
 export default async function RootLayout({

@@ -95,7 +95,7 @@ export const UNITS: UnitSummary[] = [
     id: 6,
     title: "节日庆典",
     titleEn: "Festivals",
-    status: "planned",
+    status: "ready",
     lessonCount: 5,
     topics: [
       { id: "6-1", title: "各国节日庆典", titleEn: "Festivals around the world" },

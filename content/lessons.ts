@@ -3,9 +3,10 @@ import { UNIT_2 } from "@/content/unit-2"
 import { UNIT_3 } from "@/content/unit-3"
 import { UNIT_4 } from "@/content/unit-4"
 import { UNIT_5 } from "@/content/unit-5"
+import { UNIT_6 } from "@/content/unit-6"
 import type { Lesson } from "@/lib/types"
 
-export const ALL_LESSONS: Lesson[] = [...UNIT_1, ...UNIT_2, ...UNIT_3, ...UNIT_4, ...UNIT_5]
+export const ALL_LESSONS: Lesson[] = [...UNIT_1, ...UNIT_2, ...UNIT_3, ...UNIT_4, ...UNIT_5, ...UNIT_6]
 
 export function lessonsForUnit(unitId: number) {
   return ALL_LESSONS.filter((lesson) => lesson.unitId === unitId)
