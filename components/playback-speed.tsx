@@ -86,17 +86,20 @@ export function LessonAudio({
     const audio = audioRef.current
     if (!audio) return
 
-    const syncTime = () => {
-      if (!dragging.current) setCurrent(audio.currentTime)
-    }
     const syncDuration = () => {
-      if (Number.isFinite(audio.duration)) setDuration(audio.duration)
+      const next = audio.duration
+      if (Number.isFinite(next) && next > 0) setDuration(next)
+    }
+    const syncTime = () => {
+      syncDuration()
+      if (!dragging.current) setCurrent(audio.currentTime)
     }
     const onPlay = () => {
       if (activeLessonAudio && activeLessonAudio !== audio) activeLessonAudio.pause()
       activeLessonAudio = audio
       audio.playbackRate = prefs.playbackRate
       setPlaying(true)
+      syncDuration()
     }
     const onPause = () => {
       if (activeLessonAudio === audio) activeLessonAudio = null
@@ -109,6 +112,8 @@ export function LessonAudio({
     audio.addEventListener("play", onPlay)
     audio.addEventListener("pause", onPause)
     audio.addEventListener("ended", onPause)
+    syncDuration()
+    syncTime()
 
     return () => {
       audio.removeEventListener("timeupdate", syncTime)
@@ -143,7 +148,7 @@ export function LessonAudio({
   }
 
   return (
-    <div className="flex w-full items-center gap-2 rounded-full bg-background/80 px-2 py-1 ring-1 ring-rose-200/90 dark:ring-rose-900">
+    <div className="relative flex w-full items-center gap-2 rounded-full bg-background/80 px-2 py-1 ring-1 ring-rose-200/90 dark:ring-rose-900">
       <button
         type="button"
         aria-label={playing ? "Pause" : "Play"}
@@ -163,9 +168,9 @@ export function LessonAudio({
         type="range"
         className="audio-seek min-w-0 flex-1"
         min={0}
-        max={max || 1}
+        max={max > 0 ? max : 1}
         step="any"
-        value={current}
+        value={max > 0 ? Math.min(current, max) : 0}
         disabled={max <= 0}
         aria-label="Audio position"
         aria-valuetext={`${formatClock(current)} of ${formatClock(duration)}`}
@@ -182,7 +187,16 @@ export function LessonAudio({
         }}
         onInput={(event) => seek(Number(event.currentTarget.value))}
       />
-      <audio ref={audioRef} src={src} preload={preload} className="hidden">
+      <audio
+        ref={audioRef}
+        src={src}
+        preload={preload}
+        className="pointer-events-none absolute size-px overflow-hidden opacity-0"
+        onLoadedMetadata={(event) => {
+          const next = event.currentTarget.duration
+          if (Number.isFinite(next) && next > 0) setDuration(next)
+        }}
+      >
         Your browser does not support audio.
       </audio>
     </div>
