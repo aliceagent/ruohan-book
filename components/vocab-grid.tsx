@@ -53,6 +53,8 @@ export function VocabGrid({
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
                   size={CONTENT_HANZI_SIZE[size]}
+                  inspectable
+                  glossary={[item]}
                 />
                 <div className="flex flex-col items-end gap-1">
                   <SpeakButton text={item.hanzi} />

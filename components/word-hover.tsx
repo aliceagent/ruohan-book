@@ -54,10 +54,13 @@ export function WordHover({
   token,
   pinyin,
   children,
+  tap = true,
 }: {
   token: GlossToken
   pinyin: string
   children: React.ReactNode
+  /** On phones, tap opens the gloss. Turn off inside buttons that already use tap. */
+  tap?: boolean
 }) {
   const fineHover = useFineHover()
 
@@ -99,6 +102,10 @@ export function WordHover({
         </HoverCardPrimitive.Portal>
       </HoverCardPrimitive.Root>
     )
+  }
+
+  if (!tap) {
+    return <>{children}</>
   }
 
   return (

@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { allQuestions, allVocabulary } from "@/content/lessons"
 import { useProgress, vocabKey } from "@/hooks/use-progress"
+import { cn } from "@/lib/utils"
 
 const VOCAB = allVocabulary()
 const QUESTIONS = allQuestions()
@@ -98,7 +99,7 @@ function SearchPanel() {
           </p>
           <div className="grid gap-3">
             {vocabHits.slice(0, 12).map((item) => (
-              <Card key={`${item.lessonId}-${item.hanzi}`}>
+              <Card key={`${item.lessonId}-${item.hanzi}`} className="overflow-visible">
                 <CardContent className="flex items-start justify-between gap-3 pt-5">
                   <div>
                     <p className="text-xs text-muted-foreground">
@@ -111,6 +112,8 @@ function SearchPanel() {
                       showEnglish={prefs.english}
                       ruby={prefs.ruby}
                       size="md"
+                      inspectable
+                      glossary={[item]}
                     />
                   </div>
                   <SpeakButton text={item.hanzi} />
@@ -118,7 +121,7 @@ function SearchPanel() {
               </Card>
             ))}
             {questionHits.slice(0, 12).map((item) => (
-              <Card key={`${item.lessonId}-${item.n}`}>
+              <Card key={`${item.lessonId}-${item.n}`} className="overflow-visible">
                 <CardContent className="pt-5">
                   <p className="text-xs text-muted-foreground">
                     {item.lessonId} <MixedHanzi text={item.lessonTitle} /> · Q{item.n}
@@ -130,6 +133,7 @@ function SearchPanel() {
                     showEnglish={prefs.english}
                     ruby={prefs.ruby}
                     size="md"
+                    inspectable
                   />
                 </CardContent>
               </Card>
@@ -152,7 +156,7 @@ function Glossary() {
         const key = vocabKey(item.lessonId, item.hanzi)
         const known = progress.knownVocab.includes(key)
         return (
-          <Card key={key} className={known ? "border-rose-400" : undefined}>
+          <Card key={key} className={cn("overflow-visible", known && "border-rose-400")}>
             <CardContent className="flex items-start justify-between gap-3 pt-5">
               <div>
                 <p className="text-xs text-muted-foreground">
@@ -165,6 +169,8 @@ function Glossary() {
                   showEnglish={prefs.english}
                   ruby={prefs.ruby}
                   size="md"
+                  inspectable
+                  glossary={[item]}
                 />
               </div>
               <Button size="xs" variant={known ? "secondary" : "ghost"} onClick={() => toggleVocab(key)}>

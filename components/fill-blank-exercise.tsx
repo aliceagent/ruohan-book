@@ -77,7 +77,7 @@ export function FillBlankExercise({
               <div className={cn("flex flex-wrap items-center gap-1.5", sentenceClass)}>
                 {item.prefix ? (
                   <span className="font-medium">
-                    <MixedHanzi text={item.prefix} />
+                    <MixedHanzi text={item.prefix} inspectable />
                   </span>
                 ) : null}
                 <span
@@ -93,11 +93,11 @@ export function FillBlankExercise({
                   )}
                   aria-hidden="true"
                 >
-                  {shown ? <MixedHanzi text={shown} /> : "—"}
+                  {shown ? <MixedHanzi text={shown} inspectable /> : "—"}
                 </span>
                 {item.suffix ? (
                   <span className="font-medium">
-                    <MixedHanzi text={item.suffix} />
+                    <MixedHanzi text={item.suffix} inspectable />
                   </span>
                 ) : null}
               </div>
@@ -127,7 +127,7 @@ export function FillBlankExercise({
                         locked && isPicked && !isAnswer && "border-destructive bg-destructive/10",
                       )}
                     >
-                      <MixedHanzi text={choice} />
+                      <MixedHanzi text={choice} inspectable tap={false} />
                     </button>
                   )
                 })}
@@ -148,13 +148,13 @@ export function FillBlankExercise({
                   ) : (
                     <>
                       <X className="size-4 text-destructive" />
-                      Not quite — the answer is <MixedHanzi text={item.answer} />.
+                      Not quite — the answer is <MixedHanzi text={item.answer} inspectable />.
                     </>
                   )}
                 </p>
               ) : revealed ? (
                 <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">
-                  Answer: <MixedHanzi text={item.answer} />
+                  Answer: <MixedHanzi text={item.answer} inspectable />
                 </p>
               ) : null}
             </li>

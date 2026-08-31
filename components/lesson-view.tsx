@@ -75,6 +75,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
               showEnglish={prefs.english}
               ruby={prefs.ruby}
               size="xl"
+              inspectable
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -121,7 +122,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         {lesson.notes?.map((note) => (
           <p key={note.hanzi} className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">
-              <MixedHanzi text={`注：${note.hanzi}`} />
+              <MixedHanzi text={`注：${note.hanzi}`} inspectable />
             </span>{" "}
             {note.en}
           </p>

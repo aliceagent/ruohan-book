@@ -170,6 +170,8 @@ export function Flashcards() {
                 showEnglish={revealed}
                 ruby={prefs.ruby}
                 size="xl"
+                inspectable={revealed}
+                glossary={[{ hanzi: card.hanzi, en: card.en }]}
               />
               {!revealed ? (
                 <p className="text-sm text-muted-foreground">Recall the English, then reveal.</p>

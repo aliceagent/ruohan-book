@@ -21,7 +21,7 @@ export function MiniLessonCard({
   return (
     <article
       className={cn(
-        "space-y-3 rounded-xl border bg-background/90",
+        "space-y-3 overflow-visible rounded-xl border bg-background/90",
         size === "lg" ? "p-6" : size === "md" ? "p-5" : "p-4",
       )}
     >
@@ -33,7 +33,7 @@ export function MiniLessonCard({
               size === "lg" ? "text-2xl" : size === "md" ? "text-xl" : "text-lg",
             )}
           >
-            <MixedHanzi text={lesson.title} />
+            <MixedHanzi text={lesson.title} inspectable />
           </h3>
           {prefs.english ? (
             <p
@@ -54,7 +54,7 @@ export function MiniLessonCard({
               size === "lg" && "text-base",
             )}
           >
-            <MixedHanzi text={lesson.pattern} />
+            <MixedHanzi text={lesson.pattern} inspectable />
           </Badge>
         ) : null}
       </div>
@@ -66,7 +66,7 @@ export function MiniLessonCard({
             size === "lg" ? "text-lg" : size === "md" ? "text-base" : "text-sm",
           )}
         >
-          <MixedHanzi text={paragraph} />
+          <MixedHanzi text={paragraph} inspectable />
         </p>
       ))}
       {lesson.compare && lesson.compare.length > 0 ? (
@@ -74,7 +74,7 @@ export function MiniLessonCard({
           {lesson.compare.map((item) => (
             <div key={`${item.label}-${item.hanzi}`} className="rounded-lg bg-muted/60 p-3">
               <p className="mb-1 text-xs tracking-wide text-muted-foreground uppercase">
-                <MixedHanzi text={item.label} />
+                <MixedHanzi text={item.label} inspectable />
               </p>
               <HanziText
                 hanzi={item.hanzi}

@@ -1,21 +1,47 @@
 "use client"
 
+import { InspectableHanzi } from "@/components/inspectable-hanzi"
 import { useStudyPrefs } from "@/components/study-prefs"
 import { mixedRuns } from "@/lib/pinyin"
+import type { VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 /**
  * Renders any string so Chinese characters get pinyin when that display toggle
  * is on — including mixed English explanations like “拖 = drag / delay.”
+ * Pass inspectable to get the same hover / tap gloss as dialogue words.
  */
 export function MixedHanzi({
   text,
   className,
+  inspectable = false,
+  glossary,
+  tap = true,
 }: {
   text: string
   className?: string
+  inspectable?: boolean
+  glossary?: VocabItem[]
+  tap?: boolean
 }) {
   const { prefs } = useStudyPrefs()
+  const rubyOn = Boolean(prefs.pinyin && prefs.ruby)
+
+  if (inspectable) {
+    return (
+      <span
+        data-pinyin={rubyOn ? "ruby" : prefs.pinyin ? "stack" : "off"}
+        className={cn(
+          rubyOn && "leading-[2.15]",
+          "overflow-visible select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
+          className,
+        )}
+      >
+        <InspectableHanzi hanzi={text} ruby={rubyOn} glossary={glossary} tap={tap} />
+      </span>
+    )
+  }
+
   const runs = mixedRuns(text)
   const hasZh = runs.some((run) => run.kind === "zh")
 

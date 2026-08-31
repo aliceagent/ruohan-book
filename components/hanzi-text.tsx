@@ -1,12 +1,8 @@
 "use client"
 
-import { type ReactNode } from "react"
-
 import { SpeakButton } from "@/components/speak-button"
-import { WordHover } from "@/components/word-hover"
-import { tokenizeHanzi, type GlossToken } from "@/lib/gloss"
-import { rubyToPhrase, rubyTokens, type RubyToken } from "@/lib/pinyin"
-import { glossaryFor } from "@/lib/unit-glossary"
+import { InspectableHanzi } from "@/components/inspectable-hanzi"
+import { rubyTokens } from "@/lib/pinyin"
 import type { VocabItem } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
@@ -22,6 +18,7 @@ export function HanziText({
   className,
   inspectable = false,
   glossary,
+  tap = true,
 }: {
   hanzi: string
   english?: string
@@ -32,6 +29,7 @@ export function HanziText({
   className?: string
   inspectable?: boolean
   glossary?: VocabItem[]
+  tap?: boolean
 }) {
   const sizeClass = {
     sm: "text-base",
@@ -55,9 +53,8 @@ export function HanziText({
     "2xl": "text-xl",
   }[size]
 
-  const tokens = inspectable ? tokenizeHanzi(hanzi, glossaryFor(glossary)) : null
   const rubyOn = showPinyin && ruby
-  const sentenceRuby = tokens || rubyOn || (showPinyin && !ruby) ? rubyTokens(hanzi) : []
+  const sentenceRuby = rubyOn || (showPinyin && !ruby) ? rubyTokens(hanzi) : []
 
   return (
     <div className={cn("space-y-1", className)}>
@@ -69,24 +66,8 @@ export function HanziText({
           inspectable && "overflow-visible select-none [-webkit-touch-callout:none] [@media(hover:hover)]:select-text",
         )}
       >
-        {tokens ? (
-          tokens.reduce<{ nodes: ReactNode[]; offset: number }>(
-            (state, token, index) => {
-              const length = Array.from(token.hanzi).length
-              const parts = sentenceRuby.slice(state.offset, state.offset + length)
-              state.nodes.push(
-                <InspectableChunk
-                  key={`${token.hanzi}-${index}`}
-                  token={token}
-                  ruby={rubyOn}
-                  parts={parts}
-                />,
-              )
-              state.offset += length
-              return state
-            },
-            { nodes: [], offset: 0 },
-          ).nodes
+        {inspectable ? (
+          <InspectableHanzi hanzi={hanzi} ruby={rubyOn} glossary={glossary} tap={tap} />
         ) : rubyOn ? (
           sentenceRuby.map((token, index) =>
             token.pinyin ? (
@@ -111,36 +92,5 @@ export function HanziText({
         <p className={cn("leading-relaxed text-muted-foreground", englishClass)}>{english}</p>
       ) : null}
     </div>
-  )
-}
-
-function InspectableChunk({
-  token,
-  ruby,
-  parts,
-}: {
-  token: GlossToken
-  ruby: boolean
-  parts: RubyToken[]
-}) {
-  const body = ruby
-    ? parts.map((part, index) =>
-        part.pinyin ? (
-          <ruby key={`${part.hanzi}-${index}`} className="ruby-pair">
-            {part.hanzi}
-            <rt>{part.pinyin}</rt>
-          </ruby>
-        ) : (
-          <span key={`${part.hanzi}-${index}`}>{part.hanzi}</span>
-        ),
-      )
-    : token.hanzi
-
-  if (token.kind !== "word") return <>{body}</>
-
-  return (
-    <WordHover token={token} pinyin={rubyToPhrase(parts)}>
-      {body}
-    </WordHover>
   )
 }

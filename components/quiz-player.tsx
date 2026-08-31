@@ -158,19 +158,20 @@ export function QuizPlayer({
                         showEnglish={prefs.english}
                         ruby={prefs.ruby}
                         size={scaleHanziSize("sm", textSize)}
+                        inspectable
                       />
                     ) : (
                       <p>{entry.stemEn}</p>
                     )}
                     <p className="text-sm">
                       <span className="text-muted-foreground">Your answer: </span>
-                      {picked?.hanzi ? <MixedHanzi text={picked.hanzi} /> : (picked?.en ?? "—")}
+                      {picked?.hanzi ? <MixedHanzi text={picked.hanzi} inspectable /> : (picked?.en ?? "—")}
                     </p>
                     <p className="text-sm">
                       <span className="text-muted-foreground">Correct: </span>
                       {correct?.hanzi ? (
                         <>
-                          <MixedHanzi text={correct.hanzi} />
+                          <MixedHanzi text={correct.hanzi} inspectable />
                           {correct.en ? ` · ${correct.en}` : null}
                         </>
                       ) : (
@@ -232,13 +233,13 @@ export function QuizPlayer({
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{item.kind.replace("-", " ")}</Badge>
           <p className="text-sm text-muted-foreground">
-            <MixedHanzi text={item.instruction} />
+            <MixedHanzi text={item.instruction} inspectable />
             <span className="mx-1">·</span>
             {item.instructionEn}
           </p>
         </div>
 
-        <div className="flex items-start justify-between gap-3 rounded-2xl border bg-card p-4">
+        <div className="flex items-start justify-between gap-3 overflow-visible rounded-2xl border bg-card p-4">
           <div className="min-w-0">
             {item.stemHanzi ? (
               <HanziText
@@ -248,6 +249,7 @@ export function QuizPlayer({
                 showEnglish={item.kind === "scene" && prefs.english}
                 ruby={prefs.ruby}
                 size={scaleHanziSize("lg", textSize)}
+                inspectable
               />
             ) : (
               <p className="text-xl font-medium">{item.stemEn}</p>
@@ -290,6 +292,8 @@ export function QuizPlayer({
                     showEnglish={revealed}
                     ruby={prefs.ruby}
                     size={scaleHanziSize("sm", textSize)}
+                    inspectable
+                    tap={false}
                   />
                 ) : (
                   <span className="text-sm leading-relaxed">{choice.en}</span>
