@@ -138,3 +138,66 @@
     letter-spacing: 0;
   }
 }
+
+@layer components {
+  /* Native <audio controls> hides the scrubber thumb until hover. Keep ours visible. */
+  input.audio-seek {
+    height: 1rem;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+  }
+
+  input.audio-seek:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 999px;
+  }
+
+  input.audio-seek::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      var(--foreground) 0 var(--seek, 0%),
+      color-mix(in oklch, var(--foreground) 22%, transparent) var(--seek, 0%) 100%
+    );
+  }
+
+  input.audio-seek::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    margin-top: -4px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--foreground);
+    box-shadow: 0 0 0 2px var(--background);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  input.audio-seek::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--foreground) 22%, transparent);
+  }
+
+  input.audio-seek::-moz-range-progress {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--foreground);
+  }
+
+  input.audio-seek::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--foreground);
+    box-shadow: 0 0 0 2px var(--background);
+    opacity: 1;
+  }
+}
