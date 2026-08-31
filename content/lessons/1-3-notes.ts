@@ -111,10 +111,28 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
   "你家用轮的？你负责星期几的？": [
     ml(
       "用轮的",
-      "do you take turns?",
-      ["用 + method + 的. 用轮的 = using a rotation system. Casual, spoken."],
+      "take turns / by rotation",
+      [
+        "Taiwan spoken pattern: 用 + a one-syllable verb + 的 = do it that way. 用轮的 = take turns (a rotation), not “use a wheel.” Different from 轮到, which names whose turn it is right now.",
+      ],
       {
-        examples: [ex("房租用分的。", "We split the rent.")],
+        pattern: "用 + V + 的",
+        compare: [
+          {
+            label: "the system",
+            hanzi: "用轮的",
+            en: "we take turns (how the house is organized)",
+          },
+          {
+            label: "whose turn",
+            hanzi: "轮到我煮饭",
+            en: "it’s my turn to cook (I am up now)",
+          },
+        ],
+        examples: [
+          ex("家务用轮的。", "We take turns on the chores."),
+          ex("洗碗用轮的，煮饭也用轮的。", "We take turns on dishes, and on cooking too."),
+        ],
       }
     ),
     ml(
@@ -134,7 +152,7 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
         "帮忙 + noun. You can also say 帮忙做家务. 你呢？ turns the question back.",
       ],
       {
-        examples: [ex("你帮忙做饭吗？", "Do you help with cooking?")],
+        examples: [ex("你帮忙煮饭吗？", "Do you help with cooking?")],
       }
     ),
   ],
@@ -147,7 +165,7 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
       "likes… but doesn't like…",
       ["不爱 is stronger / more colloquial than 不喜欢 — 'doesn't care for'."],
       {
-        examples: [ex("爱吃不爱做。", "Loves eating, doesn't love cooking.")],
+        examples: [ex("喜欢煮饭，不爱洗碗。", "Likes cooking, doesn’t like doing dishes.")],
       }
     ),
   ],
@@ -159,7 +177,7 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
         "Imperative 吧 after a suggestion. 一台 is the measure word for machines.",
       ],
       {
-        examples: [ex("买一台新手机吧。", "Buy a new phone.")],
+        examples: [ex("买一台扫地机器人吧。", "How about buying a robot vacuum.")],
       }
     ),
     ml("很方便", "very convenient", [
@@ -215,8 +233,8 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
         {
           examples: [
             ex(
-              "现在不是已经有高铁了？",
-              "Don't we already have high-speed rail?"
+              "现在不是已经有洗碗机了？",
+              "Don’t we already have dishwashers?"
             ),
           ],
         }
@@ -229,6 +247,7 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
       ["包办 = take the whole job. Stronger than 帮忙. 所有的 = all."],
       {
         examples: [
+          ex("我希望机器人包办家务。", "I want a robot to take over the housework."),
           ex("旅行社包办行程。", "The agency handles the whole itinerary."),
         ],
       }
@@ -251,6 +270,33 @@ export const LESSON_1_3_GRAMMAR_FOCUS: MiniLesson[] = [
     },
   ),
   ml(
+    "用 + V + 的",
+    "Do it that way (spoken)",
+    [
+      "用轮的 is this lesson’s example: the house runs on a rotation. Same spoken shape: 用走的 go by walking. Not the same as 轮到, which names who is up right now.",
+    ],
+    {
+      pattern: "用 + V + 的",
+      compare: [
+        {
+          label: "the system",
+          hanzi: "用轮的",
+          en: "we take turns",
+        },
+        {
+          label: "whose turn",
+          hanzi: "轮到我煮饭",
+          en: "it’s my turn to cook",
+        },
+      ],
+      examples: [
+        ex("家务用轮的。", "We take turns on the chores."),
+        ex("洗碗用轮的。", "We take turns washing dishes."),
+        ex("去公司用走的。", "I walk to the office."),
+      ],
+    },
+  ),
+  ml(
     "负责 + task",
     "Be in charge of…",
     ["负责洗碗和倒垃圾. You can 负责 a chore, a day of the week, or a whole project."],
@@ -258,8 +304,8 @@ export const LESSON_1_3_GRAMMAR_FOCUS: MiniLesson[] = [
       pattern: "负责 + noun / V",
       examples: [
         ex("我负责周末。", "I’m in charge of weekends."),
-        ex("她负责做饭。", "She’s in charge of cooking."),
-        ex("谁负责带饮料？", "Who’s in charge of bringing drinks?"),
+        ex("她负责煮饭。", "She’s in charge of cooking."),
+        ex("谁负责倒垃圾？", "Who’s in charge of taking out the trash?"),
       ],
     },
   ),
@@ -285,7 +331,7 @@ export const LESSON_1_3_GRAMMAR_FOCUS: MiniLesson[] = [
       examples: [
         ex("要是有个机器人就好了。", "If only we had a robot."),
         ex("要是今天下雨就好了。", "If only it would rain today."),
-        ex("要是你会做饭就好了。", "If only you could cook."),
+        ex("要是你会煮饭就好了。", "If only you could cook."),
       ],
     },
   ),
