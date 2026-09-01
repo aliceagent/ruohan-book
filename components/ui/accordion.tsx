@@ -44,11 +44,18 @@ function AccordionTrigger({
 }) {
   return (
     <AccordionPrimitive.Header asChild>
-      <div className={cn("flex items-center gap-2", headerClassName)}>
+      <div
+        className={cn(
+          "flex items-center gap-2",
+          actions && "flex-col items-stretch sm:flex-row sm:items-center",
+          headerClassName,
+        )}
+      >
         <AccordionPrimitive.Trigger
           data-slot="accordion-trigger"
           className={cn(
             "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-lg border border-transparent py-2.5 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring disabled:pointer-events-none disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
+            actions && "w-full sm:w-auto sm:flex-1",
             className
           )}
           {...props}

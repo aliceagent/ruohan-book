@@ -414,7 +414,7 @@ function LessonSection({
 }) {
   const actions =
     extra || (size && onSizeChange) ? (
-      <div className="flex flex-wrap items-center justify-end gap-2 pr-3 sm:pr-4">
+      <div className="flex flex-wrap items-center justify-end gap-2 px-3 pb-3 sm:px-0 sm:pb-0 sm:pr-4">
         {extra}
         {size && onSizeChange ? (
           <TextSizeToggle value={size} onChange={onSizeChange} label={sizeLabel ?? "Text size"} />
@@ -434,11 +434,11 @@ function LessonSection({
         className="items-center gap-3 rounded-none px-3 py-4 text-left hover:bg-rose-100/70 hover:no-underline focus-visible:rounded-xl sm:gap-4 sm:px-5 sm:py-5 dark:hover:bg-rose-950/50"
       >
         <span className="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
-          <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-xl bg-rose-800 text-rose-50 shadow-sm sm:size-12 dark:bg-rose-700">
+          <span className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl bg-rose-800 text-rose-50 shadow-sm sm:size-12 dark:bg-rose-700">
             {icon}
           </span>
           <span className="min-w-0">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="font-serif text-2xl font-semibold tracking-tight wrap-break-word sm:text-3xl">
               <MixedHanzi text={title} />
             </h2>
             <span className="mt-0.5 block text-sm text-muted-foreground sm:text-base">{en}</span>
