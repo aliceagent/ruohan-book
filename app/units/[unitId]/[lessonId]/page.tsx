@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import { LessonView } from "@/components/lesson-view"
 import { ALL_LESSONS, getLesson } from "@/content/lessons"
-import { lessonHasFullAudio } from "@/lib/audio"
+import { lessonHasFullAudio } from "@/lib/audio-server"
 
 export function generateStaticParams() {
   return ALL_LESSONS.map((lesson) => ({

@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BOOK, getUnit } from "@/content/catalog"
 import { lessonsForUnit } from "@/content/lessons"
-import { lessonAudioFileName, lessonAudioSrc, lessonFullAudioSrc, lessonHasFullAudio } from "@/lib/audio"
+import { lessonAudioFileName, lessonAudioSrc, lessonFullAudioSrc } from "@/lib/audio"
+import { lessonHasFullAudio } from "@/lib/audio-server"
 import { builtUnitIds } from "@/lib/quiz"
 
 export const metadata: Metadata = {
