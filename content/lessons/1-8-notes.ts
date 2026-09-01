@@ -304,7 +304,7 @@ export const LESSON_1_8_LINE_NOTES: Record<string, MiniLesson[]> = {
         pattern: "合 + V",
         examples: [
           ex("我们合买一箱牛奶吧。", "Let’s go in together on a case of milk."),
-          ex("他们合租一套房子。", "They rent an apartment together."),
+          ex("我们合买一箱卫生纸吧。", "Let’s split a bulk pack of toilet paper."),
           ex(
             "这张票我们可以合买。",
             "We can split this ticket / buy it together."

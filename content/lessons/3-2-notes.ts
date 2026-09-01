@@ -124,7 +124,7 @@ export const LESSON_3_2_LINE_NOTES: Record<string, MiniLesson[]> = {
   ],
   "三国演义中你最喜欢谁？": [
     ml("X 中你最喜欢谁", "who do you like most in X?", ["Same 中 as the quiz, now about preference, not result."], {
-      examples: [ex("这部电影里你最喜欢谁？", "Who do you like most in this movie?")],
+      examples: [ex("三国演义里你最喜欢谁？", "Who’s your favorite in Romance of the Three Kingdoms?")],
     }),
   ],
   "当然是诸葛亮，他太聪明了，我要是也料事如神就好了。": [

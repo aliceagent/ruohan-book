@@ -153,7 +153,7 @@ export const LESSON_4_1_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("专门塑造健美的曲线。", "Specialize in sculpting a fit body line."),
       ex("我专门教口语。", "I specialize in teaching speaking."),
-      ex("她专门修旧好。", "She specializes in getting people to make up."),
+      ex("她专门帮人重修旧好。", "She specializes in helping people reconcile."),
     ],
   }),
   ml("VV：走走、照照相", "Do a bit of…", ["Reduplicate for a light weekend hobby. 照照相 = take a few pictures, not a photo job."], {

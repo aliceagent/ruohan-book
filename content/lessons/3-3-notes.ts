@@ -56,7 +56,7 @@ export const LESSON_3_3_FAMILY: VocabItem[] = [
 ]
 
 export const LESSON_3_3_PRACTICE: MiniLessonExample[] = [
-  ex("为什么我们公司要用你而不是其他人？", "Why should our company use you rather than someone else?"),
+  ex("为什么我们公司要用你而不是其他人？", "Why should our company hire you rather than someone else?"),
   ex("贵公司需要对数位〔数字〕领域充满热情及经验的行销〔营销〕人员。", "Your company needs marketers with passion and experience in the digital field."),
   ex("我成功地提升了公司社群媒体广告24%的成效。", "I successfully raised the company’s social-media ad results by 24%."),
   ex("如果一直达不到工作目标时，我会寻找有效方法，充实自己，勇敢尝试。", "If I keep missing the target, I’ll look for methods that work, upskill, and try bravely."),
@@ -82,7 +82,7 @@ export const LESSON_3_3_LINE_NOTES: Record<string, MiniLesson[]> = {
     ml("为什么要用你而不是其他人", "why you, not someone else?", ["用你 = hire / use you. 而不是 contrasts two options. Classic interview opener."], {
       pattern: "为什么 + VP1 + 而不是 + VP2 / noun",
       examples: [
-        ex("为什么要用你而不是其他人？", "Why use you rather than someone else?"),
+        ex("为什么要用你而不是其他人？", "Why hire you rather than someone else?"),
         ex("为什么选这家而不是那家？", "Why this company rather than that one?"),
       ],
     }),
@@ -164,7 +164,7 @@ export const LESSON_3_3_GRAMMAR_FOCUS: MiniLesson[] = [
   ml("而不是", "rather than / instead of", ["VP1 而不是 VP2 (or noun) contrasts two options. Stronger and cleaner than 不是…是… in a why-you question."], {
     pattern: "VP / noun + 而不是 + noun",
     examples: [
-      ex("为什么要用你而不是其他人？", "Why use you rather than someone else?"),
+      ex("为什么要用你而不是其他人？", "Why hire you rather than someone else?"),
       ex("我想应征这个职位而不是那个。", "I want to apply for this role, not that one."),
       ex("我们看成效而不是年资。", "We look at results, not seniority."),
     ],
@@ -173,7 +173,7 @@ export const LESSON_3_3_GRAMMAR_FOCUS: MiniLesson[] = [
     pattern: "对 + noun + 充满热情",
     examples: [
       ex("对数位领域充满热情。", "Full of passion for the digital field."),
-      ex("我对教学充满热情。", "I’m passionate about teaching."),
+      ex("我对数位行销充满热情。", "I’m passionate about digital marketing."),
       ex("他对这份工作充满热情。", "He’s passionate about this job."),
     ],
   }),
@@ -190,7 +190,7 @@ export const LESSON_3_3_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("我简报还做得不够好。", "My presentations still aren’t good enough."),
       ex("中文还说得不够流利。", "I still don’t speak Chinese fluently enough."),
-      ex("经验还不够多。", "I still don’t have enough experience."),
+      ex("我简报还做得不够专业。", "My presentations still aren’t professional enough."),
     ],
   }),
   ml("对于 + topic，你有什么问题？", "Regarding…, what questions do you have?", ["对于 hands over the topic. Learn the candidate’s reverse question too: 有什么您正在寻找的……是在我身上没看到的吗？"], {

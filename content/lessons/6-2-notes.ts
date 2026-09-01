@@ -167,7 +167,7 @@ export const LESSON_6_2_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("柚子也叫文旦。", "Pomelo is also called wendan."),
       ex("中秋也叫八月十五。", "Mid-Autumn is also called the 15th of the 8th month."),
-      ex("麻糬也叫年糕一类的。", "Mochi is also a kind of sticky-rice cake."),
+      ex("便当也叫盒饭。", "Bento is also called boxed lunch."),
     ],
   }),
 ]

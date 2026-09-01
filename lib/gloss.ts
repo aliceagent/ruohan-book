@@ -6,6 +6,27 @@ export function isHanziChar(char: string) {
   return HANZI_RE.test(char)
 }
 
+/**
+ * CEDICT often lists a rare headword first (正 = lunar month, 轮 = wheel).
+ * These learner senses win in mergeGlosses so a tap matches how the book uses the word.
+ */
+export const LEARNER_GLOSSES: VocabItem[] = [
+  { hanzi: "正", en: "just; exactly; correct" },
+  { hanzi: "正确", en: "correct; right" },
+  { hanzi: "茶水", en: "tea and hot water" },
+  { hanzi: "茶水间", en: "office pantry; tea room" },
+  { hanzi: "轮", en: "to take turns; a rotation" },
+  { hanzi: "用轮的", en: "take turns (by rotation)" },
+  { hanzi: "用走的", en: "go by walking" },
+  { hanzi: "抽", en: "to draw lots; to pull out" },
+  { hanzi: "马", en: "horse" },
+  { hanzi: "绿", en: "green" },
+  { hanzi: "论", en: "to discuss; theory" },
+  { hanzi: "介意", en: "to mind; to object to" },
+  { hanzi: "卫生纸", en: "toilet paper" },
+  { hanzi: "数位行销", en: "digital marketing" },
+]
+
 /** Everyday words dialogues use constantly, even when they are not on the stretch list. */
 export const COMMON_GLOSSES: VocabItem[] = [
   { hanzi: "我", en: "I / me" },

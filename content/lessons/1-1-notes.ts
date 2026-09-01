@@ -293,8 +293,8 @@ function notesForNightmare(): MiniLesson[] {
       ],
       examples: [
         ex("我梦见你了。", "I dreamed about you."),
-        ex("我梦见我去了中国。", "I dreamed that I went to China."),
-        ex("外面有人。", "Someone is outside."),
+        ex("我梦见我从床上掉下来。", "I dreamed I fell out of bed."),
+        ex("我梦见有人在追我。", "I dreamed someone was chasing me."),
         ex("有人在敲门。", "Someone is knocking on the door."),
       ],
     },
@@ -452,6 +452,10 @@ function notesForSunAdvice(): MiniLesson[] {
       body: [
         "Name the source when it matters. If the person is not important, use 听说…… instead.",
       ],
+      compare: [
+        { label: "named source", hanzi: "我听医生说…", en: "I heard the doctor say…" },
+        { label: "hearsay", hanzi: "听说明天会下雨。", en: "I heard it’ll rain tomorrow." },
+      ],
       examples: [
         ex("我听老师说，明天没有课。", "I heard the teacher say there isn’t class tomorrow."),
         ex("我听朋友说，这家饭店很好吃。", "I heard my friend say this restaurant is very good."),
@@ -490,7 +494,7 @@ function notesForSunAdvice(): MiniLesson[] {
       body: ["可以帮助睡眠 = can help with sleep. The helper can be a thing, a habit, or a person."],
       examples: [
         ex("运动可以帮助睡眠。", "Exercise can help with sleep."),
-        ex("这个软件可以帮助你学中文。", "This software can help you learn Chinese."),
+        ex("多晒太阳可以帮助睡眠。", "Getting more sun can help with sleep."),
         ex("每天练习可以帮助你进步。", "Practicing every day can help you improve."),
       ],
     },
@@ -507,9 +511,9 @@ function notesForNotEnoughSun(): MiniLesson[] {
         "我可能真的太阳晒不够 is a tight spoken form. You may also hear 晒太阳晒得不够 or 晒太阳晒得太少了. The useful everyday pattern is Verb + 不够: 睡不够, 吃不够, 看不够.",
       ],
       examples: [
-        ex("我每天都睡不够。", "I never get enough sleep."),
-        ex("吃不够", "not eat enough"),
-        ex("看不够", "can’t get enough of watching it"),
+        ex("我大概真的太阳晒不够。", "I probably don’t get enough sun."),
+        ex("我每天都睡不够。", "I never get enough sleep. (same 不够)"),
+        ex("看不够", "can’t watch enough of it"),
       ],
     },
     {
@@ -584,7 +588,7 @@ function notesForSleepThrough(): MiniLesson[] {
         ex("我昨天一觉睡了十个小时。", "Yesterday I slept ten hours straight."),
         ex("我很久没有一觉睡到天亮了。", "I haven’t slept straight through the night in a long time."),
         ex("我今天睡到十点。", "I slept until 10 today."),
-        ex("从早上忙到晚上。", "Be busy from morning until night."),
+        ex("我昨晚一觉睡到天亮。", "Last night I slept straight through until morning."),
       ],
     },
   ]

@@ -127,7 +127,7 @@ export const LESSON_6_4_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("我跟我妈说要加班，其实是不想回去。", "I told Mum I have overtime, but I just don’t want to go back."),
       ex("他说要开会，其实是想睡觉。", "He said he had a meeting, but he actually wanted to sleep."),
-      ex("我说来加班，其实是怕塞车〔堵车〕。", "I said I’d work overtime, but I was actually afraid of the traffic."),
+      ex("她说身体不舒服，其实是不想加班。", "She said she felt unwell, but she just didn’t want overtime."),
     ],
   }),
   ml("第一……第二……", "First… second…", ["Count the 累. Add 还有，第三."], {

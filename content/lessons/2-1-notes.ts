@@ -91,7 +91,7 @@ export const LESSON_2_1_LINE_NOTES: Record<string, MiniLesson[]> = {
   ],
   "去年的不错，但是我遇到过最好的英语老师是高中时的，教得超好，而且很会鼓励学生，我想她影响了我的一生。": [
     ml("遇到过最好的", "the best I’ve ever met", ["遇到过 + 最好的 + noun. 过 marks experience."], {
-      examples: [ex("这是我遇到过最好的咖啡。", "This is the best coffee I’ve ever had.")],
+      examples: [ex("她是我遇到过最好的老师。", "She’s the best teacher I’ve ever had.")],
     }),
     ml("教得 + complement", "teaches (to a degree)", ["得 after 教 turns the rest into how well they teach. 超好 is strongly spoken."], {
       pattern: "V + 得 + complement",

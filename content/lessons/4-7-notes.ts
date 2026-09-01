@@ -159,8 +159,8 @@ export const LESSON_4_7_GRAMMAR_FOCUS: MiniLesson[] = [
     pattern: "（题目），你先说吧",
     examples: [
       ex("你先说吧。", "You go first."),
-      ex("这个问题你先答。", "You answer this one first."),
-      ex("我先听你说。", "I’ll listen to you first."),
+      ex("16题你先说吧。", "You go first on question 16."),
+      ex("你先说吧，我再答。", "You go first, then I’ll answer."),
     ],
   }),
   ml("一期一会", "Treasure this unrepeatable meeting", ["A borrowed Japanese four-character. Use it when a first meeting might also be the last."], {

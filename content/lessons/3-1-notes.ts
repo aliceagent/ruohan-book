@@ -98,7 +98,7 @@ export const LESSON_3_1_LINE_NOTES: Record<string, MiniLesson[]> = {
   "台湾企业和外商公司，你比较喜欢哪一个？": [
     ml("A 和 B，你比较喜欢哪一个", "A or B — which do you prefer?", ["Topic first, then 比较喜欢哪一个. 企业 / 公司 both mean company; 外商 is foreign-invested."], {
       pattern: "A 和 B，你比较喜欢哪一个？",
-      examples: [ex("咖啡和茶，你比较喜欢哪一个？", "Coffee or tea — which do you prefer?")],
+      examples: [ex("加班和出差，你比较喜欢哪一个？", "Overtime or business trips — which do you prefer?")],
     }),
   ],
   "最好是台湾的，外商公司也可以考虑。": [
@@ -171,11 +171,15 @@ export const LESSON_3_1_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("你介意加班时间吗？", "Do you mind overtime hours?"),
       ex("我不介意出差。", "I don’t mind business trips."),
-      ex("他很介意薪水。", "He really cares about the salary."),
+      ex("他很介意加班。", "He really minds overtime."),
     ],
   }),
   ml("曾经 / 不曾", "Have (never) ever…", ["曾经 + VP for interview experience. 不曾 is the neat negative — a bit more formal than 没…过."], {
     pattern: "曾经 + VP / 不曾",
+    compare: [
+      { label: "more formal", hanzi: "你曾经用中文开会吗？", en: "Have you ever held meetings in Chinese?" },
+      { label: "more spoken", hanzi: "你用过中文开会吗？", en: "Have you used Chinese in meetings?" },
+    ],
     examples: [
       ex("你曾经用中文进行商务谈判吗？", "Have you ever negotiated business in Chinese?"),
       ex("以前不曾。", "Not before."),

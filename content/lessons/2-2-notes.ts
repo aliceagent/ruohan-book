@@ -89,7 +89,7 @@ export const LESSON_2_2_LINE_NOTES: Record<string, MiniLesson[]> = {
       pattern: "V + 干净一点 + 重 + V",
       examples: [ex("擦干净一点重写。", "Erase it a bit cleaner and rewrite."), ex("洗干净一点再穿。", "Wash it a bit cleaner before wearing it.")],
     }),
-    ml("我看", "let me see", ["Parent takes the notebook. 我看 = hand it over / I’ll look."]),
+    ml("我看", "let me see", ["Parent takes the notebook. 我看 = let me take a look (not “hand it over”)."]),
   ],
   "Hmm": [
     ml("Hmm", "reluctant pause", ["English stall in the script. Same job as 嗯…… — the kid is not happy and not answering yet."], {

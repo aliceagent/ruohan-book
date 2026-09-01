@@ -403,7 +403,7 @@ export const LESSON_1_7_GRAMMAR_FOCUS: MiniLesson[] = [
       examples: [
         ex("老师教我做。", "Teacher, show me how."),
         ex("你教我唱歌吧。", "Teach me to sing."),
-        ex("谁教你做饭的？", "Who taught you to cook?"),
+        ex("谁教你做刈包的？", "Who taught you to make gua bao?"),
       ],
     },
   ),

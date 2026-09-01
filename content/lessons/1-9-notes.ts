@@ -222,7 +222,7 @@ export const LESSON_1_9_LINE_NOTES: Record<string, MiniLesson[]> = {
         examples: [
           ex("把邮票贴在信封上。", "Stick the stamp on the envelope."),
           ex("把照片贴在本子上。", "Stick the photo in the notebook."),
-          ex("把名字写在纸上。", "Write the name on the paper."),
+          ex("把剪纸贴在拼贴画上。", "Stick the paper-cut onto the collage."),
         ],
       }
     ),
@@ -237,7 +237,7 @@ export const LESSON_1_9_LINE_NOTES: Record<string, MiniLesson[]> = {
       {
         examples: [
           ex("这些都是你做的吗？", "Did you make all of these?"),
-          ex("你中文说得好好厉害！", "Your Chinese is amazing!"),
+          ex("你中文说得真厉害！", "Your Chinese is amazing!"),
           ex("哇，好漂亮！", "Wow, so pretty!"),
         ],
       }
@@ -335,7 +335,7 @@ export const LESSON_1_9_LINE_NOTES: Record<string, MiniLesson[]> = {
         examples: [
           ex("他想买一台单眼相机。", "He wants to buy an SLR."),
           ex("单反相机比较重。", "DSLRs are pretty heavy."),
-          ex("我想换一个新手机。", "I want to switch to a new phone."),
+          ex("我想换一台单眼相机。", "I want to switch to an SLR."),
         ],
         compare: [
           {
@@ -454,7 +454,7 @@ export const LESSON_1_9_GRAMMAR_FOCUS: MiniLesson[] = [
     {
       pattern: "记得 + V",
       examples: [
-        ex("记得找我啊。", "Remember to get me."),
+        ex("你要出外景的时候记得找我啊！", "When you go shoot on location, remember to take me!"),
         ex("记得带伞。", "Remember to bring an umbrella."),
         ex("记得打电话。", "Remember to call."),
       ],

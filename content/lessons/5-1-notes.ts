@@ -159,14 +159,14 @@ export const LESSON_5_1_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("我快反胃了。", "I’m about to throw up."),
       ex("我快走了。", "I’m about to leave."),
-      ex("天快走了。", "It’s almost dark."),
+      ex("天快黑了。", "It’s getting dark."),
     ],
   }),
   ml("这还好啦", "This is nothing", ["Downplays the shock, then adds a worse example."], {
     pattern: "这还好啦，还有更…",
     examples: [
       ex("这还好啦，还有更恐怖的料理。", "This is nothing — there are scarier dishes."),
-      ex("这还好啦，作业更难。", "This is nothing — the homework is harder."),
+      ex("这还好啦，毛蛋更可怕。", "This is nothing — balut is scarier."),
       ex("这还好啦，夜市更挤。", "This is nothing — the night market is more crowded."),
     ],
   }),

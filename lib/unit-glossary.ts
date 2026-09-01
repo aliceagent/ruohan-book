@@ -2,6 +2,7 @@ import { ALL_LESSONS } from "@/content/lessons"
 import { GENERATED_GLOSSES } from "@/lib/generated-glosses"
 import {
   COMMON_GLOSSES,
+  LEARNER_GLOSSES,
   collectLessonGlosses,
   inspectableHanzi,
   mergeGlosses,
@@ -28,6 +29,7 @@ function assertEveryTapHasAGloss(glossary: Map<string, string>) {
 export function unitGlossary() {
   if (!cached) {
     cached = mergeGlosses([
+      LEARNER_GLOSSES,
       COMMON_GLOSSES,
       ALL_LESSONS.flatMap(collectLessonGlosses),
       GENERATED_GLOSSES,

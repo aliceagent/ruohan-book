@@ -97,7 +97,7 @@ export const LESSON_5_5_LINE_NOTES: Record<string, MiniLesson[]> = {
   ],
   "你们吃的都是有灵魂的。": [
     ml("都是有灵魂的", "all have souls", ["Repeats the 都是 frame with a stronger noun."], {
-      examples: [ex("你们吃的都是有灵魂的。", "What you eat all have souls.")],
+      examples: [ex("你们吃的都是有灵魂的。", "Everything you eat has a soul.")],
     }),
   ],
   "你知不知道你加的汽油是恐龙的生命换来的？": [
@@ -140,7 +140,7 @@ export const LESSON_5_5_GRAMMAR_FOCUS: MiniLesson[] = [
     pattern: "你不知道 + clause + 吗",
     examples: [
       ex("你不知道植物也有反应吗？", "Don’t you know plants also react?"),
-      ex("你知不知道汽油是恐龙换来的？", "Do you even know gasoline comes from dinosaurs?"),
+      ex("你知不知道汽油是恐龙的生命换来的？", "Do you even know gasoline was bought with dinosaurs’ lives?"),
       ex("你不知道每个人选择不同吗？", "Don’t you know everyone chooses differently?"),
     ],
   }),

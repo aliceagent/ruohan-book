@@ -56,7 +56,7 @@ export const LESSON_1_2_PRACTICE: MiniLessonExample[] = [
   ex("我得向你学习学习，你都怎么规划时间的？", "I should learn from you. How do you plan your time?"),
   ex("我总觉得时间不够用。", "I always feel there isn’t enough time."),
   ex("我习惯用记事手册手写。", "I’m used to writing things by hand in a planner."),
-  ex("好像用写的比用手机更能提醒自己。", "Writing it down seems more of a reminder than a phone."),
+  ex("好像用写的比用手机更能提醒自己。", "Handwriting seems to remind me better than using my phone."),
   ex("结果电影看了，报告还是最后一刻才完成。", "I watched the movie, and the report still got finished at the last minute."),
 ]
 
@@ -67,7 +67,7 @@ export const LESSON_1_2_FILL_BLANKS = [
   fb("4", "If only a day had 25 hours.", "如果一天有25个小时", "。", "就好了", ["才好了", "也好了", "还好了"]),
   fb("5", "I should learn a bit from you.", "我得向你", "。", "学习学习", ["休息休息", "吃饭吃饭", "看看看"]),
   fb("6", "There isn’t enough time.", "我总觉得时间", "。", "不够用", ["不好用", "不用", "没用"]),
-  fb("7", "Writing seems more of a reminder than a phone.", "好像用写的比用手机更能", "自己。", "提醒", ["忘记", "麻烦", "睡觉"]),
+  fb("7", "Handwriting seems to remind me better than my phone.", "好像用写的比用手机更能", "自己。", "提醒", ["忘记", "麻烦", "睡觉"]),
   fb("8", "I don’t feel at ease if I don’t finish early.", "不早一点做完我", "。", "不安心", ["不好意思", "不舒服", "不满意"]),
 ]
 
@@ -125,7 +125,7 @@ export const LESSON_1_2_LINE_NOTES: Record<string, MiniLesson[]> = {
       "finish on time",
       ["按时 = according to the scheduled time. Pair with 完成."],
       {
-        examples: [ex("请按时到。", "Please arrive on time.")],
+        examples: [ex("报告要按时完成。", "The report has to be finished on time.")],
       }
     ),
     ml(
@@ -317,7 +317,7 @@ export const LESSON_1_2_GRAMMAR_FOCUS: MiniLesson[] = [
     {
       pattern: "好像 A 比 B 更能 + V",
       examples: [
-        ex("好像走路比开车更健康。", "Walking seems healthier than driving."),
+        ex("好像用写的比用手机更能提醒自己。", "Handwriting seems to remind me better than using my phone."),
         ex("好像手写比打字记得更牢。", "Handwriting seems to stick better than typing."),
         ex("好像早起比熬夜更有效。", "Getting up early seems more effective than staying up late."),
       ],

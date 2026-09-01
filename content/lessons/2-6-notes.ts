@@ -100,6 +100,10 @@ export const LESSON_2_6_LINE_NOTES: Record<string, MiniLesson[]> = {
   ],
   "我没考过，大概中级水平。": [
     ml("没考过", "haven’t taken the exam", ["没 + V + 过 = no experience of that exam. Different from 没通过 (took it, failed)."], {
+      compare: [
+        { label: "no exam taken", hanzi: "我没考过。", en: "I haven’t taken the test." },
+        { label: "took it, failed", hanzi: "我考过，可是没通过。", en: "I took it, but I didn’t pass." },
+      ],
       examples: [ex("我没考过HSK。", "I’ve never taken the HSK.")],
     }),
     ml("大概 + estimate", "about…", ["大概中级水平 hedges: I guess intermediate, no certificate."], {

@@ -136,6 +136,10 @@ export const LESSON_4_2_LINE_NOTES: Record<string, MiniLesson[]> = {
 export const LESSON_4_2_GRAMMAR_FOCUS: MiniLesson[] = [
   ml("很久没 / 好久没 + V + 了", "Haven’t … in a long time", ["The core pattern of this lesson. 很久 is a span; 好久 is a sigh. Always pair with 了."], {
     pattern: "很久／好久没 + V + 了",
+    compare: [
+      { label: "span", hanzi: "我很久没吃大餐了", en: "I haven’t had a big meal in a long time (how long)" },
+      { label: "sigh", hanzi: "我也好久没泡汤了", en: "I haven’t soaked in ages either (I miss it)" },
+    ],
     examples: [
       ex("我很久没吃大餐了。", "I haven’t had a big meal in a long time."),
       ex("我也好久没泡汤了。", "I haven’t soaked in ages either."),
@@ -154,7 +158,7 @@ export const LESSON_4_2_GRAMMAR_FOCUS: MiniLesson[] = [
     pattern: "说到 + A + 就想到 + B",
     examples: [
       ex("说到泡汤就想到日本。", "Speaking of soaking, I think of Japan."),
-      ex("说到旅行就想到疫情。", "Speaking of travel, I think of the pandemic."),
+      ex("说到日本就想到泡汤。", "Speaking of Japan, I think of hot springs."),
       ex("说到优惠就想到要预约。", "Speaking of deals, I think we should book."),
     ],
   }),

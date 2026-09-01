@@ -134,7 +134,7 @@ export const LESSON_1_4_LINE_NOTES: Record<string, MiniLesson[]> = {
       "criteria for an ideal partner",
       ["条件 = conditions / what you require. Very common dating-talk noun."],
       {
-        examples: [ex("工作条件不错。", "The job conditions are pretty good.")],
+        examples: [ex("我的条件是温柔体贴。", "My criteria are gentle and considerate.")],
       }
     ),
   ],
@@ -279,6 +279,18 @@ export const LESSON_1_4_GRAMMAR_FOCUS: MiniLesson[] = [
     ["温柔体贴、个性好就好了 — I don’t need more than this. Different from 如果…就好了 (a wish)."],
     {
       pattern: "condition + 就好了",
+      compare: [
+        {
+          label: "enough",
+          hanzi: "个性好就好了",
+          en: "a good personality is enough",
+        },
+        {
+          label: "wish",
+          hanzi: "如果会飞就好了",
+          en: "if only I could fly",
+        },
+      ],
       examples: [
         ex("健康就好了。", "As long as we’re healthy."),
         ex("个性好就好了。", "A good personality is enough."),

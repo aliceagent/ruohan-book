@@ -148,7 +148,7 @@ export const LESSON_6_1_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("有什么就穿什么。", "I’ll wear whatever I have."),
       ex("有什么就吃什么。", "Eat whatever there is."),
-      ex("有空就来。", "Come if you’re free."),
+      ex("有旗袍就穿旗袍。", "If I’ve got a qipao, I’ll wear the qipao."),
     ],
   }),
   ml("最简单的方法就是…", "The easiest way is…", ["Advice after 如果. Points at the store rack."], {

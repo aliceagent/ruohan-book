@@ -170,7 +170,7 @@ export const LESSON_4_6_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("常惹她生气。", "Often made her angry."),
       ex("别惹妈妈生气。", "Don’t make Mom angry."),
-      ex("被学生气出病。", "Made ill from students’ anger."),
+      ex("我们以前常惹她生气。", "We often made her angry back then."),
     ],
   }),
 ]

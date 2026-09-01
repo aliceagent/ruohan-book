@@ -409,13 +409,17 @@ export const LESSON_1_10_GRAMMAR_FOCUS: MiniLesson[] = [
   ml(
     "又 A 又 B",
     "Both A and B (often two vices)",
-    ["又抽烟又喝酒. Same 又…又… as 1-8, here stacking bad habits."],
+    ["又抽烟又喝酒. Same 又…又… as 1-8. Habits stack with verbs; qualities stack with adjectives."],
     {
       pattern: "又 + V + 又 + V",
+      compare: [
+        { label: "habits", hanzi: "又抽烟又喝酒", en: "smokes and drinks" },
+        { label: "qualities", hanzi: "又便宜又好吃", en: "cheap and tasty" },
+      ],
       examples: [
         ex("又抽烟又喝酒。", "Smokes and drinks."),
         ex("又晚睡又不吃早餐。", "Stays up late and skips breakfast."),
-        ex("又便宜又好吃。", "Cheap and tasty."),
+        ex("又玩手机又不睡觉。", "On the phone and not sleeping."),
       ],
     },
   ),

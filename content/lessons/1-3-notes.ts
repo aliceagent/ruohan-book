@@ -248,7 +248,7 @@ export const LESSON_1_3_LINE_NOTES: Record<string, MiniLesson[]> = {
       {
         examples: [
           ex("我希望机器人包办家务。", "I want a robot to take over the housework."),
-          ex("旅行社包办行程。", "The agency handles the whole itinerary."),
+          ex("过年的菜我妈包办。", "Mum handles all the New Year dishes."),
         ],
       }
     ),
@@ -265,7 +265,7 @@ export const LESSON_1_3_GRAMMAR_FOCUS: MiniLesson[] = [
       examples: [
         ex("今天轮到我洗碗。", "It’s my turn to do the dishes today."),
         ex("轮到你了。", "It’s your turn."),
-        ex("下个月轮到她开车。", "Next month it’s her turn to drive."),
+        ex("今天轮到我倒垃圾。", "Today it’s my turn to take out the trash."),
       ],
     },
   ),

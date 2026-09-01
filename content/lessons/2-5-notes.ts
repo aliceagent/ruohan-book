@@ -165,7 +165,12 @@ export const LESSON_2_5_LINE_NOTES: Record<string, MiniLesson[]> = {
     ml("无法理解", "can’t understand", ["Stronger than 不理解: I truly cannot see the logic. 为什么吃饭要配牛奶 = why a meal has to come with milk."], {
       examples: [ex("我无法理解他为什么生气。", "I can’t understand why he’s angry.")],
     }),
-    ml("配 + drink / side", "paired with…", ["配牛奶 = served alongside milk. 配色 was colors; 配 here is food pairing."]),
+    ml("配 + drink / side", "paired with…", ["配牛奶 = served alongside milk. 配色 was colors; 配 here is food pairing."], {
+      compare: [
+        { label: "colors", hanzi: "便当配色很漂亮", en: "the bento’s colors look pretty" },
+        { label: "food pairing", hanzi: "配牛奶", en: "served with milk" },
+      ],
+    }),
   ],
   "大概是怕我们营养不良，要补充钙质吧。": [
     ml("大概是…吧", "probably…, I guess", ["Guessing the school’s reason. 怕我们… = they were afraid we’d… 吧 keeps it tentative."], {

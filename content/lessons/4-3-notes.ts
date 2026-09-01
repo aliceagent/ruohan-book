@@ -149,14 +149,14 @@ export const LESSON_4_3_GRAMMAR_FOCUS: MiniLesson[] = [
     examples: [
       ex("两人一见钟情，立刻去登记结婚。", "They fell in love at first sight and registered at once."),
       ex("你相信一见钟情吗？", "Do you believe in love at first sight?"),
-      ex("我对那家店一见钟情。", "I fell for that shop at first sight."),
+      ex("他们见面就一见钟情。", "They fell for each other at first sight."),
     ],
   }),
   ml("全都来了", "The full set showed up", ["List tropes, then 全都来了. Spoken summary of a wild story."], {
     pattern: "A、B、C 全都来了",
     examples: [
       ex("网恋、异国、远距、闪电结婚全都来了！", "Online, cross-country, long-distance, flash marriage — all of it!"),
-      ex("加班、出差、会议全都来了。", "Overtime, trips, meetings — the full set."),
+      ex("网恋、异国、闪婚全都来了。", "Online dating, cross-border, flash marriage — the full set."),
       ex("雨、风、迟到全都来了。", "Rain, wind, and being late — all at once."),
     ],
   }),
