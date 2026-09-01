@@ -8,3 +8,7 @@ Unit 5 tracks live as `unit-5/05-01.mp3` … `05-05.mp3`.
 Unit 6 tracks live as `unit-6/06-01.mp3` … `06-05.mp3`.
 
 Later units: `public/audio/unit-N/0N-01.mp3`, and so on.
+
+Optional hour-long teaching tracks sit beside the short official dialogue as
+`01-01-full.mp3`, `02-01-full.mp3`, and so on. The extra player only appears
+when that file is present.

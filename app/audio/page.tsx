@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BOOK, getUnit } from "@/content/catalog"
 import { lessonsForUnit } from "@/content/lessons"
-import { lessonAudioFileName, lessonAudioSrc } from "@/lib/audio"
+import { lessonAudioFileName, lessonAudioSrc, lessonFullAudioSrc, lessonHasFullAudio } from "@/lib/audio"
 import { builtUnitIds } from "@/lib/quiz"
 
 export const metadata: Metadata = {
@@ -66,6 +66,14 @@ export default function AudioPage() {
                     </code>
                   </div>
                   <LessonAudio src={lessonAudioSrc(lesson.audioId)} preload="none" />
+                  {lessonHasFullAudio(lesson.audioId) ? (
+                    <div className="mt-3 space-y-1">
+                      <p className="text-xs font-medium text-muted-foreground">
+                        Full lesson · about 60 minutes
+                      </p>
+                      <LessonAudio src={lessonFullAudioSrc(lesson.audioId)} preload="none" />
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </CardContent>

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { LessonView } from "@/components/lesson-view"
 import { ALL_LESSONS, getLesson } from "@/content/lessons"
+import { lessonHasFullAudio } from "@/lib/audio"
 
 export function generateStaticParams() {
   return ALL_LESSONS.map((lesson) => ({
@@ -30,5 +31,5 @@ export default async function LessonPage({
   const { lessonId } = await params
   const lesson = getLesson(lessonId)
   if (!lesson) notFound()
-  return <LessonView lesson={lesson} />
+  return <LessonView lesson={lesson} hasFullAudio={lessonHasFullAudio(lesson.audioId)} />
 }

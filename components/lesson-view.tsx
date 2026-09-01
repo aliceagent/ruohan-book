@@ -42,7 +42,13 @@ import { collectLessonGlosses } from "@/lib/gloss"
 import { getLessonQuiz } from "@/lib/quiz"
 import type { Lesson } from "@/lib/types"
 
-export function LessonView({ lesson }: { lesson: Lesson }) {
+export function LessonView({
+  lesson,
+  hasFullAudio = false,
+}: {
+  lesson: Lesson
+  hasFullAudio?: boolean
+}) {
   const { prefs } = useStudyPrefs()
   const [scenarioSize, setScenarioSize] = useSectionSize("scenario")
   const [dialogueSize, setDialogueSize] = useSectionSize("dialogue")
@@ -127,7 +133,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         </div>
       </div>
 
-      <AudioBar audioId={lesson.audioId} speakText={dialogueText} />
+      <AudioBar audioId={lesson.audioId} speakText={dialogueText} hasFullAudio={hasFullAudio} />
 
       <Accordion
         type="multiple"

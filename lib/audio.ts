@@ -1,3 +1,6 @@
+import { existsSync } from "node:fs"
+import path from "node:path"
+
 export function lessonAudioFileName(audioId: string) {
   const [unit, lesson] = audioId.split("-")
   return `${unit.padStart(2, "0")}-${lesson.padStart(2, "0")}.mp3`
@@ -6,4 +9,22 @@ export function lessonAudioFileName(audioId: string) {
 export function lessonAudioSrc(audioId: string) {
   const unit = audioId.split("-")[0]
   return `/audio/unit-${unit}/${lessonAudioFileName(audioId)}`
+}
+
+/** Optional hour-long teaching track, next to the short official dialogue. */
+export function lessonFullAudioFileName(audioId: string) {
+  const [unit, lesson] = audioId.split("-")
+  return `${unit.padStart(2, "0")}-${lesson.padStart(2, "0")}-full.mp3`
+}
+
+export function lessonFullAudioSrc(audioId: string) {
+  const unit = audioId.split("-")[0]
+  return `/audio/unit-${unit}/${lessonFullAudioFileName(audioId)}`
+}
+
+export function lessonHasFullAudio(audioId: string) {
+  const unit = audioId.split("-")[0]
+  return existsSync(
+    path.join(process.cwd(), "public", "audio", `unit-${unit}`, lessonFullAudioFileName(audioId)),
+  )
 }
