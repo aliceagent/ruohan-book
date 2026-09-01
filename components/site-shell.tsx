@@ -4,12 +4,13 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { BookOpen, Menu, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 
 import { DisplayToggles } from "@/components/display-toggles"
 import { LessonNotesHeaderButton, LessonNotesPanel, useNotesOpen } from "@/components/lesson-notes"
 import { MixedHanzi } from "@/components/mixed-hanzi"
 import { useShowDisplayTogglesInHeader } from "@/components/sticky-display"
+import { UnitLessonLinks, UnitNavMenu } from "@/components/unit-nav-menu"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -100,6 +101,7 @@ export function SiteHeader({
   const showToggles = useShowDisplayTogglesInHeader()
   const lastUnitId = useLastUnit(initialLastUnit)
   const links = navLinks(lastUnitId)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-40 shrink-0 border-b bg-background/85 backdrop-blur">
@@ -123,21 +125,24 @@ export function SiteHeader({
           </span>
         </Link>
         <nav className={cn("hidden items-center gap-1", showToggles ? "xl:flex" : "md:flex")}>
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              data-nav-unit={/^\/units\/\d+$/.test(link.href) ? lastUnitId : undefined}
-              className={cn(
-                "rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-accent",
-                linkIsActive(link.href, pathname)
-                  ? "bg-rose-700 text-white hover:bg-rose-700"
-                  : "text-muted-foreground",
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {links.map((link) =>
+            /^\/units\/\d+$/.test(link.href) ? (
+              <UnitNavMenu key={link.href} unitId={lastUnitId} pathname={pathname} />
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-accent",
+                  linkIsActive(link.href, pathname)
+                    ? "bg-rose-700 text-white hover:bg-rose-700"
+                    : "text-muted-foreground",
+                )}
+              >
+                {link.label}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="flex shrink-0 items-center gap-2">
           <LessonNotesHeaderButton />
@@ -147,7 +152,7 @@ export function SiteHeader({
             </div>
           ) : null}
           <ThemeToggle />
-          <Sheet>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
@@ -165,16 +170,29 @@ export function SiteHeader({
               </SheetTitle>
               </SheetHeader>
               <div className="mt-6 grid gap-2">
-                {links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    data-nav-unit={/^\/units\/\d+$/.test(link.href) ? lastUnitId : undefined}
-                    className="rounded-lg px-3 py-2 text-base hover:bg-accent"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {links.map((link) =>
+                  /^\/units\/\d+$/.test(link.href) ? (
+                    <div key={link.href} className="rounded-xl border bg-card p-2">
+                      <p className="px-2.5 pt-1 pb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                        Unit {lastUnitId}
+                      </p>
+                      <UnitLessonLinks
+                        unitId={lastUnitId}
+                        pathname={pathname}
+                        onNavigate={() => setMenuOpen(false)}
+                      />
+                    </div>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="rounded-lg px-3 py-2 text-base hover:bg-accent"
+                    >
+                      {link.label}
+                    </Link>
+                  ),
+                )}
               </div>
             </SheetContent>
           </Sheet>
