@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import {
   BookMarked,
   BookOpen,
@@ -67,15 +67,28 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const done = progress.completedLessons.includes(lesson.id)
   const [openSections, setOpenSections] = useState<string[]>(["scenario"])
 
-  useEffect(() => {
-    if (window.location.hash === "#quiz" && quiz) {
-      setOpenSections(["quiz"])
-      requestAnimationFrame(() => {
+  useLayoutEffect(() => {
+    const openQuizFromHash = (resetOthers: boolean) => {
+      if (window.location.hash === "#quiz" && quiz) {
+        setOpenSections((current) => {
+          if (resetOthers) return ["quiz"]
+          return current.includes("quiz") ? current : [...current, "quiz"]
+        })
         document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth", block: "start" })
-      })
-      return
+        return true
+      }
+      return false
     }
-    setOpenSections(["scenario"])
+
+    if (!openQuizFromHash(true)) {
+      setOpenSections(["scenario"])
+    }
+
+    const onHashChange = () => {
+      openQuizFromHash(false)
+    }
+    window.addEventListener("hashchange", onHashChange)
+    return () => window.removeEventListener("hashchange", onHashChange)
   }, [lesson.id, quiz])
 
   return (
@@ -417,7 +430,8 @@ function LessonSection({
     >
       <AccordionTrigger
         actions={actions}
-        className="items-center gap-3 rounded-none px-3 py-4 text-left hover:bg-rose-50/80 hover:no-underline focus-visible:rounded-xl sm:gap-4 sm:px-5 sm:py-5 dark:hover:bg-rose-950/40 **:data-[slot=accordion-trigger-icon]:size-6 **:data-[slot=accordion-trigger-icon]:text-rose-800 dark:**:data-[slot=accordion-trigger-icon]:text-rose-300"
+        headerClassName="bg-rose-50/80 dark:bg-rose-950/35 **:data-[slot=accordion-trigger-icon]:size-6 **:data-[slot=accordion-trigger-icon]:text-rose-800 dark:**:data-[slot=accordion-trigger-icon]:text-rose-300"
+        className="items-center gap-3 rounded-none px-3 py-4 text-left hover:bg-rose-100/70 hover:no-underline focus-visible:rounded-xl sm:gap-4 sm:px-5 sm:py-5 dark:hover:bg-rose-950/50"
       >
         <span className="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
           <span className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-xl bg-rose-800 text-rose-50 shadow-sm sm:size-12 dark:bg-rose-700">
